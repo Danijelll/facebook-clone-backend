@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FacebookClone.DAL.Entities.Abstract;
+using System;
 using System.Collections.Generic;
 
 namespace FacebookClone.DAL.Entities
 {
-    public partial class Album
+    public partial class Album : IEntity
     {
         public Album()
         {
