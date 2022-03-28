@@ -1,9 +1,10 @@
 ﻿using FacebookClone.DAL.Entities.Abstract;
 
-namespace FacebookClone.DAL.Repositories.Interface 
+namespace FacebookClone.DAL.Repositories.Interface
 {
 
-    public interface IRepository<T, TId> where T : class, IEntity {
+    public interface IRepository<T, TId> where T : class, IEntity
+    {
 
         List<T> GetAll();
 
