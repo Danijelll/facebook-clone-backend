@@ -39,12 +39,13 @@ namespace FacebookClone.DAL.Repositories.Interface
         public TEntity Get(int id)
         {
             return Context.Set<TEntity>()
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);
         }
 
         public List<TEntity> GetAll()
         {
-            return Context.Set<TEntity>()
+            return Context.Set<TEntity>().AsNoTracking()
                  .ToList();
         }
 
