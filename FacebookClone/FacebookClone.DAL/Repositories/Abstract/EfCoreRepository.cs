@@ -1,18 +1,15 @@
 ﻿using FacebookClone.DAL.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
 
-namespace FacebookClone.DAL.Repositories.Interface 
+namespace FacebookClone.DAL.Repositories.Interface
 {
-
-    public abstract class EfCoreRepository<TEntity, TId, TContext> : IRepository<TEntity, TId>
+    public abstract class EfCoreRepository<TEntity, TContext> : IRepository<TEntity>
         where TEntity : class, IEntity
-        where TContext : DbContext 
-        
-        {
-
+        where TContext : DbContext
+    {
         protected readonly TContext Context;
 
-        public EfCoreRepository(TContext context) 
+        public EfCoreRepository(TContext context)
         {
             Context = context;
         }
@@ -26,10 +23,9 @@ namespace FacebookClone.DAL.Repositories.Interface
             Context.SaveChanges();
 
             return entity;
-
         }
 
-        public TEntity Delete(TId id) 
+        public TEntity Delete(int id)
         {
             TEntity entity = Context.Set<TEntity>()
                 .Find(id);
@@ -45,7 +41,7 @@ namespace FacebookClone.DAL.Repositories.Interface
             return entity;
         }
 
-        public TEntity Get(TId id)
+        public TEntity Get(int id)
         {
             return Context.Set<TEntity>()
                 .Find(id);
@@ -53,8 +49,8 @@ namespace FacebookClone.DAL.Repositories.Interface
 
         public List<TEntity> GetAll()
         {
-           return Context.Set<TEntity>()
-                .ToList();
+            return Context.Set<TEntity>()
+                 .ToList();
         }
 
         public TEntity Update(TEntity entity)

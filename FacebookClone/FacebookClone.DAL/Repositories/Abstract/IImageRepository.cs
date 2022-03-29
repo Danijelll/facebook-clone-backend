@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
-    public interface IImageRepository : IRepository<Image, int>
+    public interface IImageRepository : IRepository<Image>
     {
         IEnumerable<Image> GetAllByAlbumId (int albumId);
     }

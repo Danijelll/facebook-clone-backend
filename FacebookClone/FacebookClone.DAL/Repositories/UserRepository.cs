@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class UserRepository : EfCoreRepository<User, int, FacebookCloneDBContext>, IUserRepository
+    public class UserRepository : EfCoreRepository<User, FacebookCloneDBContext>, IUserRepository
     {
         public UserRepository(FacebookCloneDBContext context) : base(context)
         {

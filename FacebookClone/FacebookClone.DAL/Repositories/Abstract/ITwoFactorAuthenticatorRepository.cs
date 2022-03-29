@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
-    public interface ITwoFactorAuthenticatorRepository : IRepository<TwoFactorAuthentication, int>
+    public interface ITwoFactorAuthenticatorRepository : IRepository<TwoFactorAuthentication>
     {
         public TwoFactorAuthentication GetTwoFactorAuthenticationByUserId(int userId);
     }

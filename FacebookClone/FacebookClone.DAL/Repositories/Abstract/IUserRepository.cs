@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
-    public interface IUserRepository : IRepository<User, int>
+    public interface IUserRepository : IRepository<User>
     {
         public bool UserWithMailExists(string email);
         public bool UserWithUsernameExists(string username);

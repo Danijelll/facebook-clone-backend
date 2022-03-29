@@ -5,7 +5,7 @@ using FacebookClone.DAL.Repositories.Interface;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class AlbumRepository : EfCoreRepository<Album, int, FacebookCloneDBContext>, IAlbumRepository
+    public class AlbumRepository : EfCoreRepository<Album, FacebookCloneDBContext>, IAlbumRepository
     {
         public AlbumRepository(FacebookCloneDBContext context) : base(context)
         {

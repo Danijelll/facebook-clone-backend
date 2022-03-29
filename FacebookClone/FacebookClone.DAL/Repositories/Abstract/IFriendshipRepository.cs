@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
-    public interface IFriendshipRepository : IRepository<Friendship, int>
+    public interface IFriendshipRepository : IRepository<Friendship>
     {
         public IEnumerable<Friendship> GetAllUserFriends(int userFriends);
     }
