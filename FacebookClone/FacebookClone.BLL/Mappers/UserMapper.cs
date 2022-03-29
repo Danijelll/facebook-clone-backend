@@ -14,8 +14,8 @@ namespace FacebookClone.BLL.Mappers
                 Email = user.Email,
                 Password = user.Password,
                 IsEmailConfirmed = user.IsEmailConfirmed,
-                ProfileImage = user.ProfileImage,
-                CoverImage = user.CoverImage,
+                ProfileImage = $"http://localhost:7122/user/profile/{user.Id}/{user.ProfileImage}",
+                CoverImage = $"http://localhost:7122/user/cover/{user.Id}/{user.ProfileImage}",
                 CreatedOn = user.CreatedOn,
                 UpdatedOn = user.UpdatedOn,
             };
@@ -30,8 +30,8 @@ namespace FacebookClone.BLL.Mappers
                 Email = user.Email,
                 Password = user.Password,
                 IsEmailConfirmed = user.IsEmailConfirmed,
-                ProfileImage = user.ProfileImage,
-                CoverImage = user.CoverImage,
+                ProfileImage = user.ProfileImage.Split("/").Last(),
+                CoverImage = user.CoverImage.Split("/").Last(),
                 CreatedOn = user.CreatedOn,
                 UpdatedOn = user.UpdatedOn,
             };
