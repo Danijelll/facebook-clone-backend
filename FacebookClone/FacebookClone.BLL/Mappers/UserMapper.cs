@@ -14,8 +14,8 @@ namespace FacebookClone.BLL.Mappers
                 Email = user.Email,
                 Password = user.Password,
                 IsEmailConfirmed = user.IsEmailConfirmed,
-                ProfileImage = $"http://localhost:7122/user/profile/{user.Id}/{user.ProfileImage}",
-                CoverImage = $"http://localhost:7122/user/cover/{user.Id}/{user.ProfileImage}",
+                ProfileImage = $"http://localhost:7122/User/Profile/{user.Id}/{user.ProfileImage}",
+                CoverImage = $"http://localhost:7122/User/Cover/{user.Id}/{user.ProfileImage}",
                 CreatedOn = user.CreatedOn,
                 UpdatedOn = user.UpdatedOn,
             };

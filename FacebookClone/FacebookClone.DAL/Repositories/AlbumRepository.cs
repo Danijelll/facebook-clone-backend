@@ -5,15 +5,15 @@ using FacebookClone.DAL.Repositories.Interface;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class AlbumRepository : EfCoreRepository<Album, FacebookCloneDBContext>, IAlbumRepository
+    public class AlbumRepository : EfCoreRepository<Album>, IAlbumRepository
     {
-        public AlbumRepository(FacebookCloneDBContext context) : base(context)
+        public AlbumRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 
         public IEnumerable<Album> GetAllByUserId(int userId)
         {
-            return Context.Albums.Where(a => a.UserId == userId);
+            return GetAll().Where(a => a.UserId == userId);
         }
     }
 }

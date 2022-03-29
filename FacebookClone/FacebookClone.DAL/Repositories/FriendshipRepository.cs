@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class FriendshipRepository : EfCoreRepository<Friendship, FacebookCloneDBContext>, IFriendshipRepository
+    public class FriendshipRepository : EfCoreRepository<Friendship>, IFriendshipRepository
     {
-        public FriendshipRepository(FacebookCloneDBContext context) : base(context)
-        {
+        public FriendshipRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        { 
         }
 
         public IEnumerable<Friendship> GetAllUserFriendsByUser(int userId)
