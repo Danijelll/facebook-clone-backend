@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FacebookClone.DAL.Entities.Abstract;
+using System;
 using System.Collections.Generic;
 
 namespace FacebookClone.DAL.Entities
 {
-    public partial class FriendRequest
+    public partial class FriendRequest : IEntity
     {
         public int Id { get; set; }
         public int FirstUserId { get; set; }

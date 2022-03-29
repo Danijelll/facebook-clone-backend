@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FacebookClone.DAL.Entities.Abstract;
+using System;
 using System.Collections.Generic;
 
 namespace FacebookClone.DAL.Entities
 {
-    public partial class User
+    public partial class User : IEntity
     {
         public User()
         {

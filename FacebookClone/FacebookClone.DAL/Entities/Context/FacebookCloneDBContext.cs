@@ -20,6 +20,7 @@ namespace FacebookClone.DAL.Entities.Context
         public virtual DbSet<Album> Albums { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<FriendRequest> FriendRequests { get; set; } = null!;
+        public virtual DbSet<Friendship> Friendships { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
         public virtual DbSet<TwoFactorAuthentication> TwoFactorAuthentications { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -124,6 +125,33 @@ namespace FacebookClone.DAL.Entities.Context
                 entity.Property(e => e.UpdatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("updated_on");
+            });
+
+            modelBuilder.Entity<Friendship>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("friendship");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_on");
+
+                entity.Property(e => e.FriendId).HasColumnName("friend_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.UpdatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updated_on");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany()
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_friendship_user");
             });
 
             modelBuilder.Entity<Image>(entity =>
