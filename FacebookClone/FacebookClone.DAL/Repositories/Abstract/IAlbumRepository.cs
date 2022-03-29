@@ -5,6 +5,6 @@ namespace FacebookClone.DAL.Repositories.Abstract
 {
     public interface IAlbumRepository : IRepository<Album, int>
     {
-        public IEnumerable<Album> GetByUserId(int userId);
+        public IEnumerable<Album> GetAllByUserId(int userId);
     }
 }

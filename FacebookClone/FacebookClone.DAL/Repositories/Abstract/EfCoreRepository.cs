@@ -31,12 +31,14 @@ namespace FacebookClone.DAL.Repositories.Interface
 
         public TEntity Delete(TId id) 
         {
-            TEntity entity = Context.Set<TEntity>().Find(id);
+            TEntity entity = Context.Set<TEntity>()
+                .Find(id);
 
             if (entity == null)
             {
                 return null;
             }
+
             Context.Set<TEntity>().Remove(entity);
             Context.SaveChanges();
 
@@ -45,12 +47,14 @@ namespace FacebookClone.DAL.Repositories.Interface
 
         public TEntity Get(TId id)
         {
-            return Context.Set<TEntity>().Find(id);
+            return Context.Set<TEntity>()
+                .Find(id);
         }
 
         public List<TEntity> GetAll()
         {
-           return Context.Set<TEntity>().ToList();
+           return Context.Set<TEntity>()
+                .ToList();
         }
 
         public TEntity Update(TEntity entity)

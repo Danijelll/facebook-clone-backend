@@ -10,6 +10,6 @@ namespace FacebookClone.DAL.Repositories.Abstract
 {
     public interface IFriendshipRepository : IRepository<Friendship, int>
     {
-
+        public IEnumerable<Friendship> GetAllUserFriends(int userFriends);
     }
 }
