@@ -30,11 +30,6 @@ namespace FacebookClone.DAL.Repositories.Interface
             TEntity entity = Context.Set<TEntity>()
                 .Find(id);
 
-            if (entity == null)
-            {
-                return null;
-            }
-
             Context.Set<TEntity>().Remove(entity);
             Context.SaveChanges();
 
@@ -44,7 +39,7 @@ namespace FacebookClone.DAL.Repositories.Interface
         public TEntity Get(int id)
         {
             return Context.Set<TEntity>()
-                .Find(id);
+                .FirstOrDefault(e => e.Id == id);
         }
 
         public List<TEntity> GetAll()

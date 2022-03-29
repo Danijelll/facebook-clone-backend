@@ -2,10 +2,8 @@
 
 namespace FacebookClone.DAL.Repositories.Interface
 {
-
     public interface IRepository<T> where T : class, IEntity
     {
-
         List<T> GetAll();
 
         T Get(int id);
