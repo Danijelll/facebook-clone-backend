@@ -28,5 +28,10 @@ namespace FacebookClone.BLL.Mappers
                 UpdatedOn = album.UpdatedOn,
             };
         }
+
+        public static IEnumerable<AlbumDTO> ToDTOList(this IEnumerable<Album> album)
+        {
+            return album.Select(x => x.ToDTO()).ToList();
+        }
     }
 }
