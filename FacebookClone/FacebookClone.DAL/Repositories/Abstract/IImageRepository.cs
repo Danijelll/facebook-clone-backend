@@ -11,5 +11,7 @@ namespace FacebookClone.DAL.Repositories.Abstract
     public interface IImageRepository : IRepository<Image>
     {
         IEnumerable<Image> GetAllByAlbumId (int albumId);
+
+        Image GetByName(string name);
     }
 }

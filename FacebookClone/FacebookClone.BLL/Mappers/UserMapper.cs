@@ -4,7 +4,7 @@ using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers
 {
-    internal static class UserMapper
+    public static class UserMapper
     {
         public static UserDTO ToDTO(this User user)
         {
