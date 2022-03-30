@@ -5,9 +5,9 @@ using FacebookClone.DAL.Repositories.Interface;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class ImageRepository : EfCoreRepository<Image, FacebookCloneDBContext>, IImageRepository
+    public class ImageRepository : EfCoreRepository<Image>, IImageRepository
     {
-        public ImageRepository(FacebookCloneDBContext context) : base(context)
+        public ImageRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 

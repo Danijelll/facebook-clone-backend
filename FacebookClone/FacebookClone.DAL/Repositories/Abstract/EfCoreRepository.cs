@@ -1,17 +1,21 @@
 ﻿using FacebookClone.DAL.Entities.Abstract;
+using FacebookClone.DAL.Entities.Context;
+using FacebookClone.DAL.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace FacebookClone.DAL.Repositories.Interface
 {
-    public abstract class EfCoreRepository<TEntity, TContext> : IRepository<TEntity>
+    public abstract class EfCoreRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
-        where TContext : DbContext
     {
-        protected readonly TContext Context;
+        protected readonly FacebookCloneDBContext _context;
+        protected readonly DbSet<TEntity> _collection;
 
-        public EfCoreRepository(TContext context)
+        public EfCoreRepository(IUnitOfWork unitOfWork)
         {
-            Context = context;
+            _context = unitOfWork.GetContext();
+            _collection = _context.Set<TEntity>();
+
         }
 
         public TEntity Add(TEntity entity)
@@ -19,33 +23,29 @@ namespace FacebookClone.DAL.Repositories.Interface
             entity.CreatedOn = DateTime.UtcNow;
             entity.UpdatedOn = DateTime.UtcNow;
 
-            Context.Set<TEntity>().Add(entity);
-            Context.SaveChanges();
+            _collection.Add(entity);
 
             return entity;
         }
 
         public TEntity Delete(int id)
         {
-            TEntity entity = Context.Set<TEntity>()
-                .Find(id);
+            TEntity entity = _collection.First(e => e.Id == id);
 
-            Context.Set<TEntity>().Remove(entity);
-            Context.SaveChanges();
+            _collection.Remove(entity);
 
             return entity;
         }
 
-        public TEntity Get(int id)
+        public TEntity? Get(int id)
         {
-            return Context.Set<TEntity>()
-                .AsNoTracking()
+            return _collection.AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);
         }
 
         public List<TEntity> GetAll()
         {
-            return Context.Set<TEntity>().AsNoTracking()
+            return _collection.AsNoTracking()
                  .ToList();
         }
 
@@ -53,8 +53,7 @@ namespace FacebookClone.DAL.Repositories.Interface
         {
             entity.UpdatedOn = DateTime.UtcNow;
 
-            Context.Entry(entity).State = EntityState.Modified;
-            Context.SaveChanges();
+            _context.Entry(entity).State = EntityState.Modified;
 
             return entity;
         }

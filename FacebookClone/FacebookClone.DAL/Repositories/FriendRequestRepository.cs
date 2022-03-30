@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class FriendRequestRepository : EfCoreRepository<FriendRequest, FacebookCloneDBContext>, IFriendRequestRepository
+    public class FriendRequestRepository : EfCoreRepository<FriendRequest>, IFriendRequestRepository
     {
-        public FriendRequestRepository(FacebookCloneDBContext context) : base(context)
+        public FriendRequestRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
     }

@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class TwoFactorAuthenticatorRepository : EfCoreRepository<TwoFactorAuthentication, FacebookCloneDBContext>
+    public class TwoFactorAuthenticatorRepository : EfCoreRepository<TwoFactorAuthentication>
         , ITwoFactorAuthenticatorRepository
     {
-        public TwoFactorAuthenticatorRepository(FacebookCloneDBContext context) : base(context)
+        public TwoFactorAuthenticatorRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 

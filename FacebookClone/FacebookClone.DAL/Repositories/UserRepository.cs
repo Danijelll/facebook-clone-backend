@@ -5,9 +5,9 @@ using FacebookClone.DAL.Repositories.Interface;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class UserRepository : EfCoreRepository<User, FacebookCloneDBContext>, IUserRepository
+    public class UserRepository : EfCoreRepository<User>, IUserRepository
     {
-        public UserRepository(FacebookCloneDBContext context) : base(context)
+        public UserRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 

@@ -5,9 +5,9 @@ using FacebookClone.DAL.Repositories.Interface;
 
 namespace FacebookClone.DAL.Repositories
 {
-    public class CommentRepository : EfCoreRepository<Comment, FacebookCloneDBContext>, ICommentRepository
+    public class CommentRepository : EfCoreRepository<Comment>, ICommentRepository
     {
-        public CommentRepository(FacebookCloneDBContext context) : base(context)
+        public CommentRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 
