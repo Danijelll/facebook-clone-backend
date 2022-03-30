@@ -39,7 +39,7 @@ namespace FacebookClone.BLL.Services
 
         public JwtSecurityToken Verify(string token)
         {
-            var validatedToken = VerifyToken(token);
+            JwtSecurityToken validatedToken = VerifyToken(token);
             VerifyUser(validatedToken);
 
             return validatedToken;
