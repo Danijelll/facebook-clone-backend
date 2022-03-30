@@ -1,10 +1,5 @@
 ﻿using FacebookClone.BLL.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FacebookClone.BLL.Model
 {
@@ -13,5 +8,10 @@ namespace FacebookClone.BLL.Model
         public static BusinessException EntityNotFoundByIdException(int entityId, string entityName) =>
             new BusinessException($"{entityName} with id {entityId} not found!", HttpStatusCode.NotFound);
 
+        public static BusinessException NotAuthorizedException =>
+            new BusinessException("Not Authorized!", HttpStatusCode.Unauthorized);
+
+        public static BusinessException InvalidJwtTokenException =>
+            new BusinessException("Invalid Jwt Token!", HttpStatusCode.Unauthorized);
     }
 }
