@@ -6,7 +6,7 @@ namespace FacebookClone.DAL.Repositories.Interface
     {
         List<T> GetAll();
 
-        T? Get(int id);
+        T? GetById(int id);
 
         T Add(T entity);
 

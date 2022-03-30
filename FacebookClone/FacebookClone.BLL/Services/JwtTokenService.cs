@@ -49,7 +49,7 @@ namespace FacebookClone.BLL.Services
         {
             int userId = int.Parse(validatedToken.Claims.First(e => e.Type == "id").Value);
 
-            User user = _userRepository.Get(userId);
+            User user = _userRepository.GetById(userId);
 
             if (user == null)
                 throw BusinessExceptions.InvalidJwtTokenException;

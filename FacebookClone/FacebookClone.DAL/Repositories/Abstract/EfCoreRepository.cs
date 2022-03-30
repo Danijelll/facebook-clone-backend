@@ -37,7 +37,7 @@ namespace FacebookClone.DAL.Repositories.Interface
             return entity;
         }
 
-        public TEntity? Get(int id)
+        public TEntity? GetById(int id)
         {
             return _collection.AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);

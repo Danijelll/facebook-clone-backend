@@ -1,5 +1,4 @@
 var builder = WebApplication.CreateBuilder(args);
-var SecretKey = builder.Configuration["SecretKey"];
 
 // Add services to the container.
 builder.Services.AddRazorPages();

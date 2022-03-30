@@ -13,5 +13,11 @@ namespace FacebookClone.BLL.Model
 
         public static BusinessException InvalidJwtTokenException =>
             new BusinessException("Invalid Jwt Token!", HttpStatusCode.Unauthorized);
+
+        public static BusinessException EntityAlreadyExistsInDBEcxeption =>
+            new BusinessException("Entity Already Exists In DB!", HttpStatusCode.BadRequest);
+
+        public static BusinessException EntityDoesNotExistsInDBEcxeption =>
+            new BusinessException("Entity Does Not Exists In DB!", HttpStatusCode.BadRequest);
     }
 }

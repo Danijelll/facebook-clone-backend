@@ -22,5 +22,6 @@ namespace FacebookClone.DAL.Entities
         public DateTime UpdatedOn { get; set; }
 
         public virtual ICollection<Album> Albums { get; set; }
+
     }
 }
