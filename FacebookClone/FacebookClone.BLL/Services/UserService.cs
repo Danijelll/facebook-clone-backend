@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.Constants;
+using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
@@ -11,10 +12,12 @@ namespace FacebookClone.BLL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IImageRepository _imageRepository;
 
-        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository, IImageRepository imageRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
+            _imageRepository = imageRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -33,14 +36,28 @@ namespace FacebookClone.BLL.Services
 
         public void Delete(int userId)
         {
-            if (ExistsWithID(userId))
+            User found = _userRepository.GetById(userId);
+
+            if (found == null)
             {
-                _userRepository.Delete(userId);
-                _unitOfWork.SaveChanges();
-                //slike
+                throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            _userRepository.Delete(userId);
+            _unitOfWork.SaveChanges();
+
+            string profileImagePath = Path.Combine(ImageConstants.UserProfileImageFolder, found.ProfileImage);
+            string coverImagePath = Path.Combine(ImageConstants.UserCoverImageFolder, found.CoverImage);
+
+            if (File.Exists(coverImagePath))
+            {
+                File.Delete(coverImagePath);
+            }
+
+            if (File.Exists(profileImagePath))
+            {
+                File.Delete(profileImagePath);
+            }
         }
 
         public IEnumerable<UserDTO> GetAll()
