@@ -4,8 +4,10 @@ using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.Presentation.EndpointDefinitions;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -13,9 +15,7 @@ builder.Services.AddScoped<FacebookCloneDBContext>();
 
 var app = builder.Build();
 
-app.MapGet("/users", (IUserService userService) => userService.GetAll());
-
-app.MapPost("/login", (UserDTO user, IUserService userService) => userService.Add(user));
+UserEndpointDefinition.DefineEndpoints(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
