@@ -9,8 +9,8 @@ namespace FacebookClone.BLL.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository _userRepository;
-        private IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
@@ -37,6 +37,7 @@ namespace FacebookClone.BLL.Services
             {
                 _userRepository.Delete(userId);
                 _unitOfWork.SaveChanges();
+                //slike
             }
 
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;

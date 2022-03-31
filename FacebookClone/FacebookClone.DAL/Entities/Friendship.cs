@@ -1,6 +1,4 @@
 ﻿using FacebookClone.DAL.Entities.Abstract;
-using System;
-using System.Collections.Generic;
 
 namespace FacebookClone.DAL.Entities
 {

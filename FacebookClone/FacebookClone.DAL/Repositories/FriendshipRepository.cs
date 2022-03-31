@@ -18,7 +18,7 @@ namespace FacebookClone.DAL.Repositories
 
         public IEnumerable<Friendship> GetAllUserFriendsByUser(int userId)
         {
-            return GetAll().Where(f => f.UserId.Equals(userId));
+            return GetAll().Where(f => f.UserId == userId);
         }
     }
 }

@@ -15,5 +15,14 @@ namespace FacebookClone.DAL.Repositories
         public FriendRequestRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
+        public FriendRequest GetSentFriendRequest(int userId, int friendId)
+        {
+            return GetAll().SingleOrDefault(f => f.FirstUserId == userId && f.SecondUserId == friendId);
+        }
+
+        public IEnumerable<FriendRequest> GetPendingFriendRequests(int userId)
+        {
+            return GetAll().Where(f => f.SecondUserId == userId);
+        }
     }
 }

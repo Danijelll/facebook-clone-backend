@@ -3,6 +3,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,16 +15,18 @@ namespace FacebookClone.BLL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly JwtSecurityTokenHandler _tokenHandler;
+        private readonly IConfiguration _configuration;
 
-        public JwtTokenService(IUserRepository userRepository)
+        public JwtTokenService(IUserRepository userRepository, IConfiguration config)
         {
             _userRepository = userRepository;
             _tokenHandler = new JwtSecurityTokenHandler();
+            _configuration = config;
         }
 
         public string GenerateJwt(User user)
         {
-            byte[] key = Encoding.ASCII.GetBytes("temp");
+            byte[] key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -59,7 +62,7 @@ namespace FacebookClone.BLL.Services
         {
             try
             {
-                byte[] key = Encoding.ASCII.GetBytes("temp");
+                byte[] key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 
                 _tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
