@@ -58,10 +58,11 @@ namespace FacebookClone.BLL.Services
 
         public AlbumDTO GetById(int id)
         {
-            if (ExistsWithID(id))
+            AlbumDTO found = _albumRepository.GetById(id).ToDTO();
+
+            if (found != null)
             {
-                return _albumRepository.GetById(id)
-                    .ToDTO();
+                return found;
             }
 
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;

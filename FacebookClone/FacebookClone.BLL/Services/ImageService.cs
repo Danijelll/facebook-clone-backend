@@ -36,14 +36,14 @@ namespace FacebookClone.BLL.Services
         {
             Image image = _imageRepository.GetById(id);
 
-            string imageWithFolder = Path.Combine(image.AlbumId.ToString(), image.ImageUrl);
-
-            string path = Path.Combine(webRootPath, imageWithFolder);
-
-            if (!ExistsWithID(id))
+            if (image == null)
             {
                 throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
             }
+
+            string imageWithFolder = Path.Combine(image.AlbumId.ToString(), image.ImageUrl);
+
+            string path = Path.Combine(webRootPath, imageWithFolder);
 
             if (File.Exists(path))
             {
@@ -69,10 +69,11 @@ namespace FacebookClone.BLL.Services
 
         public ImageDTO GetById(int id)
         {
-            if (ExistsWithID(id))
+            ImageDTO found = _imageRepository.GetById(id).ToDTO();
+
+            if(found != null)
             {
-                return _imageRepository.GetById(id)
-                    .ToDTO();
+                return found;
             }
 
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;

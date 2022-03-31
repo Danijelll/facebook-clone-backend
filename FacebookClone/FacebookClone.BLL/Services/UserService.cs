@@ -49,10 +49,11 @@ namespace FacebookClone.BLL.Services
 
         public UserDTO GetById(int userId)
         {
-            if (ExistsWithID(userId))
+            UserDTO found = _userRepository.GetById(userId).ToDTO();
+            
+            if (found != null)
             {
-                return _userRepository.GetById(userId)
-                    .ToDTO();
+                return found;
             }
 
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
