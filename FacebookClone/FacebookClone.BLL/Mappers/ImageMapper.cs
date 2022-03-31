@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.Constants;
+using FacebookClone.BLL.DTO;
 using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers
@@ -12,7 +13,7 @@ namespace FacebookClone.BLL.Mappers
                 Id = image.Id,
                 AlbumId = image.AlbumId,
                 Name = image.Name,
-                ImageUrl = $"http://localhost:5000/Images/{image.AlbumId}/{image.ImageUrl}",
+                ImageUrl = $"http://localhost:5000/{ImageConstants.ImageFolder}/{image.AlbumId}/{image.ImageUrl}",
                 CreatedOn = image.CreatedOn,
                 UpdatedOn = image.UpdatedOn,
             };
@@ -29,6 +30,11 @@ namespace FacebookClone.BLL.Mappers
                 CreatedOn = image.CreatedOn,
                 UpdatedOn = image.UpdatedOn,
             };
+        }
+
+        public static IEnumerable<ImageDTO> ToDTOList(this IEnumerable<Image> image)
+        {
+            return image.Select(x => x.ToDTO()).ToList();
         }
     }
 }

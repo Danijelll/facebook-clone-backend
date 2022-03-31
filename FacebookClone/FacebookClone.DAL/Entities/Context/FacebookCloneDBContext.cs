@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using FacebookClone.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FacebookClone.DAL.Entities.Context
 {
     public partial class FacebookCloneDBContext : DbContext
     {
-        public FacebookCloneDBContext()
+        private readonly IConfiguration _config;
+
+        public FacebookCloneDBContext(IConfiguration config)
         {
+            _config = config;
         }
 
-        public FacebookCloneDBContext(DbContextOptions<FacebookCloneDBContext> options)
+        public FacebookCloneDBContext(DbContextOptions<FacebookCloneDBContext> options, IConfiguration config)
             : base(options)
         {
+            _config = config;
         }
 
         public virtual DbSet<Album> Albums { get; set; } = null!;
@@ -29,8 +30,7 @@ namespace FacebookClone.DAL.Entities.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-1U0FQ56;Database=FacebookCloneDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(_config["DBConnectionString"]);
             }
         }
 
@@ -40,9 +40,7 @@ namespace FacebookClone.DAL.Entities.Context
             {
                 entity.ToTable("album");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
@@ -62,21 +60,18 @@ namespace FacebookClone.DAL.Entities.Context
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Albums)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_album_user");
             });
 
             modelBuilder.Entity<Comment>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("comment");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ImageId).HasColumnName("image_id");
 
@@ -92,31 +87,28 @@ namespace FacebookClone.DAL.Entities.Context
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.Image)
-                    .WithMany()
+                    .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.ImageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_comment_image");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_comment_user");
             });
 
             modelBuilder.Entity<FriendRequest>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("friend_request");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
 
                 entity.Property(e => e.FirstUserId).HasColumnName("first_user_id");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.IsAccepted).HasColumnName("is_accepted");
 
@@ -129,17 +121,15 @@ namespace FacebookClone.DAL.Entities.Context
 
             modelBuilder.Entity<Friendship>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("friendship");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
 
                 entity.Property(e => e.FriendId).HasColumnName("friend_id");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.UpdatedOn)
                     .HasColumnType("datetime")
@@ -148,9 +138,8 @@ namespace FacebookClone.DAL.Entities.Context
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.Friendships)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_friendship_user");
             });
 
@@ -158,9 +147,7 @@ namespace FacebookClone.DAL.Entities.Context
             {
                 entity.ToTable("image");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AlbumId).HasColumnName("album_id");
 
@@ -185,21 +172,18 @@ namespace FacebookClone.DAL.Entities.Context
                 entity.HasOne(d => d.Album)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.AlbumId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_image_album");
             });
 
             modelBuilder.Entity<TwoFactorAuthentication>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("two_factor_authentication");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.TwoFactorCode)
                     .HasMaxLength(14)
@@ -213,9 +197,8 @@ namespace FacebookClone.DAL.Entities.Context
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.TwoFactorAuthentications)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_two_factor_authentication_user");
             });
 
@@ -223,9 +206,7 @@ namespace FacebookClone.DAL.Entities.Context
             {
                 entity.ToTable("user");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CoverImage)
                     .HasMaxLength(120)
@@ -266,6 +247,8 @@ namespace FacebookClone.DAL.Entities.Context
             OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        private void OnModelCreatingPartial(ModelBuilder modelBuilder)
+        {
+        }
     }
 }
