@@ -11,9 +11,14 @@ namespace FacebookClone.DAL.Repositories
         {
         }
 
-        public IEnumerable<Comment> GetAllByImageId(string imageId)
+        public IEnumerable<Comment> GetAllByImageId(int imageId)
         {
             return GetAll().Where(c => c.ImageId.Equals(imageId));
+        }
+
+        public IEnumerable<Comment> GetAllByUserId(int userId)
+        {
+            return GetAll().Where(c => c.UserId.Equals(userId));
         }
     }
 }

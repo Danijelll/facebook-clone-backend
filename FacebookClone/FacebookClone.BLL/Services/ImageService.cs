@@ -81,9 +81,7 @@ namespace FacebookClone.BLL.Services
 
         public ImageDTO Update(ImageDTO imageDTO)
         {
-            Image found = _imageRepository.GetById(imageDTO.Id);
-
-            if(found.Id == imageDTO.Id)
+            if(ExistsWithID(imageDTO.Id))
             {
                 Image updated = _imageRepository.Update(imageDTO.ToEntity());
                 _unitOfWork.SaveChanges();

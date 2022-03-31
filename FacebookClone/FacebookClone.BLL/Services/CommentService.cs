@@ -7,26 +7,25 @@ using FacebookClone.DAL.Repositories.Abstract;
 
 namespace FacebookClone.BLL.Services
 {
-    public class AlbumService : IAlbumService
+    public class CommentService : ICommentService
     {
-        private readonly IAlbumRepository _albumRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AlbumService(IAlbumRepository albumRepository, IUnitOfWork unitOfWork)
+        public CommentService(ICommentRepository commentRepository, IUnitOfWork unitOfWork)
         {
-            _albumRepository = albumRepository;
+            _commentRepository = commentRepository;
             _unitOfWork = unitOfWork;
         }
-
-        public AlbumDTO Add(AlbumDTO album)
+        public CommentDTO Add(CommentDTO commentDTO)
         {
-            if (!ExistsWithName(album.Name))
+            if (!ExistsWithID(commentDTO.Id))
             {
-                Album albumResult = _albumRepository.Add(album.ToEntity());
+                Comment commentResult = _commentRepository.Add(commentDTO.ToEntity());
 
                 _unitOfWork.SaveChanges();
 
-                return albumResult.ToDTO();
+                return commentResult.ToDTO();
             }
 
             throw BusinessExceptions.EntityAlreadyExistsInDBEcxeption;
@@ -36,29 +35,34 @@ namespace FacebookClone.BLL.Services
         {
             if (ExistsWithID(id))
             {
-                _albumRepository.Delete(id);
-
+                _commentRepository.Delete(id);
                 _unitOfWork.SaveChanges();
             }
 
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
         }
 
-        public IEnumerable<AlbumDTO> GetAll()
+        public IEnumerable<CommentDTO> GetAll()
         {
-            return _albumRepository.GetAll()
+            return _commentRepository.GetAll()
                 .ToDTOList();
         }
 
-        public IEnumerable<AlbumDTO> GetAllByUserId(int userId)
+        public IEnumerable<CommentDTO> GetAllByImageId(int imageId)
         {
-            return _albumRepository.GetAllByUserId(userId)
+            return _commentRepository.GetAllByImageId(imageId)
                 .ToDTOList();
         }
 
-        public AlbumDTO GetById(int id)
+        public IEnumerable<CommentDTO> GetAllByUserId(int userId)
         {
-            AlbumDTO found = _albumRepository.GetById(id).ToDTO();
+            return _commentRepository.GetAllByUserId(userId)
+                .ToDTOList();
+        }
+
+        public CommentDTO GetById(int id)
+        {
+            CommentDTO found = _commentRepository.GetById(id).ToDTO();
 
             if (found != null)
             {
@@ -68,11 +72,11 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
         }
 
-        public AlbumDTO Update(AlbumDTO album)
+        public CommentDTO Update(CommentDTO commentDTO)
         {
-            if(ExistsWithID(album.Id))
+            if (ExistsWithID(commentDTO.Id))
             {
-                Album updated = _albumRepository.Update(album.ToEntity());
+                Comment updated = _commentRepository.Update(commentDTO.ToEntity());
 
                 _unitOfWork.SaveChanges();
 
@@ -82,18 +86,9 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
         }
 
-        private bool ExistsWithID(int albumId)
+        private bool ExistsWithID(int commentId)
         {
-            if (_albumRepository.GetById(albumId).Id == albumId)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private bool ExistsWithName(string name)
-        {
-            if (_albumRepository.GetByName(name) != null)
+            if (_commentRepository.GetById(commentId).Id == commentId)
             {
                 return true;
             }

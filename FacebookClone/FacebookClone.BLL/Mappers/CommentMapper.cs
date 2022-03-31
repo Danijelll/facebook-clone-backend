@@ -30,5 +30,10 @@ namespace FacebookClone.BLL.Mappers
                 UpdatedOn = comment.UpdatedOn,
             };
         }
+
+        public static IEnumerable<CommentDTO> ToDTOList(this IEnumerable<Comment> comment)
+        {
+            return comment.Select(x => x.ToDTO()).ToList();
+        }
     }
 }

@@ -38,6 +38,7 @@ namespace FacebookClone.BLL.Services
                 _userRepository.Delete(userId);
                 _unitOfWork.SaveChanges();
             }
+
             throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
         }
 
