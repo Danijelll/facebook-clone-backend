@@ -12,12 +12,10 @@ namespace FacebookClone.BLL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IImageRepository _imageRepository;
 
-        public UserService(IUserRepository userRepository, IImageRepository imageRepository, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
-            _imageRepository = imageRepository;
             _unitOfWork = unitOfWork;
         }
 
