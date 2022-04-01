@@ -29,7 +29,7 @@ namespace FacebookClone.BLL.Services
                 return imageResult.ToDTO();
             }
 
-            throw BusinessExceptions.EntityAlreadyExistsInDBEcxeption;
+            throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
         public void Delete(int id, string webRootPath)
@@ -38,7 +38,7 @@ namespace FacebookClone.BLL.Services
 
             if (image == null)
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
             string imageWithFolder = Path.Combine(image.AlbumId.ToString(), image.ImageUrl);
@@ -76,7 +76,7 @@ namespace FacebookClone.BLL.Services
                 return found;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public ImageDTO Update(ImageDTO imageDTO)
@@ -89,7 +89,7 @@ namespace FacebookClone.BLL.Services
                 return updated.ToDTO();
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         private bool ExistsWithID(int imageId)

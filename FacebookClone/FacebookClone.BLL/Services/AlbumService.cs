@@ -29,14 +29,14 @@ namespace FacebookClone.BLL.Services
                 return albumResult.ToDTO();
             }
 
-            throw BusinessExceptions.EntityAlreadyExistsInDBEcxeption;
+            throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
         public void Delete(int id)
         {
             if (!ExistsWithID(id))
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
             _albumRepository.Delete(id);
@@ -65,7 +65,7 @@ namespace FacebookClone.BLL.Services
                 return found;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public AlbumDTO Update(AlbumDTO album)
@@ -79,7 +79,7 @@ namespace FacebookClone.BLL.Services
                 return updated.ToDTO();
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         private bool ExistsWithID(int albumId)

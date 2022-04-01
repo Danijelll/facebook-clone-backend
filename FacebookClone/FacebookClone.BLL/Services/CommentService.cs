@@ -28,7 +28,7 @@ namespace FacebookClone.BLL.Services
                 return commentResult.ToDTO();
             }
 
-            throw BusinessExceptions.EntityAlreadyExistsInDBEcxeption;
+            throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
         public void Delete(int id)
@@ -39,7 +39,7 @@ namespace FacebookClone.BLL.Services
                 _unitOfWork.SaveChanges();
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public IEnumerable<CommentDTO> GetAll()
@@ -69,7 +69,7 @@ namespace FacebookClone.BLL.Services
                 return found;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public CommentDTO Update(CommentDTO commentDTO)
@@ -83,7 +83,7 @@ namespace FacebookClone.BLL.Services
                 return updated.ToDTO();
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         private bool ExistsWithID(int commentId)
