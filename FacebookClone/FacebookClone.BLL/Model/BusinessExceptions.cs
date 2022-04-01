@@ -25,5 +25,8 @@ namespace FacebookClone.BLL.Model
 
         public static BusinessException ImageSizeNotValidException =>
             new BusinessException("Image Size Is Not Valid!", HttpStatusCode.BadRequest);
+
+        public static BusinessException ImageNotUploadedException =>
+            new BusinessException("You Must Upload An Image!", HttpStatusCode.BadRequest);
     }
 }

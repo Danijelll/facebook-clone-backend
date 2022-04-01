@@ -3,10 +3,11 @@ using FacebookClone.BLL.Model;
 
 namespace FacebookClone.Presentation.Helpers
 {
-    public class ImageUploadHelper
+    public static class ImageUploadHelper
     {
         public static string UploadImage(string folderName, IFormFile file, string webRootPath)
         {
+
             IEnumerable<string> allowedExtensions = ImageConstants.AllowedImageExtensions;
 
             string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
@@ -16,7 +17,7 @@ namespace FacebookClone.Presentation.Helpers
                 throw BusinessExceptions.ImageExtensionNotValidException;
             }
 
-            if(file.Length > ImageConstants.MaxImageSize)
+            if (file.Length > ImageConstants.MaxImageSize)
             {
                 throw BusinessExceptions.ImageSizeNotValidException;
             }

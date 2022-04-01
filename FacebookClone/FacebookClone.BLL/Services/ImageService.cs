@@ -20,7 +20,7 @@ namespace FacebookClone.BLL.Services
 
         public ImageDTO Add(ImageDTO imageDTO)
         {
-            if (!ExistsWithName(imageDTO.Name))
+            if (!ExistsWithID(imageDTO.Id))
             {
                 Image imageResult = _imageRepository.Add(imageDTO.ToEntity());
 
