@@ -17,29 +17,25 @@ namespace FacebookClone.BLL.Services
             _commentRepository = commentRepository;
             _unitOfWork = unitOfWork;
         }
+
         public CommentDTO Add(CommentDTO commentDTO)
         {
-            if (!ExistsWithID(commentDTO.Id))
-            {
-                Comment commentResult = _commentRepository.Add(commentDTO.ToEntity());
+            Comment commentResult = _commentRepository.Add(commentDTO.ToEntity());
 
-                _unitOfWork.SaveChanges();
+            _unitOfWork.SaveChanges();
 
-                return commentResult.ToDTO();
-            }
-
-            throw BusinessExceptions.EntityAlreadyExistsInDBException;
+            return commentResult.ToDTO();
         }
 
         public void Delete(int id)
         {
-            if (ExistsWithID(id))
+            if (!ExistsWithID(id))
             {
-                _commentRepository.Delete(id);
-                _unitOfWork.SaveChanges();
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            _commentRepository.Delete(id);
+            _unitOfWork.SaveChanges();
         }
 
         public IEnumerable<CommentDTO> GetAll()

@@ -13,6 +13,8 @@ builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<FacebookCloneDBContext>();
 
@@ -21,6 +23,7 @@ var app = builder.Build();
 UserEndpointDefinition.DefineEndpoints(app);
 AlbumEndpointDefinition.DefineEndpoints(app);
 ImageEndpointDefinition.DefineEndpoints(app);
+CommentEndpointDefinition.DefineEndpoints(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
