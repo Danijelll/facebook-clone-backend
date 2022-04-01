@@ -34,6 +34,19 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
                 return result;
             });
+
+            app.MapGet("/images", (IImageService imageService) => imageService.GetAll());
+
+            app.MapGet("/images/{id}", (IImageService imageService, int id) => imageService.GetById(id));
+
+            app.MapGet("/images/search/{albumId}", (IImageService imageService, int albumId) => imageService.GetAllByAlbumId(albumId));
+
+            app.MapDelete("/images/{id}", (IImageService imageService, int id, IWebHostEnvironment environment) => 
+            {
+                imageService.Delete(id, environment.WebRootPath);
+            });
+
+            app.MapPut("/images", (ImageDTO image, IImageService imageService) => imageService.Update(image));
         }
     }
 }
