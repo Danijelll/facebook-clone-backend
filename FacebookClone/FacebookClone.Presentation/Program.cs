@@ -1,4 +1,3 @@
-using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Services;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities.Context;
@@ -10,12 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IAlbumService, AlbumService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<FacebookCloneDBContext>();
 
 var app = builder.Build();
 
 UserEndpointDefinition.DefineEndpoints(app);
+AlbumEndpointDefinition.DefineEndpoints(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -34,14 +34,14 @@ namespace FacebookClone.BLL.Services
 
         public void Delete(int id)
         {
-            if (ExistsWithID(id))
+            if (!ExistsWithID(id))
             {
-                _albumRepository.Delete(id);
-
-                _unitOfWork.SaveChanges();
+                throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            _albumRepository.Delete(id);
+
+            _unitOfWork.SaveChanges();
         }
 
         public IEnumerable<AlbumDTO> GetAll()
