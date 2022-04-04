@@ -45,14 +45,18 @@ namespace FacebookClone.BLL.Services
             _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<AlbumDTO> GetAll(PageFilter pageFilter)
+        public IEnumerable<AlbumDTO> GetAll(int pageSize, int pageNumber)
         {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
             return _albumRepository.GetAll(pageFilter)
                 .ToDTOList();
         }
 
-        public IEnumerable<AlbumDTO> GetAllByUserId(int userId, PageFilter pageFilter)
+        public IEnumerable<AlbumDTO> GetAllByUserId(int userId, int pageSize, int pageNumber)
         {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
             return _albumRepository.GetAllByUserId(userId, pageFilter)
                 .ToDTOList();
         }

@@ -4,6 +4,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Shared;
 using FacebookClone.Presentation.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
@@ -36,11 +37,11 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 return result;
             });
 
-            app.MapGet("/images", (IImageService imageService, PageFilter pageFilter) => imageService.GetAll(pageFilter));
+            app.MapGet("/images", (IImageService imageService, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => imageService.GetAll(pageSize, pageNumber));
 
             app.MapGet("/images/{id}", (IImageService imageService, int id) => imageService.GetById(id));
 
-            app.MapGet("/images/search/{albumId}", (IImageService imageService, int albumId, PageFilter pageFilter) => imageService.GetAllByAlbumId(albumId, pageFilter));
+            app.MapGet("/images/search/{albumId}", (IImageService imageService, int albumId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => imageService.GetAllByAlbumId(albumId, pageSize, pageNumber));
 
             app.MapDelete("/images/{id}", (IImageService imageService, int id, IWebHostEnvironment environment) => 
             {

@@ -1,6 +1,7 @@
 ﻿using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Shared;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
 {
@@ -8,7 +9,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapGet("/users", (IUserService userService, PageFilter pageFilter) => userService.GetAll(pageFilter));
+            app.MapGet("/users", (IUserService userService, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.GetAll(pageSize, pageNumber));
 
             app.MapPost("/register", (UserDTO user, IUserService userService) => userService.Add(user));
 

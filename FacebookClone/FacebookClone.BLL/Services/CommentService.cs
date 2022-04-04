@@ -39,20 +39,26 @@ namespace FacebookClone.BLL.Services
             _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<CommentDTO> GetAll(PageFilter pageFilter)
+        public IEnumerable<CommentDTO> GetAll(int pageSize, int pageNumber)
         {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
             return _commentRepository.GetAll(pageFilter)
                 .ToDTOList();
         }
 
-        public IEnumerable<CommentDTO> GetAllByImageId(int imageId, PageFilter pageFilter)
+        public IEnumerable<CommentDTO> GetAllByImageId(int imageId, int pageSize, int pageNumber)
         {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
             return _commentRepository.GetAllByImageId(imageId, pageFilter)
                 .ToDTOList();
         }
 
-        public IEnumerable<CommentDTO> GetAllByUserId(int userId, PageFilter pageFilter)
+        public IEnumerable<CommentDTO> GetAllByUserId(int userId, int pageSize, int pageNumber)
         {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
             return _commentRepository.GetAllByUserId(userId, pageFilter)
                 .ToDTOList();
         }
