@@ -4,6 +4,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {
@@ -38,21 +39,27 @@ namespace FacebookClone.BLL.Services
             _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<CommentDTO> GetAll()
+        public IEnumerable<CommentDTO> GetAll(int pageSize, int pageNumber)
         {
-            return _commentRepository.GetAll()
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _commentRepository.GetAll(pageFilter)
                 .ToDTOList();
         }
 
-        public IEnumerable<CommentDTO> GetAllByImageId(int imageId)
+        public IEnumerable<CommentDTO> GetAllByImageId(int imageId, int pageSize, int pageNumber)
         {
-            return _commentRepository.GetAllByImageId(imageId)
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _commentRepository.GetAllByImageId(imageId, pageFilter)
                 .ToDTOList();
         }
 
-        public IEnumerable<CommentDTO> GetAllByUserId(int userId)
+        public IEnumerable<CommentDTO> GetAllByUserId(int userId, int pageSize, int pageNumber)
         {
-            return _commentRepository.GetAllByUserId(userId)
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _commentRepository.GetAllByUserId(userId, pageFilter)
                 .ToDTOList();
         }
 
@@ -84,7 +91,7 @@ namespace FacebookClone.BLL.Services
 
         private bool ExistsWithID(int commentId)
         {
-            if (_commentRepository.GetById(commentId).Id == commentId)
+            if (_commentRepository.GetById(commentId)?.Id == commentId)
             {
                 return true;
             }

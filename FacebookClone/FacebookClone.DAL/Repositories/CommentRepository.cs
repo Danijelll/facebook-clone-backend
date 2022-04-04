@@ -1,7 +1,6 @@
 ﻿using FacebookClone.DAL.Entities;
-using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Repositories.Interface;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories
 {
@@ -11,14 +10,14 @@ namespace FacebookClone.DAL.Repositories
         {
         }
 
-        public IEnumerable<Comment> GetAllByImageId(int imageId)
+        public IEnumerable<Comment> GetAllByImageId(int imageId, PageFilter pageFilter)
         {
-            return GetAll().Where(c => c.ImageId.Equals(imageId));
+            return GetAll(pageFilter).Where(c => c.ImageId.Equals(imageId));
         }
 
-        public IEnumerable<Comment> GetAllByUserId(int userId)
+        public IEnumerable<Comment> GetAllByUserId(int userId, PageFilter pageFilter)
         {
-            return GetAll().Where(c => c.UserId.Equals(userId));
+            return GetAll(pageFilter).Where(c => c.UserId.Equals(userId));
         }
     }
 }

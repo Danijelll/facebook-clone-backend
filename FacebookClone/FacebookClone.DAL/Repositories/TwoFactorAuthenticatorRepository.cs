@@ -1,12 +1,5 @@
 ﻿using FacebookClone.DAL.Entities;
-using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Repositories.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FacebookClone.DAL.Repositories
 {
@@ -17,7 +10,7 @@ namespace FacebookClone.DAL.Repositories
         {
         }
 
-        public TwoFactorAuthentication GetTwoFactorAuthenticationByUserId(int userId)
+        public TwoFactorAuthentication? GetTwoFactorAuthenticationByUserId(int userId)
         {
             return GetAll().Find(t => t.UserId == userId);
         }

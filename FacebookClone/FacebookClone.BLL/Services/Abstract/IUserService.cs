@@ -1,4 +1,5 @@
 ﻿using FacebookClone.BLL.DTO;
+using FacebookClone.DAL.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace FacebookClone.BLL.Services.Abstract
     {
         void Delete(int userId);
 
-        IEnumerable<UserDTO> GetAll();
+        IEnumerable<UserDTO> GetAll(int pageSize, int pageNumber);
 
         UserDTO GetById(int userId);
 

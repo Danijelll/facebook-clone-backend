@@ -3,6 +3,7 @@ using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 using FacebookClone.Presentation.EndpointDefinitions;
 
 var builder = WebApplication.CreateBuilder(args);

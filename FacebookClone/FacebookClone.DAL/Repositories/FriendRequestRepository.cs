@@ -1,12 +1,6 @@
 ﻿using FacebookClone.DAL.Entities;
-using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Repositories.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories
 {
@@ -15,14 +9,15 @@ namespace FacebookClone.DAL.Repositories
         public FriendRequestRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
-        public FriendRequest GetSentFriendRequest(int userId, int friendId)
+
+        public FriendRequest? GetSentFriendRequest(int userId, int friendId)
         {
             return GetAll().SingleOrDefault(f => f.FirstUserId == userId && f.SecondUserId == friendId);
         }
 
-        public IEnumerable<FriendRequest> GetPendingFriendRequests(int userId)
+        public IEnumerable<FriendRequest> GetPendingFriendRequests(int userId, PageFilter pageFilter)
         {
-            return GetAll().Where(f => f.SecondUserId == userId);
+            return GetAll(pageFilter).Where(f => f.SecondUserId == userId);
         }
     }
 }

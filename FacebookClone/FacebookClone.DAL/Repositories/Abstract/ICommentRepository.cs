@@ -1,12 +1,12 @@
 ﻿using FacebookClone.DAL.Entities;
-using FacebookClone.DAL.Repositories.Interface;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
     public interface ICommentRepository : IRepository<Comment>
     {
-        IEnumerable<Comment> GetAllByImageId (int imageId);
+        IEnumerable<Comment> GetAllByImageId(int imageId, PageFilter pageFilter);
 
-        IEnumerable<Comment> GetAllByUserId(int userId);
+        IEnumerable<Comment> GetAllByUserId(int userId, PageFilter pageFilter);
     }
 }

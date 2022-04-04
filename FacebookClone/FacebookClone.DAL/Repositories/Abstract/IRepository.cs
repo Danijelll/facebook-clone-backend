@@ -1,10 +1,11 @@
 ﻿using FacebookClone.DAL.Entities.Abstract;
+using FacebookClone.DAL.Shared;
 
-namespace FacebookClone.DAL.Repositories.Interface
+namespace FacebookClone.DAL.Repositories.Abstract
 {
     public interface IRepository<T> where T : class, IEntity
     {
-        List<T> GetAll();
+        List<T> GetAll(PageFilter pageFilter);
 
         T? GetById(int id);
 
