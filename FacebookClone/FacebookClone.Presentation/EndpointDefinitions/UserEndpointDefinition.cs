@@ -1,5 +1,6 @@
 ﻿using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Services.Abstract;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
 {
@@ -7,7 +8,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapGet("/users", (IUserService userService) => userService.GetAll());
+            app.MapGet("/users", (IUserService userService, PageFilter pageFilter) => userService.GetAll(pageFilter));
 
             app.MapPost("/login", (UserDTO user, IUserService userService) => userService.Add(user));
 

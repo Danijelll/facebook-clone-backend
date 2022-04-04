@@ -1,9 +1,10 @@
 ﻿using FacebookClone.DAL.Entities.Abstract;
 using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace FacebookClone.DAL.Repositories.Interface
+namespace FacebookClone.DAL.Repositories
 {
     public abstract class EfCoreRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
@@ -15,7 +16,6 @@ namespace FacebookClone.DAL.Repositories.Interface
         {
             _context = unitOfWork.GetContext();
             _collection = _context.Set<TEntity>();
-
         }
 
         public TEntity Add(TEntity entity)
@@ -41,6 +41,14 @@ namespace FacebookClone.DAL.Repositories.Interface
         {
             return _collection.AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);
+        }
+
+        public List<TEntity> GetAll(PageFilter pageFilter)
+        {
+            return _collection.AsNoTracking()
+                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
+                 .Take(pageFilter.PageSize)
+                 .ToList();
         }
 
         public List<TEntity> GetAll()

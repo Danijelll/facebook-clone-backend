@@ -1,4 +1,5 @@
 ﻿using FacebookClone.BLL.DTO;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services.Abstract
 {
@@ -6,11 +7,11 @@ namespace FacebookClone.BLL.Services.Abstract
     {
         void Delete(int id);
 
-        IEnumerable<CommentDTO> GetAll();
+        IEnumerable<CommentDTO> GetAll(PageFilter pageFilter);
 
-        IEnumerable<CommentDTO> GetAllByUserId(int userId);
+        IEnumerable<CommentDTO> GetAllByUserId(int userId, PageFilter pageFilter);
 
-        IEnumerable<CommentDTO> GetAllByImageId(int imageId);
+        IEnumerable<CommentDTO> GetAllByImageId(int imageId, PageFilter pageFilter);
 
         CommentDTO GetById(int id);
 

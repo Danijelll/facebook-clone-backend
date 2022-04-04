@@ -1,15 +1,10 @@
 ﻿using FacebookClone.DAL.Entities;
-using FacebookClone.DAL.Repositories.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
     public interface IFriendshipRepository : IRepository<Friendship>
     {
-        public IEnumerable<Friendship> GetAllUserFriendsByUser(int userId);
+        public IEnumerable<Friendship> GetAllUserFriendsByUser(int userId, PageFilter pageFilter);
     }
 }

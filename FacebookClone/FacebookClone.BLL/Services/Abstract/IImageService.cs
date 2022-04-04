@@ -1,4 +1,5 @@
 ﻿using FacebookClone.BLL.DTO;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services.Abstract
 {
@@ -6,9 +7,9 @@ namespace FacebookClone.BLL.Services.Abstract
     {
         void Delete(int id, string webRootPath);
 
-        IEnumerable<ImageDTO> GetAll();
+        IEnumerable<ImageDTO> GetAll(PageFilter pageFilter);
 
-        IEnumerable<ImageDTO> GetAllByAlbumId(int albumId);
+        IEnumerable<ImageDTO> GetAllByAlbumId(int albumId, PageFilter pageFilter);
 
         ImageDTO GetById(int id);
 

@@ -1,24 +1,18 @@
 ﻿using FacebookClone.DAL.Entities;
-using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Repositories.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories
 {
     public class FriendshipRepository : EfCoreRepository<Friendship>, IFriendshipRepository
     {
         public FriendshipRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
-        { 
+        {
         }
 
-        public IEnumerable<Friendship> GetAllUserFriendsByUser(int userId)
+        public IEnumerable<Friendship> GetAllUserFriendsByUser(int userId, PageFilter pageFilter)
         {
-            return GetAll().Where(f => f.UserId == userId);
+            return GetAll(pageFilter).Where(f => f.UserId == userId);
         }
     }
 }

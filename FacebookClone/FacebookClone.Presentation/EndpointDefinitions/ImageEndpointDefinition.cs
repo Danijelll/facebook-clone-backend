@@ -2,6 +2,7 @@
 using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
+using FacebookClone.DAL.Shared;
 using FacebookClone.Presentation.Helpers;
 using Newtonsoft.Json;
 
@@ -35,11 +36,11 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 return result;
             });
 
-            app.MapGet("/images", (IImageService imageService) => imageService.GetAll());
+            app.MapGet("/images", (IImageService imageService, PageFilter pageFilter) => imageService.GetAll(pageFilter));
 
             app.MapGet("/images/{id}", (IImageService imageService, int id) => imageService.GetById(id));
 
-            app.MapGet("/images/search/{albumId}", (IImageService imageService, int albumId) => imageService.GetAllByAlbumId(albumId));
+            app.MapGet("/images/search/{albumId}", (IImageService imageService, int albumId, PageFilter pageFilter) => imageService.GetAllByAlbumId(albumId, pageFilter));
 
             app.MapDelete("/images/{id}", (IImageService imageService, int id, IWebHostEnvironment environment) => 
             {

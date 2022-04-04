@@ -5,6 +5,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {
@@ -58,9 +59,9 @@ namespace FacebookClone.BLL.Services
             }
         }
 
-        public IEnumerable<UserDTO> GetAll()
+        public IEnumerable<UserDTO> GetAll(PageFilter pageFilter)
         {
-            return _userRepository.GetAll()
+            return _userRepository.GetAll(pageFilter)
                 .ToDTOList();
         }
 
@@ -89,7 +90,7 @@ namespace FacebookClone.BLL.Services
 
         public UserDTO Update(UserDTO userDTO)
         {
-            User found = _userRepository.GetById(userDTO.Id);
+            User? found = _userRepository.GetById(userDTO.Id);
 
             if(found.Username.ToLower() == userDTO.Username.ToLower() && found.Id != userDTO.Id)
             {
@@ -108,7 +109,7 @@ namespace FacebookClone.BLL.Services
 
         private bool ExistsWithID(int userId)
         {
-            if (_userRepository.GetById(userId).Id == userId)
+            if (_userRepository.GetById(userId)?.Id == userId)
             {
                 return true;
             }

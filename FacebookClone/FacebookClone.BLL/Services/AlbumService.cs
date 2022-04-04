@@ -4,6 +4,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {
@@ -44,15 +45,15 @@ namespace FacebookClone.BLL.Services
             _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<AlbumDTO> GetAll()
+        public IEnumerable<AlbumDTO> GetAll(PageFilter pageFilter)
         {
-            return _albumRepository.GetAll()
+            return _albumRepository.GetAll(pageFilter)
                 .ToDTOList();
         }
 
-        public IEnumerable<AlbumDTO> GetAllByUserId(int userId)
+        public IEnumerable<AlbumDTO> GetAllByUserId(int userId, PageFilter pageFilter)
         {
-            return _albumRepository.GetAllByUserId(userId)
+            return _albumRepository.GetAllByUserId(userId, pageFilter)
                 .ToDTOList();
         }
 
@@ -84,7 +85,7 @@ namespace FacebookClone.BLL.Services
 
         private bool ExistsWithID(int albumId)
         {
-            if (_albumRepository.GetById(albumId).Id == albumId)
+            if (_albumRepository.GetById(albumId)?.Id == albumId)
             {
                 return true;
             }
