@@ -1,5 +1,4 @@
-﻿using FacebookClone.BLL.Exceptions;
-using FacebookClone.BLL.Model;
+﻿using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
