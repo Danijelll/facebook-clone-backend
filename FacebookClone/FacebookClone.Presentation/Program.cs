@@ -3,6 +3,7 @@ using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 using FacebookClone.Presentation.EndpointDefinitions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<PageFilter>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<FacebookCloneDBContext>();
 

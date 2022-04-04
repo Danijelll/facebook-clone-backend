@@ -10,7 +10,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
         {
             app.MapGet("/users", (IUserService userService, PageFilter pageFilter) => userService.GetAll(pageFilter));
 
-            app.MapPost("/login", (UserDTO user, IUserService userService) => userService.Add(user));
+            app.MapPost("/register", (UserDTO user, IUserService userService) => userService.Add(user));
 
             app.MapGet("/users/{id}", (IUserService userService, int id) => userService.GetById(id));
 
