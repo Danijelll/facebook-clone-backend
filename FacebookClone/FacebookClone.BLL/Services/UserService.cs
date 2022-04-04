@@ -29,7 +29,7 @@ namespace FacebookClone.BLL.Services
                 _unitOfWork.SaveChanges();
                 return user.ToDTO();
             }
-            throw BusinessExceptions.EntityAlreadyExistsInDBEcxeption;
+            throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
         public void Delete(int userId)
@@ -38,7 +38,7 @@ namespace FacebookClone.BLL.Services
 
             if (found == null)
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
             _userRepository.Delete(userId);
@@ -73,7 +73,7 @@ namespace FacebookClone.BLL.Services
                 return found;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public UserDTO GetByUsername(string username)
@@ -84,7 +84,7 @@ namespace FacebookClone.BLL.Services
                     .ToDTO();
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public UserDTO Update(UserDTO userDTO)
@@ -93,7 +93,7 @@ namespace FacebookClone.BLL.Services
 
             if(found.Username.ToLower() == userDTO.Username.ToLower() && found.Id != userDTO.Id)
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
             userDTO.Password = found.Password;

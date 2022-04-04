@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.Constants;
+using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
@@ -20,16 +21,11 @@ namespace FacebookClone.BLL.Services
 
         public ImageDTO Add(ImageDTO imageDTO)
         {
-            if (!ExistsWithName(imageDTO.Name))
-            {
                 Image imageResult = _imageRepository.Add(imageDTO.ToEntity());
 
                 _unitOfWork.SaveChanges();
 
                 return imageResult.ToDTO();
-            }
-
-            throw BusinessExceptions.EntityAlreadyExistsInDBEcxeption;
         }
 
         public void Delete(int id, string webRootPath)
@@ -38,10 +34,10 @@ namespace FacebookClone.BLL.Services
 
             if (image == null)
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
-            string imageWithFolder = Path.Combine(image.AlbumId.ToString(), image.ImageUrl);
+            string imageWithFolder = Path.Combine(ImageConstants.ImageFolder ,image.AlbumId.ToString(), image.ImageUrl);
 
             string path = Path.Combine(webRootPath, imageWithFolder);
 
@@ -76,7 +72,7 @@ namespace FacebookClone.BLL.Services
                 return found;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public ImageDTO Update(ImageDTO imageDTO)
@@ -89,7 +85,7 @@ namespace FacebookClone.BLL.Services
                 return updated.ToDTO();
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBEcxeption;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         private bool ExistsWithID(int imageId)

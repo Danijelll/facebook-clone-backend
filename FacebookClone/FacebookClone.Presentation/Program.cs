@@ -1,21 +1,29 @@
-using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Services;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.Presentation.EndpointDefinitions;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IAlbumService, AlbumService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<FacebookCloneDBContext>();
 
 var app = builder.Build();
 
-app.MapGet("/users", (IUserService userService) => userService.GetAll());
-
-app.MapPost("/login", (UserDTO user, IUserService userService) => userService.Add(user));
+UserEndpointDefinition.DefineEndpoints(app);
+AlbumEndpointDefinition.DefineEndpoints(app);
+ImageEndpointDefinition.DefineEndpoints(app);
+CommentEndpointDefinition.DefineEndpoints(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
