@@ -43,7 +43,6 @@ namespace FacebookClone.Presentation.Attributes
                 {
                     context.HttpContext.Items.Add("id", claimsDTO.Id);
                 }
-
                 else if(userDTO.IsBanned == false && userDTO.IsEmailConfirmed == true)
                 {
                     context.HttpContext.Items.Add("id", claimsDTO.Id);
