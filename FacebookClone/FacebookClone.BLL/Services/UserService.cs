@@ -20,14 +20,16 @@ namespace FacebookClone.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public UserDTO Add(UserDTO userDTO)
+        public UserDTO Add(RegisterDTO userRegister)
         {
-            if (!ExistsWithName(userDTO.Username))
+            if (!ExistsWithName(userRegister.Username))
             {
-                userDTO.Password = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
-                User user = _userRepository.Add(userDTO.ToEntity());
+                userRegister.Password = BCrypt.Net.BCrypt.HashPassword(userRegister.Password);
+
+                User user = _userRepository.Add(userRegister.ToUserDTO().ToEntity());
 
                 _unitOfWork.SaveChanges();
+
                 return user.ToDTO();
             }
             throw BusinessExceptions.EntityAlreadyExistsInDBException;

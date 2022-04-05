@@ -16,7 +16,7 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDTO GetById(int userId);
 
-        UserDTO Add (UserDTO userDTO);
+        UserDTO Add (RegisterDTO userRegister);
 
         UserDTO Update (UserDTO userDTO);
 

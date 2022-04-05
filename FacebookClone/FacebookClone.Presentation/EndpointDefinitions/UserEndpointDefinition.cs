@@ -12,7 +12,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
         {
             app.MapGet("/users", (IUserService userService, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.GetAll(pageSize, pageNumber));
 
-            app.MapPost("/register", (UserDTO user, IUserService userService) => userService.Add(user));
+            app.MapPost("/register", (RegisterDTO userRegister, IUserService userService) => userService.Add(userRegister));
 
             app.MapPost("/login", (LoginDTO userLogin, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(userLogin));
 
