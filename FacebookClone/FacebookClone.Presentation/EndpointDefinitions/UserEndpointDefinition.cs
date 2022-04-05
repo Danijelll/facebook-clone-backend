@@ -1,4 +1,5 @@
 ﻿using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,8 @@ namespace FacebookClone.Presentation.EndpointDefinitions
             app.MapGet("/users", (IUserService userService, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.GetAll(pageSize, pageNumber));
 
             app.MapPost("/register", (UserDTO user, IUserService userService) => userService.Add(user));
+
+            app.MapPost("/login", (UserDTO user, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(user.ToEntity()));
 
             app.MapGet("/users/{id}", (IUserService userService, int id) => userService.GetById(id));
 

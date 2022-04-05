@@ -70,7 +70,7 @@ namespace FacebookClone.BLL.Services
         public UserDTO GetById(int userId)
         {
             UserDTO found = _userRepository.GetById(userId).ToDTO();
-            
+
             if (found != null)
             {
                 return found;
@@ -90,11 +90,21 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
+        public bool PasswordMatches(UserDTO userDTO, UserDTO user)
+        {
+            if (BCrypt.Net.BCrypt.Verify(user.Password, userDTO.Password))
+            {
+                return true;
+            }
+
+            throw BusinessExceptions.NotAuthorizedException;
+        }
+
         public UserDTO Update(UserDTO userDTO)
         {
             User? found = _userRepository.GetById(userDTO.Id);
 
-            if(found.Username.ToLower() == userDTO.Username.ToLower() && found.Id != userDTO.Id)
+            if (found.Username.ToLower() == userDTO.Username.ToLower() && found.Id != userDTO.Id)
             {
                 throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }

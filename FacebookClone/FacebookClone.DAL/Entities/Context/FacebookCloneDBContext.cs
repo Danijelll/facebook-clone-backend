@@ -222,6 +222,8 @@ namespace FacebookClone.DAL.Entities.Context
                     .IsUnicode(false)
                     .HasColumnName("email");
 
+                entity.Property(e => e.IsBanned).HasColumnName("is_banned");
+
                 entity.Property(e => e.IsEmailConfirmed).HasColumnName("is_email_confirmed");
 
                 entity.Property(e => e.Password)
@@ -233,6 +235,8 @@ namespace FacebookClone.DAL.Entities.Context
                     .HasMaxLength(120)
                     .IsUnicode(false)
                     .HasColumnName("profile_image");
+
+                entity.Property(e => e.Role).HasColumnName("role");
 
                 entity.Property(e => e.UpdatedOn)
                     .HasColumnType("datetime")
