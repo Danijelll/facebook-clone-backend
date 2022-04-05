@@ -26,11 +26,11 @@ namespace FacebookClone.BLL.Services
             _configuration = config;
         }
 
-        public string GenerateJwt(User user)
+        public string GenerateJwt(LoginDTO userLogin)
         {
-            UserDTO found = _userService.GetByUsername(user.Username);
+            UserDTO found = _userService.GetByUsername(userLogin.Username);
 
-            _userService.PasswordMatches(found, user.ToDTO());
+            _userService.PasswordMatches(found.Password, userLogin.Password);
             
             byte[] key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 

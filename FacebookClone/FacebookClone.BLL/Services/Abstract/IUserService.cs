@@ -22,6 +22,6 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDTO GetByUsername(string username);
 
-        public bool PasswordMatches(UserDTO userDTO, UserDTO user);
+        public bool PasswordMatches(string userPass1, string userPass2);
     }
 }

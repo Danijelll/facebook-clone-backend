@@ -14,7 +14,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPost("/register", (UserDTO user, IUserService userService) => userService.Add(user));
 
-            app.MapPost("/login", (UserDTO user, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(user.ToEntity()));
+            app.MapPost("/login", (LoginDTO userLogin, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(userLogin));
 
             app.MapGet("/users/{id}", (IUserService userService, int id) => userService.GetById(id));
 

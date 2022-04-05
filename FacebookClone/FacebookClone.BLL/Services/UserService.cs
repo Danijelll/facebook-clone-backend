@@ -90,9 +90,9 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
-        public bool PasswordMatches(UserDTO userDTO, UserDTO user)
+        public bool PasswordMatches(string userPass1, string userPass2)
         {
-            if (BCrypt.Net.BCrypt.Verify(user.Password, userDTO.Password))
+            if (BCrypt.Net.BCrypt.Verify(userPass2, userPass1))
             {
                 return true;
             }

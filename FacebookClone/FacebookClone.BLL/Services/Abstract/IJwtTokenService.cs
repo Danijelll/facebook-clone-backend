@@ -6,7 +6,7 @@ namespace FacebookClone.BLL.Services.Abstract
 {
     public interface IJwtTokenService
     {
-        public string GenerateJwt(User user);
+        public string GenerateJwt(LoginDTO userLogin);
         public ClaimsDTO VerifyUser(JwtSecurityToken validatedToken);
         public JwtSecurityToken VerifyToken(string token);
     }
