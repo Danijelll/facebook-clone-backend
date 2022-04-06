@@ -13,12 +13,14 @@ namespace FacebookClone.BLL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailConfirmService _emailConfirmService;
+        private readonly ISendEmailService _sendEmailService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUserRepository userRepository,IEmailConfirmService emailConfirmService, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository,IEmailConfirmService emailConfirmService, ISendEmailService sendEmailService, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _emailConfirmService = emailConfirmService;
+            _sendEmailService = sendEmailService;
             _unitOfWork = unitOfWork;
         }
 
@@ -34,9 +36,11 @@ namespace FacebookClone.BLL.Services
 
                 UserDTO userDTO = user.ToDTO();
 
-                _emailConfirmService.Add(userDTO);
+                EmailConfirmDTO emailConfirmDTO = _emailConfirmService.Add(userDTO);
 
                 _unitOfWork.SaveChanges();
+
+                _sendEmailService.SendConfimCodeEmail(userRegister.Email, userRegister.Username, emailConfirmDTO.EmailHash);
 
                 return userDTO;
             }

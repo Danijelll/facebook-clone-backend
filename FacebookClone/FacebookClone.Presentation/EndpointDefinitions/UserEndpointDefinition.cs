@@ -23,6 +23,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
             app.MapDelete("/users/{id}", (IUserService userService, int id) => userService.Delete(id));
 
             app.MapPut("/update", (UserDTO user, IUserService userService) => userService.Update(user));
+
+            app.MapGet("/confirmMail/{emailHash}", (IEmailConfirmService emailConfirmService) => new RedirectResult("https://localhost:5001/confirmMail"));
+
         }
     }
 }

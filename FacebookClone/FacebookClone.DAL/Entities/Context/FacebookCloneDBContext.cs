@@ -103,9 +103,7 @@ namespace FacebookClone.DAL.Entities.Context
             {
                 entity.ToTable("email_confirm");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")

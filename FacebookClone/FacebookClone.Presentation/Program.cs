@@ -20,6 +20,7 @@ builder.Services.AddScoped<IEmailConfirmRepository,EmailConfirmRepository>();
 builder.Services.AddScoped<IEmailConfirmService, EmailConfirmService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ISendEmailService, SendEmailService>();
 builder.Services.AddScoped<FacebookCloneDBContext>();
 
 builder.Services.AddCors(options =>
