@@ -10,11 +10,13 @@ namespace FacebookClone.BLL.Services
     public class EmailConfirmService : IEmailConfirmService
     {
         private readonly IEmailConfirmRepository _emailConfirmRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public EmailConfirmService(IEmailConfirmRepository emailConfirmRepository, IUnitOfWork unitOfWork)
+        public EmailConfirmService(IEmailConfirmRepository emailConfirmRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _emailConfirmRepository = emailConfirmRepository;
+            _userRepository = userRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -50,6 +52,16 @@ namespace FacebookClone.BLL.Services
         {
             return _emailConfirmRepository.GetById(emailConfirmId)
                 .ToDTO();
+        }
+
+        public void ConfirmUserEmail(string emailHash)
+        {
+            EmailConfirm emailConfirmDTO = _emailConfirmRepository.GetByEmailHash(emailHash);
+            User user = _userRepository.GetById(emailConfirmDTO.UserId);
+            user.IsEmailConfirmed = true;
+            _userRepository.Update(user);
+            _emailConfirmRepository.Delete(emailConfirmDTO.Id);
+            
         }
 
         private bool ExistsWithID(int emailConfirmId)

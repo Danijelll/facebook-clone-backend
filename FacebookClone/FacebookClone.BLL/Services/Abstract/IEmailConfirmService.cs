@@ -10,6 +10,8 @@ namespace FacebookClone.BLL.Services.Abstract
 
         EmailConfirmDTO GetByEmailHash(string emailHash);
 
+        public void ConfirmUserEmail(string emailHash);
+
         EmailConfirmDTO Add(UserDTO userDTO);
     }
 }

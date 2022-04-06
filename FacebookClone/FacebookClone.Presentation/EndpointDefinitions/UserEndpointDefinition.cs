@@ -22,7 +22,11 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPut("/update", (UserDTO user, IUserService userService) => userService.Update(user));
 
-            app.MapPost("/confirmMail/{emailHash}", (HttpResponse response) => response.Redirect("https://localhost:5001/confirmMail"));
+            app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) => 
+            {
+                emailConfirmService.ConfirmUserEmail(emailHash);
+                response.Redirect("https://localhost:5001/confirmMail/");
+            });
         }
     }
 }
