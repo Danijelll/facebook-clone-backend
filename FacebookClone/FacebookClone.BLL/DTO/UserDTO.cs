@@ -1,4 +1,6 @@
-﻿namespace FacebookClone.BLL.DTO
+﻿using FacebookClone.BLL.Enums;
+
+namespace FacebookClone.BLL.DTO
 {
     public class UserDTO
     {
@@ -6,7 +8,7 @@
         public string Username { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public int Role { get; set; }
+        public Roles Role { get; set; }
         public bool IsBanned { get; set; }
         public bool IsEmailConfirmed { get; set; }
         public string ProfileImage { get; set; } = null!;
