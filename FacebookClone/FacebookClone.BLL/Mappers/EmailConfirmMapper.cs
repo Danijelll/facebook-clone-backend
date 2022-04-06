@@ -12,6 +12,8 @@ namespace FacebookClone.BLL.Mappers
                 Id = emailConfirm.Id,
                 UserId = emailConfirm.UserId,
                 EmailHash = emailConfirm.EmailHash,
+                CreatedOn = emailConfirm.CreatedOn,
+                UpdatedOn = emailConfirm.UpdatedOn,
             };
         }
 
@@ -22,6 +24,17 @@ namespace FacebookClone.BLL.Mappers
                 Id = emailConfirm.Id,
                 UserId = emailConfirm.UserId,
                 EmailHash = emailConfirm.EmailHash,
+                CreatedOn = emailConfirm.CreatedOn,
+                UpdatedOn = emailConfirm.UpdatedOn,
+            };
+        }
+
+        public static EmailConfirmDTO ToEmailConfirmDTO(this UserDTO userDTO)
+        {
+            return new EmailConfirmDTO()
+            {
+                UserId = userDTO.Id,
+                EmailHash = BCrypt.Net.BCrypt.HashString(userDTO.Email)
             };
         }
     }

@@ -7,7 +7,7 @@ using FacebookClone.DAL.Repositories.Abstract;
 
 namespace FacebookClone.BLL.Services
 {
-    internal class EmailConfirmService : IEmailConfirmService
+    public class EmailConfirmService : IEmailConfirmService
     {
         private readonly IEmailConfirmRepository _emailConfirmRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -18,9 +18,11 @@ namespace FacebookClone.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public EmailConfirmDTO Add(EmailConfirmDTO emailConfirmDTO)
+        public EmailConfirmDTO Add(UserDTO userDTO)
         {
-            EmailConfirm emailConfirmResult = _emailConfirmRepository.Add(emailConfirmDTO.ToEntity());
+            EmailConfirm emailConfirmResult = userDTO.ToEmailConfirmDTO().ToEntity();
+            
+            _emailConfirmRepository.Add(emailConfirmResult);
 
             _unitOfWork.SaveChanges();
 
