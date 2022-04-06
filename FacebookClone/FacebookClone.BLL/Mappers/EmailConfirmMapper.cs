@@ -24,10 +24,5 @@ namespace FacebookClone.BLL.Mappers
                 EmailHash = emailConfirm.EmailHash,
             };
         }
-
-        public static IEnumerable<EmailConfirmDTO> ToDTOList(this IEnumerable<EmailConfirm> emailConfirm)
-        {
-            return emailConfirm.Select(x => x.ToDTO()).ToList();
-        }
     }
 }
