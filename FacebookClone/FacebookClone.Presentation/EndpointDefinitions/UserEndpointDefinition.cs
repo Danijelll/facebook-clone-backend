@@ -25,7 +25,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
             app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) => 
             {
                 emailConfirmService.ConfirmUserEmail(emailHash);
-                response.Redirect("https://localhost:5001/confirmMail/");
+                response.Redirect("http://localhost:8080/");
             });
         }
     }

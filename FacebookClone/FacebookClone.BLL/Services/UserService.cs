@@ -28,7 +28,7 @@ namespace FacebookClone.BLL.Services
         {
             if (!ExistsWithName(userRegister.Username))
             {
-                userRegister.Password = BCrypt.Net.BCrypt.HashPassword(userRegister.Password).Replace('/','-');
+                userRegister.Password = BCrypt.Net.BCrypt.HashPassword(userRegister.Password);
 
                 User user = _userRepository.Add(userRegister.ToUserDTO().ToEntity());
 

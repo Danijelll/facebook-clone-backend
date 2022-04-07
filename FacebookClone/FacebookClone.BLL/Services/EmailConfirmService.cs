@@ -58,7 +58,18 @@ namespace FacebookClone.BLL.Services
         {
             EmailConfirm emailConfirmDTO = _emailConfirmRepository.GetByEmailHash(emailHash);
 
+            if (emailConfirmDTO == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
             User user = _userRepository.GetById(emailConfirmDTO.UserId);
+
+            if (user == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
             user.IsEmailConfirmed = true;
 
             _userRepository.Update(user);
