@@ -20,6 +20,7 @@ namespace FacebookClone.DAL.Entities.Context
 
         public virtual DbSet<Album> Albums { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<EmailConfirm> EmailConfirms { get; set; } = null!;
         public virtual DbSet<FriendRequest> FriendRequests { get; set; } = null!;
         public virtual DbSet<Friendship> Friendships { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
@@ -96,6 +97,34 @@ namespace FacebookClone.DAL.Entities.Context
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_comment_user");
+            });
+
+            modelBuilder.Entity<EmailConfirm>(entity =>
+            {
+                entity.ToTable("email_confirm");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_on");
+
+                entity.Property(e => e.EmailHash)
+                    .HasMaxLength(60)
+                    .IsUnicode(false)
+                    .HasColumnName("email_hash");
+
+                entity.Property(e => e.UpdatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updated_on");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.EmailConfirms)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_email_confirm_user");
             });
 
             modelBuilder.Entity<FriendRequest>(entity =>

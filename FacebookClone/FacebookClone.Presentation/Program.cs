@@ -16,8 +16,11 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IEmailConfirmRepository,EmailConfirmRepository>();
+builder.Services.AddScoped<IEmailConfirmService, EmailConfirmService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ISendEmailService, SendEmailService>();
 builder.Services.AddScoped<FacebookCloneDBContext>();
 
 builder.Services.AddCors(options =>

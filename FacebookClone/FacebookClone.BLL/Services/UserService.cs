@@ -12,11 +12,15 @@ namespace FacebookClone.BLL.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEmailConfirmService _emailConfirmService;
+        private readonly ISendEmailService _sendEmailService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository,IEmailConfirmService emailConfirmService, ISendEmailService sendEmailService, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
+            _emailConfirmService = emailConfirmService;
+            _sendEmailService = sendEmailService;
             _unitOfWork = unitOfWork;
         }
 
@@ -30,7 +34,15 @@ namespace FacebookClone.BLL.Services
 
                 _unitOfWork.SaveChanges();
 
-                return user.ToDTO();
+                UserDTO userDTO = user.ToDTO();
+
+                EmailConfirmDTO emailConfirmDTO = _emailConfirmService.Add(userDTO);
+
+                _unitOfWork.SaveChanges();
+
+                _sendEmailService.SendConfimCodeEmail(userRegister.Email, userRegister.Username, emailConfirmDTO.EmailHash);
+
+                return userDTO;
             }
             throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }

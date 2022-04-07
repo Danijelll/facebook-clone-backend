@@ -1,7 +1,5 @@
 ﻿using FacebookClone.BLL.DTO;
-using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Services.Abstract;
-using FacebookClone.DAL.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
@@ -23,6 +21,12 @@ namespace FacebookClone.Presentation.EndpointDefinitions
             app.MapDelete("/users/{id}", (IUserService userService, int id) => userService.Delete(id));
 
             app.MapPut("/update", (UserDTO user, IUserService userService) => userService.Update(user));
+
+            app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) => 
+            {
+                emailConfirmService.ConfirmUserEmail(emailHash);
+                response.Redirect("http://localhost:8080/");
+            });
         }
     }
 }
