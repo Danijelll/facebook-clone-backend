@@ -57,11 +57,14 @@ namespace FacebookClone.BLL.Services
         public void ConfirmUserEmail(string emailHash)
         {
             EmailConfirm emailConfirmDTO = _emailConfirmRepository.GetByEmailHash(emailHash);
+
             User user = _userRepository.GetById(emailConfirmDTO.UserId);
             user.IsEmailConfirmed = true;
+
             _userRepository.Update(user);
             _emailConfirmRepository.Delete(emailConfirmDTO.Id);
-            
+            _unitOfWork.SaveChanges();
+
         }
 
         private bool ExistsWithID(int emailConfirmId)
