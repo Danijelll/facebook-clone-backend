@@ -39,13 +39,15 @@ namespace FacebookClone.BLL.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("id", found.Id.ToString()),
-                    new Claim("role", found.Role.ToString()),
+                    new Claim(ClaimTypes.Role, found.Role.ToString()),
                     new Claim("is_banned", found.IsBanned.ToString()),
-                    new Claim("is_email_confirmed", found.IsEmailConfirmed.ToString())
+                    new Claim("is_email_confirmed", found.IsEmailConfirmed.ToString()),
+
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256)
+                Audience = "https://localhost:5001",
+                Issuer = "https://localhost:5001",
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
 
             SecurityToken token = _tokenHandler.CreateToken(tokenDescriptor);
