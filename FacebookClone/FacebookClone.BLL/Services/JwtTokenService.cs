@@ -28,17 +28,9 @@ namespace FacebookClone.BLL.Services
 
         public string GenerateJwt(LoginDTO userLogin)
         {
-            //UserDTO found = _userService.GetByUsername(userLogin.Username);
+            UserDTO found = _userService.GetByUsername(userLogin.Username);
 
-            //_userService.PasswordMatches(found.Password, userLogin.Password);
-
-            UserDTO found = new UserDTO
-            {
-                Id = 7,
-                Role = Roles.User,
-                IsBanned = false,
-                IsEmailConfirmed = true
-            };
+            _userService.PasswordMatches(found.Password, userLogin.Password);
             
             byte[] key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 
