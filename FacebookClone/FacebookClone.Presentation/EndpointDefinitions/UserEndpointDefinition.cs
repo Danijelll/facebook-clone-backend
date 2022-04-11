@@ -1,10 +1,8 @@
 ﻿using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Services.Abstract;
-using FacebookClone.Presentation.Attributes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.HttpSys;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
 {
@@ -16,9 +14,16 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPost("/register", (RegisterDTO userRegister, IUserService userService) => userService.Add(userRegister));
 
-            app.MapPost("/login", (LoginDTO userLogin, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(userLogin));
+            app.MapPost("/login", (IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(null));
 
-            app.MapGet("/home", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] (IUserService userService, HttpContext context) => userService.GetById(Convert.ToInt32(context.Items["id"])));
+            app.MapGet("/home", [Authorize(Policy = "RequireId")] (IUserService userService, HttpContext context) => 
+            {
+                var claim = context.User.Claims.SingleOrDefault(e => e.Type == "id");
+
+                var a = userService.GetById(Convert.ToInt32(claim?.Value));
+
+                return Results.Ok(a);
+            });
 
             app.MapGet("/users/{id}", (IUserService userService, int id) => userService.GetById(id));
 

@@ -1,14 +1,13 @@
+using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Services;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Shared;
-using FacebookClone.Presentation.Attributes;
 using FacebookClone.Presentation.EndpointDefinitions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -29,20 +28,30 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ISendEmailService, SendEmailService>();
 builder.Services.AddScoped<FacebookCloneDBContext>();
 
-builder.Services.AddAuthorization();
+// Add services to the container.
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = "https://localhost:5001",
+        ValidAudience = "https://localhost:5001",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SecretKey"])),
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true
+    };
+});
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SecretKey"]))
-                    };
-                });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireId", policy => policy.RequireClaim("id"));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -52,6 +61,10 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddAuthentication();
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 UserEndpointDefinition.DefineEndpoints(app);
@@ -59,24 +72,10 @@ AlbumEndpointDefinition.DefineEndpoints(app);
 ImageEndpointDefinition.DefineEndpoints(app);
 CommentEndpointDefinition.DefineEndpoints(app);
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
 app.UseCors("AllowAllCors");
 
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-
-app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseAuthentication();
 
 app.Run();
