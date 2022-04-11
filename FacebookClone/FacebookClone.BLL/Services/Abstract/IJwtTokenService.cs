@@ -8,6 +8,5 @@ namespace FacebookClone.BLL.Services.Abstract
     {
         public string GenerateJwt(LoginDTO userLogin);
         public ClaimsDTO VerifyUser(JwtSecurityToken validatedToken);
-        public JwtSecurityToken VerifyToken(string token);
     }
 }

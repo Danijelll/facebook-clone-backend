@@ -1,10 +1,7 @@
 ﻿using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.Enums;
-using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
-using FacebookClone.DAL.Entities;
-using FacebookClone.DAL.Repositories.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -31,7 +28,7 @@ namespace FacebookClone.BLL.Services
             UserDTO found = _userService.GetByUsername(userLogin.Username);
 
             _userService.PasswordMatches(found.Password, userLogin.Password);
-            
+
             byte[] key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
@@ -42,11 +39,10 @@ namespace FacebookClone.BLL.Services
                     new Claim(ClaimTypes.Role, found.Role.ToString()),
                     new Claim("is_banned", found.IsBanned.ToString()),
                     new Claim("is_email_confirmed", found.IsEmailConfirmed.ToString()),
-
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
-                Audience = "https://localhost:5001",
-                Issuer = "https://localhost:5001",
+                Audience = _configuration["LocalHost"],
+                Issuer = _configuration["LocalHost"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
 
@@ -64,7 +60,7 @@ namespace FacebookClone.BLL.Services
             if (userDto == null)
                 throw BusinessExceptions.InvalidJwtTokenException;
 
-            if ((Roles) Int32.Parse(validatedToken.Claims.First(e => e.Type == "role").Value) == Roles.User)
+            if ((Roles)Int32.Parse(validatedToken.Claims.First(e => e.Type == "role").Value) == Roles.User)
             {
                 return new ClaimsDTO
                 {
@@ -85,29 +81,6 @@ namespace FacebookClone.BLL.Services
             }
 
             throw BusinessExceptions.InvalidJwtTokenException;
-        }
-
-        public JwtSecurityToken VerifyToken(string token)
-        {
-            try
-            {
-                byte[] key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
-
-                _tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ClockSkew = TimeSpan.Zero
-                }, out SecurityToken validatedToken);
-
-                return (JwtSecurityToken)validatedToken;
-            }
-            catch
-            {
-                throw BusinessExceptions.InvalidJwtTokenException;
-            }
         }
     }
 }
