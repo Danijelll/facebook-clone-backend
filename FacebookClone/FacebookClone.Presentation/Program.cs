@@ -40,8 +40,9 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["LocalHost"],
         ValidAudience = builder.Configuration["LocalHost"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SecretKey"])),
-        ValidateLifetime = false,
-        ValidateIssuerSigningKey = true
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero
     };
 });
 

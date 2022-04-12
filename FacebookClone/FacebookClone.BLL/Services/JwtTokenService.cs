@@ -50,37 +50,5 @@ namespace FacebookClone.BLL.Services
 
             return _tokenHandler.WriteToken(token);
         }
-
-        public ClaimsDTO VerifyUser(JwtSecurityToken validatedToken)
-        {
-            int userId = int.Parse(validatedToken.Claims.First(e => e.Type == "id").Value);
-
-            UserDTO userDto = _userService.GetById(userId);
-
-            if (userDto == null)
-                throw BusinessExceptions.InvalidJwtTokenException;
-
-            if ((Roles)Int32.Parse(validatedToken.Claims.First(e => e.Type == "role").Value) == Roles.User)
-            {
-                return new ClaimsDTO
-                {
-                    Id = int.Parse(validatedToken.Claims.First(e => e.Type == "id").Value),
-                    Role = int.Parse(validatedToken.Claims.First(e => e.Type == "role").Value),
-                    IsBanned = bool.Parse(validatedToken.Claims.First(e => e.Type == "is_banned").Value),
-                    IsEmailConfirmed = bool.Parse(validatedToken.Claims.First(e => e.Type == "is_email_confirmed").Value)
-                };
-            }
-
-            if ((Roles)Int32.Parse(validatedToken.Claims.First(e => e.Type == "role").Value) == Roles.Admin)
-            {
-                return new ClaimsDTO
-                {
-                    Id = int.Parse(validatedToken.Claims.First(e => e.Type == "id").Value),
-                    Role = int.Parse(validatedToken.Claims.First(e => e.Type == "role").Value),
-                };
-            }
-
-            throw BusinessExceptions.InvalidJwtTokenException;
-        }
     }
 }
