@@ -70,11 +70,11 @@ namespace FacebookClone.DAL.Entities.Context
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.AlbumId).HasColumnName("album_id");
+
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
-
-                entity.Property(e => e.ImageId).HasColumnName("image_id");
 
                 entity.Property(e => e.Text)
                     .HasMaxLength(120)
@@ -87,16 +87,11 @@ namespace FacebookClone.DAL.Entities.Context
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
-                entity.HasOne(d => d.Image)
+                entity.HasOne(d => d.Album)
                     .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.ImageId)
+                    .HasForeignKey(d => d.AlbumId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_comment_image");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_comment_user");
+                    .HasConstraintName("FK_comment_album");
             });
 
             modelBuilder.Entity<EmailConfirm>(entity =>

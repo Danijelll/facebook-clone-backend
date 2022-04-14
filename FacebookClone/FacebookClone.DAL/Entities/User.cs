@@ -7,7 +7,6 @@ namespace FacebookClone.DAL.Entities
         public User()
         {
             Albums = new HashSet<Album>();
-            Comments = new HashSet<Comment>();
             EmailConfirms = new HashSet<EmailConfirm>();
             Friendships = new HashSet<Friendship>();
             TwoFactorAuthentications = new HashSet<TwoFactorAuthentication>();
@@ -26,7 +25,6 @@ namespace FacebookClone.DAL.Entities
         public DateTime UpdatedOn { get; set; }
 
         public virtual ICollection<Album> Albums { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<EmailConfirm> EmailConfirms { get; set; }
         public virtual ICollection<Friendship> Friendships { get; set; }
         public virtual ICollection<TwoFactorAuthentication> TwoFactorAuthentications { get; set; }

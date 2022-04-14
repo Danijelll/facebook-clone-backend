@@ -6,6 +6,7 @@ namespace FacebookClone.DAL.Entities
     {
         public Album()
         {
+            Comments = new HashSet<Comment>();
             Images = new HashSet<Image>();
         }
 
@@ -16,6 +17,7 @@ namespace FacebookClone.DAL.Entities
         public DateTime UpdatedOn { get; set; }
 
         public virtual User User { get; set; } = null!;
+        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Image> Images { get; set; }
     }
 }
