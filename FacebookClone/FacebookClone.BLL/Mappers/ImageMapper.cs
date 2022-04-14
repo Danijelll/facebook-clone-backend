@@ -6,14 +6,14 @@ namespace FacebookClone.BLL.Mappers
 {
     public static class ImageMapper
     {
-        public static ImageDTO ToDTO(this Image image)
+        public static ImageDTO ToDTO(this Image image, int userId)
         {
             return new ImageDTO()
             {
                 Id = image.Id,
                 AlbumId = image.AlbumId,
                 Name = image.Name,
-                ImageUrl = $"http://localhost:5000/{ImageConstants.ImageFolder}/{image.AlbumId}/{image.ImageUrl}",
+                ImageUrl = $"http://localhost:5000/{ImageConstants.ImageFolder}/{userId}/{image.ImageUrl}",
                 CreatedOn = image.CreatedOn,
                 UpdatedOn = image.UpdatedOn,
             };
@@ -31,10 +31,9 @@ namespace FacebookClone.BLL.Mappers
                 UpdatedOn = image.UpdatedOn,
             };
         }
-
-        public static IEnumerable<ImageDTO> ToDTOList(this IEnumerable<Image> image)
+        public static IEnumerable<ImageDTO> ToDTOList(this IEnumerable<Image> image, int userId)
         {
-            return image.Select(x => x.ToDTO()).ToList();
+            return image.Select(x => x.ToDTO(userId)).ToList();
         }
     }
 }

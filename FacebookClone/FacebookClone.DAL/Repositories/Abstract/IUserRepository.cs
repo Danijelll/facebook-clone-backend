@@ -2,7 +2,7 @@
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<User>, IRepositoryExtension<User>
     {
         public bool UserWithMailExists(string email);
 

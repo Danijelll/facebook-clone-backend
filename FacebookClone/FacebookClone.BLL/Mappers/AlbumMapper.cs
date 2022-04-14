@@ -29,6 +29,43 @@ namespace FacebookClone.BLL.Mappers
             };
         }
 
+        public static AlbumDTO ToAlbumDTO(this Album album)
+        {
+            return new AlbumDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Name = album.Name,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+            };
+        }
+
+        public static AlbumWithImagesDTO ToAlbumWithImagesDTO(this AlbumDTO album, IList<ImageDTO> images)
+        {
+            return new AlbumWithImagesDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Name = album.Name,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+                Images = images
+            };
+        }
+
+        public static AlbumDTO ToBaseDTO(this AlbumWithImagesDTO album)
+        {
+            return new AlbumDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Name = album.Name,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+            };
+        }
+
         public static IEnumerable<AlbumDTO> ToDTOList(this IEnumerable<Album> album)
         {
             return album.Select(x => x.ToDTO()).ToList();

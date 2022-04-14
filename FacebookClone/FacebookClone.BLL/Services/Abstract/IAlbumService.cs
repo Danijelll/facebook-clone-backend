@@ -13,7 +13,7 @@ namespace FacebookClone.BLL.Services.Abstract
 
         AlbumDTO GetById(int id);
 
-        AlbumDTO Add(AlbumDTO album);
+        AlbumWithImagesDTO Add(AlbumWithImagesDTO album);
 
         AlbumDTO Update(AlbumDTO album);
         

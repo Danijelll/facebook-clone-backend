@@ -10,9 +10,9 @@ namespace FacebookClone.DAL.Repositories
         {
         }
 
-        public IEnumerable<Image> GetAllByAlbumId(int albumId, PageFilter pageFilter)
+        public IEnumerable<Image> GetAllByAlbumId(int albumId)
         {
-            return GetAll(pageFilter).Where(i => i.AlbumId == albumId);
+            return GetAll().Where(i => i.AlbumId == albumId);
         }
 
         public Image? GetByName(string name)

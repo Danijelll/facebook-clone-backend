@@ -13,7 +13,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapPost("/images", (HttpRequest request, IImageService imageService, IWebHostEnvironment environment) =>
+            app.MapPost("/images", (HttpContext context, HttpRequest request, IImageService imageService, IWebHostEnvironment environment) =>
             {
                 string imageData = request.Form["data"];
 
@@ -24,31 +24,25 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                     throw BusinessExceptions.ImageNotUploadedException;
                 }
 
-                IFormFile image = request.Form.Files[0];
+                    IFormFile image = request.Form.Files[0];
 
-                string folderName = Path.Combine(ImageConstants.ImageFolder, imageDto.AlbumId.ToString());
+                    string folderName = Path.Combine(ImageConstants.ImageFolder, imageDto.AlbumId.ToString());
 
-                string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
+                    string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
 
-                imageDto.ImageUrl = imageUrl;
+                    imageDto.ImageUrl = imageUrl;
 
-                ImageDTO result = imageService.Add(imageDto);
+                ImageDTO result = imageService.Add(imageDto, Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value));
 
                 return result;
             });
 
-            app.MapGet("/images", (IImageService imageService, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => imageService.GetAll(pageSize, pageNumber));
-
-            app.MapGet("/images/{id}", (IImageService imageService, int id) => imageService.GetById(id));
-
-            app.MapGet("/images/search/{albumId}", (IImageService imageService, int albumId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => imageService.GetAllByAlbumId(albumId, pageSize, pageNumber));
+            app.MapGet("/images/search/{albumId}", (IImageService imageService, HttpContext context, int albumId) => imageService.GetAllByAlbumId(albumId, Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
 
             app.MapDelete("/images/{id}", (IImageService imageService, int id, IWebHostEnvironment environment) => 
             {
                 imageService.Delete(id, environment.WebRootPath);
             });
-
-            app.MapPut("/images", (ImageDTO image, IImageService imageService) => imageService.Update(image));
         }
     }
 }

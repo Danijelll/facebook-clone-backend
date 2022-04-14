@@ -11,15 +11,17 @@ namespace FacebookClone.BLL.Services
     public class AlbumService : IAlbumService
     {
         private readonly IAlbumRepository _albumRepository;
+        private readonly IImageService _imageService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AlbumService(IAlbumRepository albumRepository, IUnitOfWork unitOfWork)
+        public AlbumService(IAlbumRepository albumRepository,IImageService imageService, IUnitOfWork unitOfWork)
         {
             _albumRepository = albumRepository;
+            _imageService = imageService;
             _unitOfWork = unitOfWork;
         }
 
-        public AlbumDTO Add(AlbumDTO album)
+        internal AlbumDTO Add(AlbumDTO album)
         {
             if (!ExistsWithName(album.Name))
             {
@@ -31,6 +33,25 @@ namespace FacebookClone.BLL.Services
             }
 
             throw BusinessExceptions.EntityAlreadyExistsInDBException;
+        }
+
+        public AlbumWithImagesDTO Add(AlbumWithImagesDTO dto)
+        {
+            AlbumDTO createdAlbum = this.Add(dto.ToBaseDTO());
+
+            int userId = createdAlbum.UserId;
+
+            List<ImageDTO> imageList = new List<ImageDTO>();
+
+            foreach(ImageDTO image in dto.Images)
+            {
+                image.AlbumId = createdAlbum.Id;
+
+                ImageDTO createdImage = _imageService.Add(image, userId);
+                imageList.Add(createdImage);
+            }
+
+            return createdAlbum.ToAlbumWithImagesDTO(imageList);
         }
 
         public void Delete(int id)
