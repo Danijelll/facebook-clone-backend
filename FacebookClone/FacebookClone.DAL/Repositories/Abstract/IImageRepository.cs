@@ -7,6 +7,5 @@ namespace FacebookClone.DAL.Repositories.Abstract
     {
         IEnumerable<Image> GetAllByAlbumId(int albumId);
 
-        Image GetByName(string name);
     }
 }

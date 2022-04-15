@@ -14,10 +14,5 @@ namespace FacebookClone.DAL.Repositories
         {
             return GetAll(pageFilter).Where(a => a.UserId == userId);
         }
-
-        public Album? GetByName(string name)
-        {
-            return GetAll().Find(a => a.Name == name);
-        }
     }
 }

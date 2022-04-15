@@ -11,7 +11,7 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = album.Id,
                 UserId = album.UserId,
-                Name = album.Name,
+                Caption = album.Caption,
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
             };
@@ -23,7 +23,7 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = album.Id,
                 UserId = album.UserId,
-                Name = album.Name,
+                Caption = album.Caption,
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
             };
@@ -35,7 +35,7 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = album.Id,
                 UserId = album.UserId,
-                Name = album.Name,
+                Caption = album.Caption,
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
             };
@@ -47,7 +47,7 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = album.Id,
                 UserId = album.UserId,
-                Name = album.Name,
+                Caption = album.Caption,
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
                 Images = images
@@ -60,7 +60,7 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = album.Id,
                 UserId = album.UserId,
-                Name = album.Name,
+                Caption = album.Caption,
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
             };

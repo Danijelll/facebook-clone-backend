@@ -10,7 +10,7 @@ namespace FacebookClone.BLL.Mappers
             return new CommentDTO()
             {
                 Id = comment.Id,
-                ImageId = comment.ImageId,
+                AlbumId = comment.AlbumId,
                 UserId = comment.UserId,
                 Text = comment.Text,
                 CreatedOn = comment.CreatedOn,
@@ -23,7 +23,7 @@ namespace FacebookClone.BLL.Mappers
             return new Comment()
             {
                 Id = comment.Id,
-                ImageId = comment.ImageId,
+                AlbumId = comment.AlbumId,
                 UserId = comment.UserId,
                 Text = comment.Text,
                 CreatedOn = comment.CreatedOn,

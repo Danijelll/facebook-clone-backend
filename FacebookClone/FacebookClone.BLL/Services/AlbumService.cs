@@ -23,16 +23,12 @@ namespace FacebookClone.BLL.Services
 
         internal AlbumDTO Add(AlbumDTO album)
         {
-            if (!ExistsWithName(album.Name))
-            {
                 Album albumResult = _albumRepository.Add(album.ToEntity());
 
                 _unitOfWork.SaveChanges();
 
                 return albumResult.ToDTO();
-            }
 
-            throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
         public AlbumWithImagesDTO Add(AlbumWithImagesDTO dto)
@@ -111,15 +107,6 @@ namespace FacebookClone.BLL.Services
         private bool ExistsWithID(int albumId)
         {
             if (_albumRepository.GetById(albumId)?.Id == albumId)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private bool ExistsWithName(string name)
-        {
-            if (_albumRepository.GetByName(name) != null)
             {
                 return true;
             }
