@@ -31,6 +31,8 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
                 AlbumWithImagesDTO albumWithImagesDTO = JsonConvert.DeserializeObject<AlbumWithImagesDTO>(albumData);
 
+                albumWithImagesDTO.Images = new List<ImageDTO>();
+
                 for(int i = 0; i < request.Form.Files.Count; i++)
                 {
                     IFormFile image = request.Form.Files[i];
@@ -39,7 +41,10 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
                     string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
 
-                    albumWithImagesDTO.Images[i].ImageUrl = imageUrl;
+                    albumWithImagesDTO.Images.Add(new ImageDTO
+                    {
+                        ImageUrl = imageUrl,
+                    });
                 }
 
                 AlbumWithImagesDTO result = albumService.Add(albumWithImagesDTO);
