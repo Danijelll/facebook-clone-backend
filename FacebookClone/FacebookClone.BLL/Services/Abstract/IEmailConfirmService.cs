@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 
 namespace FacebookClone.BLL.Services.Abstract
 {

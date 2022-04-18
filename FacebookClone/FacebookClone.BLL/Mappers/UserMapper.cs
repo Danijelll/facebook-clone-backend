@@ -1,5 +1,6 @@
 ﻿using FacebookClone.BLL.Constants;
-using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Enums;
 using FacebookClone.DAL.Entities;
 
@@ -55,7 +56,6 @@ namespace FacebookClone.BLL.Mappers
                 IsEmailConfirmed = userRegister.IsEmailConfirmed,
                 ProfileImage = userRegister.ProfileImage.Split("/").Last(),
                 CoverImage = userRegister.CoverImage.Split("/").Last(),
-                
             };
         }
 
@@ -66,7 +66,7 @@ namespace FacebookClone.BLL.Mappers
 
         private static string SetImagePath(int id, string imageName)
         {
-            if(imageName != ImageConstants.DefaultImageName)
+            if (imageName != ImageConstants.DefaultImageName)
             {
                 return $"{id}/{imageName}";
             }

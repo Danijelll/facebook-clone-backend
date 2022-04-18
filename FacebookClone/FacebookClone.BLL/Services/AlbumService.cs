@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Albums;
+using FacebookClone.BLL.DTO.Image;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
@@ -14,21 +15,11 @@ namespace FacebookClone.BLL.Services
         private readonly IImageService _imageService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AlbumService(IAlbumRepository albumRepository,IImageService imageService, IUnitOfWork unitOfWork)
+        public AlbumService(IAlbumRepository albumRepository, IImageService imageService, IUnitOfWork unitOfWork)
         {
             _albumRepository = albumRepository;
             _imageService = imageService;
             _unitOfWork = unitOfWork;
-        }
-
-        internal AlbumDTO Add(AlbumDTO album)
-        {
-                Album albumResult = _albumRepository.Add(album.ToEntity());
-
-                _unitOfWork.SaveChanges();
-
-                return albumResult.ToDTO();
-
         }
 
         public AlbumWithImagesDTO Add(AlbumWithImagesDTO dto)
@@ -37,7 +28,7 @@ namespace FacebookClone.BLL.Services
 
             List<ImageDTO> imageList = new List<ImageDTO>();
 
-            foreach(ImageDTO image in dto.Images)
+            foreach (ImageDTO image in dto.Images)
             {
                 image.AlbumId = createdAlbum.Id;
 
@@ -90,7 +81,7 @@ namespace FacebookClone.BLL.Services
 
         public AlbumDTO Update(AlbumDTO album)
         {
-            if(ExistsWithID(album.Id))
+            if (ExistsWithID(album.Id))
             {
                 Album updated = _albumRepository.Update(album.ToEntity());
 
@@ -100,6 +91,15 @@ namespace FacebookClone.BLL.Services
             }
 
             throw BusinessExceptions.EntityDoesNotExistsInDBException;
+        }
+
+        internal AlbumDTO Add(AlbumDTO album)
+        {
+            Album albumResult = _albumRepository.Add(album.ToEntity());
+
+            _unitOfWork.SaveChanges();
+
+            return albumResult.ToDTO();
         }
 
         private bool ExistsWithID(int albumId)

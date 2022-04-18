@@ -1,4 +1,4 @@
-﻿namespace FacebookClone.BLL.DTO.Comment
+﻿namespace FacebookClone.BLL.DTO.Comment.Friendship
 {
     public class CommentDTO
     {

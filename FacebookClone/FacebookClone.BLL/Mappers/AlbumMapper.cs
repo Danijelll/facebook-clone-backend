@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Albums;
+using FacebookClone.BLL.DTO.Image;
 using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers

@@ -1,6 +1,6 @@
 ﻿using FacebookClone.BLL.Constants;
-using FacebookClone.BLL.DTO;
-using FacebookClone.BLL.Mappers;
+using FacebookClone.BLL.DTO.Albums;
+using FacebookClone.BLL.DTO.Image;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.Presentation.Helpers;
@@ -21,7 +21,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 {
                     throw BusinessExceptions.ImageNotUploadedException;
                 }
-                
+
                 string albumData = request.Form["data"];
 
                 if (string.IsNullOrEmpty(albumData))
@@ -33,7 +33,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
                 albumWithImagesDTO.Images = new List<ImageDTO>();
 
-                for(int i = 0; i < request.Form.Files.Count; i++)
+                for (int i = 0; i < request.Form.Files.Count; i++)
                 {
                     IFormFile image = request.Form.Files[i];
 

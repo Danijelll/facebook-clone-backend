@@ -1,5 +1,7 @@
 ﻿using FacebookClone.BLL.Constants;
 using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;

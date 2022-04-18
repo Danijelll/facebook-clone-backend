@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
@@ -23,7 +24,7 @@ namespace FacebookClone.BLL.Services
         public EmailConfirmDTO Add(UserDTO userDTO)
         {
             EmailConfirm emailConfirmResult = userDTO.ToEmailConfirmDTO().ToEntity();
-            
+
             _emailConfirmRepository.Add(emailConfirmResult);
 
             _unitOfWork.SaveChanges();
@@ -75,7 +76,6 @@ namespace FacebookClone.BLL.Services
             _userRepository.Update(user);
             _emailConfirmRepository.Delete(emailConfirmDTO.Id);
             _unitOfWork.SaveChanges();
-
         }
 
         private bool ExistsWithID(int emailConfirmId)

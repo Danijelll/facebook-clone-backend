@@ -1,11 +1,10 @@
 ﻿using FacebookClone.BLL.Constants;
-using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.DTO.Image;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {

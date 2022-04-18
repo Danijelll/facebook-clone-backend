@@ -1,4 +1,6 @@
-﻿namespace FacebookClone.BLL.DTO.Albums
+﻿using FacebookClone.BLL.DTO.Image;
+
+namespace FacebookClone.BLL.DTO.Albums
 {
     public class AlbumWithImagesDTO
     {

@@ -1,6 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
-using FacebookClone.BLL.Enums;
-using FacebookClone.BLL.Model;
+﻿using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Services.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

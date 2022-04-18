@@ -1,5 +1,5 @@
 ﻿using FacebookClone.BLL.Constants;
-using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.DTO.Image;
 using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers
@@ -29,6 +29,7 @@ namespace FacebookClone.BLL.Mappers
                 UpdatedOn = image.UpdatedOn,
             };
         }
+
         public static IEnumerable<ImageDTO> ToDTOList(this IEnumerable<Image> image, int userId)
         {
             return image.Select(x => x.ToDTO(userId)).ToList();
