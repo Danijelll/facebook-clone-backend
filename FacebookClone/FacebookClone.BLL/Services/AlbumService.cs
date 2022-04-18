@@ -35,15 +35,13 @@ namespace FacebookClone.BLL.Services
         {
             AlbumDTO createdAlbum = this.Add(dto.ToBaseDTO());
 
-            int userId = createdAlbum.UserId;
-
             List<ImageDTO> imageList = new List<ImageDTO>();
 
             foreach(ImageDTO image in dto.Images)
             {
                 image.AlbumId = createdAlbum.Id;
 
-                ImageDTO createdImage = _imageService.Add(image, userId);
+                ImageDTO createdImage = _imageService.Add(image, createdAlbum.UserId);
                 imageList.Add(createdImage);
             }
 
