@@ -59,7 +59,7 @@ namespace FacebookClone.BLL.Mappers
             };
         }
 
-        public static UserDataDTO ToUserDataDTO(this User userRegister)
+        public static UserDataDTO ToUserDataDTO(this UserDTO userRegister)
         {
             return new UserDataDTO()
             {

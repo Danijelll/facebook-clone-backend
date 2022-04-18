@@ -1,5 +1,4 @@
 ﻿using FacebookClone.BLL.Constants;
-using FacebookClone.BLL.DTO;
 using FacebookClone.BLL.DTO.Auth;
 using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Mappers;
@@ -18,7 +17,7 @@ namespace FacebookClone.BLL.Services
         private readonly ISendEmailService _sendEmailService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUserRepository userRepository,IEmailConfirmService emailConfirmService, ISendEmailService sendEmailService, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository, IEmailConfirmService emailConfirmService, ISendEmailService sendEmailService, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _emailConfirmService = emailConfirmService;
@@ -85,14 +84,19 @@ namespace FacebookClone.BLL.Services
 
         public UserDataDTO GetById(int userId)
         {
-            UserDataDTO found = _userRepository.GetById(userId).ToUserDataDTO();
+            UserDTO found = _userRepository.GetById(userId).ToDTO();
 
-            if (found != null)
+            if (found == null)
             {
-                return found;
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            if (found.IsBanned == true)
+            {
+                throw BusinessExceptions.UserBannedException;
+            }
+
+            return found.ToUserDataDTO();
         }
 
         public UserDTO GetByUsername(string username)
