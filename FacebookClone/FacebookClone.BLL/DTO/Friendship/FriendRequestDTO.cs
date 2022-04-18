@@ -1,4 +1,4 @@
-﻿namespace FacebookClone.BLL.DTO
+﻿namespace FacebookClone.BLL.DTO.Friendship
 {
     public class FriendRequestDTO
     {
