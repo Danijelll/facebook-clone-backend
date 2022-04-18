@@ -59,6 +59,19 @@ namespace FacebookClone.BLL.Mappers
             };
         }
 
+        public static UserDataDTO ToUserDataDTO(this User userRegister)
+        {
+            return new UserDataDTO()
+            {
+                Username = userRegister.Username,
+                Email = userRegister.Email,
+                Role = (Roles)userRegister.Role,
+                IsEmailConfirmed = userRegister.IsEmailConfirmed,
+                ProfileImage = userRegister.ProfileImage.Split("/").Last(),
+                CoverImage = userRegister.CoverImage.Split("/").Last(),
+            };
+        }
+
         public static IEnumerable<UserDTO> ToDTOList(this IEnumerable<User> user)
         {
             return user.Select(x => x.ToDTO()).ToList();

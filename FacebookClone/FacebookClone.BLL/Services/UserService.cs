@@ -83,9 +83,9 @@ namespace FacebookClone.BLL.Services
                 .ToDTOList();
         }
 
-        public UserDTO GetById(int userId)
+        public UserDataDTO GetById(int userId)
         {
-            UserDTO found = _userRepository.GetById(userId).ToDTO();
+            UserDataDTO found = _userRepository.GetById(userId).ToUserDataDTO();
 
             if (found != null)
             {

@@ -9,7 +9,7 @@ namespace FacebookClone.BLL.Services.Abstract
 
         IEnumerable<UserDTO> GetAll(int pageSize, int pageNumber);
 
-        UserDTO GetById(int userId);
+        UserDataDTO GetById(int userId);
 
         UserDTO Add(RegisterDTO userRegister);
 
