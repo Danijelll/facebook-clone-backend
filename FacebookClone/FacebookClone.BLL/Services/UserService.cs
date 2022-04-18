@@ -139,15 +139,6 @@ namespace FacebookClone.BLL.Services
             return updated.ToDTO();
         }
 
-        private bool ExistsWithID(int userId)
-        {
-            if (_userRepository.GetById(userId)?.Id == userId)
-            {
-                return true;
-            }
-            return false;
-        }
-
         private bool ExistsWithName(string username)
         {
             if (_userRepository.FindByUsername(username) != null)
