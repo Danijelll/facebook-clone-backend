@@ -1,4 +1,4 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Friendship;
 using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers
