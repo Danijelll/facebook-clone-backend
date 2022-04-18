@@ -13,9 +13,6 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-
-            app.MapGet("/images/search/{albumId}", (IImageService imageService, HttpContext context, int albumId) => imageService.GetAllByAlbumId(albumId, Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
-
             app.MapDelete("/images/{id}", (IImageService imageService, int id, IWebHostEnvironment environment) => 
             {
                 imageService.Delete(id, environment.WebRootPath);
