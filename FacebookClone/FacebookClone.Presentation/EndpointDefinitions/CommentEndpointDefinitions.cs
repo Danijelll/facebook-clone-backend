@@ -1,6 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Comment.Friendship;
 using FacebookClone.BLL.Services.Abstract;
-using FacebookClone.DAL.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FacebookClone.Presentation.EndpointDefinitions

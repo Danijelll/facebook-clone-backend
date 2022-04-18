@@ -3,7 +3,7 @@ using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
-    public interface ICommentRepository : IRepository<Comment>
+    public interface ICommentRepository : IRepository<Comment>, IRepositoryExtension<Comment>
     {
         IEnumerable<Comment> GetAllByImageId(int imageId, PageFilter pageFilter);
 

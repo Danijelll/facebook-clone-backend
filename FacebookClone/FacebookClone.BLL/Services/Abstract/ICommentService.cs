@@ -1,5 +1,4 @@
-﻿using FacebookClone.BLL.DTO;
-using FacebookClone.DAL.Shared;
+﻿using FacebookClone.BLL.DTO.Comment.Friendship;
 
 namespace FacebookClone.BLL.Services.Abstract
 {

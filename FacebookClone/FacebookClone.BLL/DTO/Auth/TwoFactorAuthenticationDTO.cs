@@ -1,4 +1,4 @@
-﻿namespace FacebookClone.BLL.DTO
+﻿namespace FacebookClone.BLL.DTO.Auth
 {
     public class TwoFactorAuthenticationDTO
     {

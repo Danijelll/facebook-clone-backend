@@ -1,7 +1,7 @@
 ﻿using FacebookClone.BLL.Constants;
 using FacebookClone.BLL.Enums;
 
-namespace FacebookClone.BLL.DTO
+namespace FacebookClone.BLL.DTO.Auth
 {
     public class RegisterDTO
     {

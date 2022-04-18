@@ -1,6 +1,6 @@
 ﻿using FacebookClone.BLL.Enums;
 
-namespace FacebookClone.BLL.DTO
+namespace FacebookClone.BLL.DTO.User
 {
     public class UserDTO
     {

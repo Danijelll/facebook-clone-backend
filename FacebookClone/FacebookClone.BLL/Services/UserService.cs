@@ -1,5 +1,7 @@
 ﻿using FacebookClone.BLL.Constants;
 using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
@@ -81,9 +83,9 @@ namespace FacebookClone.BLL.Services
                 .ToDTOList();
         }
 
-        public UserDTO GetById(int userId)
+        public UserDataDTO GetById(int userId)
         {
-            UserDTO found = _userRepository.GetById(userId).ToDTO();
+            UserDataDTO found = _userRepository.GetById(userId).ToUserDataDTO();
 
             if (found != null)
             {

@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using FacebookClone.DAL.Entities;
 using Microsoft.Extensions.Configuration;
 
 namespace FacebookClone.DAL.Entities.Context
@@ -27,6 +31,7 @@ namespace FacebookClone.DAL.Entities.Context
         public virtual DbSet<TwoFactorAuthentication> TwoFactorAuthentications { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -43,14 +48,14 @@ namespace FacebookClone.DAL.Entities.Context
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Caption)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("caption");
+
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("name");
 
                 entity.Property(e => e.UpdatedOn)
                     .HasColumnType("datetime")
@@ -70,11 +75,11 @@ namespace FacebookClone.DAL.Entities.Context
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.AlbumId).HasColumnName("album_id");
+
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
-
-                entity.Property(e => e.ImageId).HasColumnName("image_id");
 
                 entity.Property(e => e.Text)
                     .HasMaxLength(120)
@@ -87,16 +92,11 @@ namespace FacebookClone.DAL.Entities.Context
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
-                entity.HasOne(d => d.Image)
+                entity.HasOne(d => d.Album)
                     .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.ImageId)
+                    .HasForeignKey(d => d.AlbumId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_comment_image");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_comment_user");
+                    .HasConstraintName("FK_comment_album");
             });
 
             modelBuilder.Entity<EmailConfirm>(entity =>
@@ -189,11 +189,6 @@ namespace FacebookClone.DAL.Entities.Context
                     .IsUnicode(false)
                     .HasColumnName("image_url");
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("name");
-
                 entity.Property(e => e.UpdatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("updated_on");
@@ -280,8 +275,6 @@ namespace FacebookClone.DAL.Entities.Context
             OnModelCreatingPartial(modelBuilder);
         }
 
-        private void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {
-        }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

@@ -1,10 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
-using FacebookClone.DAL.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 
 namespace FacebookClone.BLL.Services.Abstract
 {
@@ -14,11 +9,11 @@ namespace FacebookClone.BLL.Services.Abstract
 
         IEnumerable<UserDTO> GetAll(int pageSize, int pageNumber);
 
-        UserDTO GetById(int userId);
+        UserDataDTO GetById(int userId);
 
-        UserDTO Add (RegisterDTO userRegister);
+        UserDTO Add(RegisterDTO userRegister);
 
-        UserDTO Update (UserDTO userDTO);
+        UserDTO Update(UserDTO userDTO);
 
         UserDTO GetByUsername(string username);
 

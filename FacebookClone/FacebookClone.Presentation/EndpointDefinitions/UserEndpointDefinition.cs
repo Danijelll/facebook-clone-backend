@@ -1,4 +1,6 @@
 ﻿using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -32,7 +34,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
             app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) => 
             {
                 emailConfirmService.ConfirmUserEmail(emailHash);
-                response.Redirect("http://localhost:8080/");
+                response.Redirect("http://localhost:3000/");
             });
         }
     }

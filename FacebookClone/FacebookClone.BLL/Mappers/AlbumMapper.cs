@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Albums;
+using FacebookClone.BLL.DTO.Image;
 using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers
@@ -11,7 +12,7 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = album.Id,
                 UserId = album.UserId,
-                Name = album.Name,
+                Caption = album.Caption,
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
             };
@@ -23,7 +24,44 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = album.Id,
                 UserId = album.UserId,
-                Name = album.Name,
+                Caption = album.Caption,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+            };
+        }
+
+        public static AlbumDTO ToAlbumDTO(this Album album)
+        {
+            return new AlbumDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Caption = album.Caption,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+            };
+        }
+
+        public static AlbumWithImagesDTO ToAlbumWithImagesDTO(this AlbumDTO album, IList<ImageDTO> images)
+        {
+            return new AlbumWithImagesDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Caption = album.Caption,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+                Images = images
+            };
+        }
+
+        public static AlbumDTO ToBaseDTO(this AlbumWithImagesDTO album)
+        {
+            return new AlbumDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Caption = album.Caption,
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
             };

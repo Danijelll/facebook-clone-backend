@@ -1,5 +1,6 @@
 ﻿using FacebookClone.BLL.Constants;
-using FacebookClone.BLL.DTO;
+using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Enums;
 using FacebookClone.DAL.Entities;
 
@@ -18,8 +19,8 @@ namespace FacebookClone.BLL.Mappers
                 Role = (Roles)user.Role,
                 IsBanned = user.IsBanned,
                 IsEmailConfirmed = user.IsEmailConfirmed,
-                ProfileImage = $"http://localhost:7122/{ImageConstants.UserProfileImageFolder}/{SetImagePath(user.Id, user.ProfileImage)}",
-                CoverImage = $"http://localhost:7122/{ImageConstants.UserCoverImageFolder}/{SetImagePath(user.Id, user.CoverImage)}",
+                ProfileImage = $"http://localhost:5000/{ImageConstants.UserProfileImageFolder}/{SetImagePath(user.Id, user.ProfileImage)}",
+                CoverImage = $"http://localhost:5000/{ImageConstants.UserCoverImageFolder}/{SetImagePath(user.Id, user.CoverImage)}",
                 CreatedOn = user.CreatedOn,
                 UpdatedOn = user.UpdatedOn,
             };
@@ -55,7 +56,19 @@ namespace FacebookClone.BLL.Mappers
                 IsEmailConfirmed = userRegister.IsEmailConfirmed,
                 ProfileImage = userRegister.ProfileImage.Split("/").Last(),
                 CoverImage = userRegister.CoverImage.Split("/").Last(),
-                
+            };
+        }
+
+        public static UserDataDTO ToUserDataDTO(this User userRegister)
+        {
+            return new UserDataDTO()
+            {
+                Username = userRegister.Username,
+                Email = userRegister.Email,
+                Role = (Roles)userRegister.Role,
+                IsEmailConfirmed = userRegister.IsEmailConfirmed,
+                ProfileImage = userRegister.ProfileImage.Split("/").Last(),
+                CoverImage = userRegister.CoverImage.Split("/").Last(),
             };
         }
 
@@ -66,7 +79,7 @@ namespace FacebookClone.BLL.Mappers
 
         private static string SetImagePath(int id, string imageName)
         {
-            if(imageName != ImageConstants.DefaultImageName)
+            if (imageName != ImageConstants.DefaultImageName)
             {
                 return $"{id}/{imageName}";
             }

@@ -3,7 +3,7 @@ using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
-    public interface IFriendRequestRepository : IRepository<FriendRequest>
+    public interface IFriendRequestRepository : IRepository<FriendRequest>, IRepositoryExtension<FriendRequest>
     {
         public FriendRequest GetSentFriendRequest(int userId, int friendId);
 

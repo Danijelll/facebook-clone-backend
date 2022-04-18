@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.DTO.Auth;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers
@@ -34,7 +35,7 @@ namespace FacebookClone.BLL.Mappers
             return new EmailConfirmDTO()
             {
                 UserId = userDTO.Id,
-                EmailHash = BCrypt.Net.BCrypt.HashString(userDTO.Email).Replace("/","-")
+                EmailHash = BCrypt.Net.BCrypt.HashString(userDTO.Email).Replace("/", "-")
             };
         }
     }
