@@ -63,6 +63,7 @@ namespace FacebookClone.BLL.Mappers
         {
             return new UserDataDTO()
             {
+                Id = userDTO.Id,
                 Username = userDTO.Username,
                 Email = userDTO.Email,
                 Role = (Roles)userDTO.Role,
