@@ -54,7 +54,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapGet("/albums/{id}", (IAlbumService albumService, int id) => albumService.GetById(id));
 
-            app.MapGet("/albums/search/{userId}", (IAlbumService albumService, int userId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => albumService.GetAllByUserId(userId, pageSize, pageNumber));
+            app.MapGet("/albums/search/{userId}", (IAlbumService albumService, int userId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => albumService.GetAllAlbumWithImagesByUserId(userId, pageSize, pageNumber));
 
             app.MapDelete("/albums/{id}", (IAlbumService albumService, int id) => albumService.Delete(id));
 

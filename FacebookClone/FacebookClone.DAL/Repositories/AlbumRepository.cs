@@ -20,9 +20,9 @@ namespace FacebookClone.DAL.Repositories
         {
             return _collection.AsNoTracking()
                 .Include(a => a.Images)
+                .Where(a => a.UserId == userId)
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
-                .Take(pageFilter.PageSize)
-                .Where(a => a.UserId == userId);
+                .Take(pageFilter.PageSize);
         }
     }
 }

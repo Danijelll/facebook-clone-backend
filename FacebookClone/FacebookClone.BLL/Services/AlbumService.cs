@@ -67,6 +67,15 @@ namespace FacebookClone.BLL.Services
                 .ToDTOList();
         }
 
+        public IEnumerable<AlbumWithImagesDTO> GetAllAlbumWithImagesByUserId(int userId, int pageSize, int pageNumber)
+        {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            IEnumerable<Album> found = _albumRepository.GetAllAlbumWithImagesByUserId(userId, pageFilter);
+
+            return found.ToAlbumWithImagesDTOList();
+        }
+
         public AlbumDTO GetById(int id)
         {
             AlbumDTO found = _albumRepository.GetById(id).ToDTO();

@@ -11,6 +11,9 @@ namespace FacebookClone.BLL.Model
         public static BusinessException NotAuthorizedException =>
             new BusinessException("Not Authorized!", HttpStatusCode.Unauthorized);
 
+        public static BusinessException UserBannedException =>
+           new BusinessException("User is banned!", HttpStatusCode.Locked);
+
         public static BusinessException InvalidJwtTokenException =>
             new BusinessException("Invalid Jwt Token!", HttpStatusCode.Unauthorized);
 
