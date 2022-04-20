@@ -30,5 +30,9 @@ namespace FacebookClone.BLL.Mappers
                 UpdatedOn = friendRequest.UpdatedOn,
             };
         }
+        public static IEnumerable<FriendRequestDTO> ToDTOList(this IEnumerable<FriendRequest> friendRequest)
+        {
+            return friendRequest.Select(x => x.ToDTO()).ToList();
+        }
     }
 }
