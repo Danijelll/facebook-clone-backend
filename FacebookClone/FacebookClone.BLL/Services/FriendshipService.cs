@@ -21,6 +21,20 @@ namespace FacebookClone.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
+/*        public FriendshipDTO AddFriendship(FriendRequestDTO friendRequestDTO)
+        {
+            FriendshipDTO friendship = new FriendshipDTO();
+
+            friendship.UserId = friendRequestDTO.FirstUserId;
+            friendship.FriendId = friendRequestDTO.SecondUserId;
+
+            FriendRequest createdFriendRequest = _friendRequestRepository.Add(friendRequest.ToEntity());
+
+            _unitOfWork.SaveChanges();
+
+            return createdFriendRequest.ToDTO();
+        }
+*/
         public FriendRequestDTO AddFriendRequest(int currentUserId, int FriendId)
         {
             FriendRequestDTO friendRequest = new FriendRequestDTO();
@@ -45,9 +59,13 @@ namespace FacebookClone.BLL.Services
 
         public FriendRequestDTO Update(FriendRequestDTO friendRequest)
         {
-            if (ExistsWithID(friendRequest.Id))
+            FriendRequestDTO found = _friendRequestRepository.GetById(friendRequest.Id).ToDTO();
+
+            if (found != null)
             {
-                FriendRequest updated = _friendRequestRepository.Update(friendRequest.ToEntity());
+                found.IsAccepted = true;
+
+                FriendRequest updated = _friendRequestRepository.Update(found.ToEntity());
 
                 _unitOfWork.SaveChanges();
 
