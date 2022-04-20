@@ -21,8 +21,13 @@ namespace FacebookClone.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public FriendRequestDTO Add(FriendRequestDTO friendRequest)
+        public FriendRequestDTO AddFriendRequest(int currentUserId, int FriendId)
         {
+            FriendRequestDTO friendRequest = new FriendRequestDTO();
+
+            friendRequest.FirstUserId = currentUserId;
+            friendRequest.SecondUserId = FriendId;
+
             FriendRequest createdFriendRequest = _friendRequestRepository.Add(friendRequest.ToEntity());
 
             _unitOfWork.SaveChanges();
@@ -37,6 +42,7 @@ namespace FacebookClone.BLL.Services
             return _friendRequestRepository.GetAll(pageFilter).Where(f => f.SecondUserId == userId)
                .ToDTOList();
         }
+
         public FriendRequestDTO Update(FriendRequestDTO friendRequest)
         {
             if (ExistsWithID(friendRequest.Id))
@@ -50,6 +56,7 @@ namespace FacebookClone.BLL.Services
 
             throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
+
         private bool ExistsWithID(int friendRequestId)
         {
             if (_friendRequestRepository.GetById(friendRequestId)?.Id == friendRequestId)
@@ -57,6 +64,17 @@ namespace FacebookClone.BLL.Services
                 return true;
             }
             return false;
+        }
+
+        public void Delete(int id)
+        {
+            if (!ExistsWithID(id))
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            _friendRequestRepository.Delete(id);
+            _unitOfWork.SaveChanges();
         }
     }
 }
