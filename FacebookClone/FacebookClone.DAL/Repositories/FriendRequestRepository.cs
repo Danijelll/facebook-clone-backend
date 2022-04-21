@@ -24,7 +24,7 @@ namespace FacebookClone.DAL.Repositories
         {
             PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
 
-            return GetAll(pageFilter).Where(f => f.SecondUserId == userId)
+            return GetAll(pageFilter).Where(f => f.SecondUserId == userId);
         }
     }
 }
