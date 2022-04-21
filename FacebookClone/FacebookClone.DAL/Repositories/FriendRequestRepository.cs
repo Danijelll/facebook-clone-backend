@@ -19,5 +19,12 @@ namespace FacebookClone.DAL.Repositories
         {
             return GetAll(pageFilter).Where(f => f.SecondUserId == userId);
         }
+
+        public IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber)
+        {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return GetAll(pageFilter).Where(f => f.SecondUserId == userId)
+        }
     }
 }

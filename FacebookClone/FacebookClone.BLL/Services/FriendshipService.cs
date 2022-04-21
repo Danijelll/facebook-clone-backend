@@ -4,7 +4,6 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {
@@ -41,7 +40,6 @@ namespace FacebookClone.BLL.Services
             return createdFriendship.ToDTO();
         }
 
-
         public FriendRequestDTO AddFriendRequest(int currentUserId, int FriendId)
         {
             FriendRequestDTO friendRequest = new FriendRequestDTO();
@@ -58,10 +56,7 @@ namespace FacebookClone.BLL.Services
 
         public IEnumerable<FriendRequestDTO> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber)
         {
-            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
-
-            return _friendRequestRepository.GetAll(pageFilter).Where(f => f.SecondUserId == userId)
-               .ToDTOList();
+            return _friendRequestRepository.GetAllIncomingFriendRequestsById(userId, pageSize, pageNumber).ToDTOList();
         }
 
         public FriendRequestDTO Update(FriendRequestDTO friendRequest)
