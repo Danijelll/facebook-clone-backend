@@ -14,14 +14,9 @@ namespace FacebookClone.DAL.Repositories
             return GetAll().Find(u => u.Username == username);
         }
 
-        public bool UserWithMailExists(string email)
+        public IEnumerable<User> SearchByUsername(string username)
         {
-            return GetAll().Exists(u => u.Email == email);
-        }
-
-        public bool UserWithUsernameExists(string username)
-        {
-            return GetAll().Exists(u => u.Username == username);
+            return GetAll().Where(u => u.Username.Contains(username) && u.IsBanned == false && u.IsEmailConfirmed == true);
         }
     }
 }

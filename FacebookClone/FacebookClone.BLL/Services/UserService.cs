@@ -120,6 +120,11 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.NotAuthorizedException;
         }
 
+        public IEnumerable<UserDTO> SearchByUsername(string username)
+        {
+            return _userRepository.SearchByUsername(username).ToDTOList();
+        }
+
         public UserDTO Update(UserDTO userDTO)
         {
             User? found = _userRepository.GetById(userDTO.Id);

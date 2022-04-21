@@ -23,30 +23,24 @@ namespace FacebookClone.BLL.Services
 
         public FriendshipDTO AddFriendship(FriendRequestDTO friendRequestDTO)
         {
-            FriendshipDTO friendship = new FriendshipDTO();
+            FriendshipDTO friendship = new FriendshipDTO
+            {
+                UserId = friendRequestDTO.SecondUserId,
+                FriendId = friendRequestDTO.FirstUserId
+            };
+
+            _friendshipRepository.Add(friendship.ToEntity());
 
             friendship.UserId = friendRequestDTO.FirstUserId;
             friendship.FriendId = friendRequestDTO.SecondUserId;
 
-            FriendshipDTO createdFriendship = _friendshipRepository.Add(friendship.ToEntity()).ToDTO();
+            Friendship createdFriendship = _friendshipRepository.Add(friendship.ToEntity());
 
             _unitOfWork.SaveChanges();
 
-            return createdFriendship;
+            return createdFriendship.ToDTO();
         }
-        public FriendshipDTO AddFriendshipForSecondUser(FriendRequestDTO friendRequestDTO)
-        {
-            FriendshipDTO friendship = new FriendshipDTO();
 
-            friendship.UserId = friendRequestDTO.SecondUserId;
-            friendship.FriendId = friendRequestDTO.FirstUserId;
-
-            FriendshipDTO createdFriendship = _friendshipRepository.Add(friendship.ToEntity()).ToDTO();
-
-            _unitOfWork.SaveChanges();
-
-            return createdFriendship;
-        }
 
         public FriendRequestDTO AddFriendRequest(int currentUserId, int FriendId)
         {
@@ -81,7 +75,6 @@ namespace FacebookClone.BLL.Services
                 FriendRequest updated = _friendRequestRepository.Update(found.ToEntity());
 
                 AddFriendship(updated.ToDTO());
-                AddFriendshipForSecondUser(updated.ToDTO());
 
                 _unitOfWork.SaveChanges();
 

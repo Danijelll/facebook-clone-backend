@@ -25,7 +25,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapGet("/users/{id}", (IUserService userService, int id) => userService.GetById(id));
 
-            app.MapGet("/users/search/{username}", (IUserService userService, string username) => userService.GetByUsername(username));
+            app.MapGet("/users/search/{username}", (IUserService userService, string username) => userService.SearchByUsername(username));
 
             app.MapDelete("/users/{id}", (IUserService userService, int id) => userService.Delete(id));
 
