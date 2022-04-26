@@ -12,6 +12,8 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPut("/confirmFriend/{friendRequestId}", (IFriendshipService friendshipService, int friendRequestId) => friendshipService.Update(friendRequestId));
 
+            app.MapPost("/friendRequestStatus/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.CheckFriendRequestStatus(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
+
         }
     }
 }
