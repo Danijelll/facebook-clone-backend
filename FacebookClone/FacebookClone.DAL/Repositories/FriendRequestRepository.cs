@@ -12,7 +12,7 @@ namespace FacebookClone.DAL.Repositories
 
         public FriendRequest? GetSentFriendRequest(int userId, int friendId)
         {
-            return GetAll().SingleOrDefault(f => f.FirstUserId == userId && f.SecondUserId == friendId);
+            return GetAll().Find(f => f.FirstUserId == userId && f.SecondUserId == friendId);
         }
 
         public IEnumerable<FriendRequest> GetPendingFriendRequests(int userId, PageFilter pageFilter)

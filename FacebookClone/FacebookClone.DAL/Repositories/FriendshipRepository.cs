@@ -14,5 +14,10 @@ namespace FacebookClone.DAL.Repositories
         {
             return GetAll(pageFilter).Where(f => f.UserId == userId);
         }
+
+        public Friendship GetFriendshipByFirstAndSecondUserId(int firstUserId, int secondUserId)
+        {
+            return GetAll().Find(f => f.UserId == firstUserId && f.FriendId == secondUserId);
+        }
     }
 }

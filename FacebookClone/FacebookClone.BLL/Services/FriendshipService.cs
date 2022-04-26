@@ -20,7 +20,7 @@ namespace FacebookClone.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public FriendshipDTO AddFriendship(FriendRequestDTO friendRequestDTO)
+        private FriendshipDTO AddFriendship(FriendRequestDTO friendRequestDTO)
         {
             FriendshipDTO friendship = new FriendshipDTO
             {
@@ -28,20 +28,28 @@ namespace FacebookClone.BLL.Services
                 FriendId = friendRequestDTO.FirstUserId
             };
 
-            _friendshipRepository.Add(friendship.ToEntity());
+            if (_friendshipRepository.GetFriendshipByFirstAndSecondUserId(friendship.UserId, friendship.FriendId) == null &&
+                _friendshipRepository.GetFriendshipByFirstAndSecondUserId(friendship.FriendId, friendship.UserId) == null)
+            {
+                _friendshipRepository.Add(friendship.ToEntity());
 
-            friendship.UserId = friendRequestDTO.FirstUserId;
-            friendship.FriendId = friendRequestDTO.SecondUserId;
+                friendship.UserId = friendRequestDTO.FirstUserId;
+                friendship.FriendId = friendRequestDTO.SecondUserId;
 
-            Friendship createdFriendship = _friendshipRepository.Add(friendship.ToEntity());
+                Friendship createdFriendship = _friendshipRepository.Add(friendship.ToEntity());
 
-            _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChanges();
 
-            return createdFriendship.ToDTO();
+                return createdFriendship.ToDTO();
+            }
+
+            throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
         public FriendRequestDTO AddFriendRequest(int currentUserId, int FriendId)
         {
+            if(_friendRequestRepository.GetSentFriendRequest(currentUserId, FriendId) == null)
+            {
             FriendRequestDTO friendRequest = new FriendRequestDTO();
 
             friendRequest.FirstUserId = currentUserId;
@@ -52,6 +60,9 @@ namespace FacebookClone.BLL.Services
             _unitOfWork.SaveChanges();
 
             return createdFriendRequest.ToDTO();
+            }
+
+            throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
         public IEnumerable<FriendRequestDTO> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber)
@@ -59,9 +70,9 @@ namespace FacebookClone.BLL.Services
             return _friendRequestRepository.GetAllIncomingFriendRequestsById(userId, pageSize, pageNumber).ToDTOList();
         }
 
-        public FriendRequestDTO Update(FriendRequestDTO friendRequest)
+        public FriendRequestDTO Update(int friendRequestId)
         {
-            FriendRequestDTO found = _friendRequestRepository.GetById(friendRequest.Id).ToDTO();
+            FriendRequestDTO found = _friendRequestRepository.GetById(friendRequestId).ToDTO();
 
             if (found != null)
             {
