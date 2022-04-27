@@ -47,11 +47,11 @@ namespace FacebookClone.BLL.Services
                 .ToDTOList();
         }
 
-        public IEnumerable<CommentDTO> GetAllByImageId(int imageId, int pageSize, int pageNumber)
+        public IEnumerable<CommentDTO> GetAllByAlbumId(int albumId, int pageSize, int pageNumber)
         {
             PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
 
-            return _commentRepository.GetAllByImageId(imageId, pageFilter)
+            return _commentRepository.GetAllByAlbumId(albumId, pageFilter)
                 .ToDTOList();
         }
 

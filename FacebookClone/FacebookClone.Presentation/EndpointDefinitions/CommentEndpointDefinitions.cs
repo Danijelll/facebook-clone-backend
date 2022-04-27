@@ -16,7 +16,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapGet("/comments/search/{userId}", (ICommentService commentService, int userId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => commentService.GetAllByUserId(userId, pageSize, pageNumber));
 
-            app.MapGet("/comments/image/{imageId}", (ICommentService commentService, int imageId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => commentService.GetAllByImageId(imageId, pageSize, pageNumber));
+            app.MapGet("/comments/album/{albumId}", (ICommentService commentService, int albumId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => commentService.GetAllByAlbumId(albumId, pageSize, pageNumber));
 
             app.MapDelete("/comments/{id}", (ICommentService commentService, int id) => commentService.Delete(id));
 
