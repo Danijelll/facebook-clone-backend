@@ -43,14 +43,6 @@ namespace FacebookClone.DAL.Repositories
                 .FirstOrDefault(e => e.Id == id);
         }
 
-        public List<TEntity> GetAll(PageFilter pageFilter)
-        {
-            return _collection.AsNoTracking()
-                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
-                 .Take(pageFilter.PageSize)
-                 .ToList();
-        }
-
         public List<TEntity> GetAll()
         {
             return _collection.AsNoTracking()

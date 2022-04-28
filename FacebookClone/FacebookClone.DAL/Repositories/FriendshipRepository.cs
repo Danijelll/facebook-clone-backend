@@ -10,9 +10,16 @@ namespace FacebookClone.DAL.Repositories
         {
         }
 
+        public List<Friendship> GetAll(PageFilter pageFilter)
+        {
+            return GetAll();
+        }
+
         public IEnumerable<Friendship> GetAllUserFriendsByUser(int userId, PageFilter pageFilter)
         {
-            return GetAll(pageFilter).Where(f => f.UserId == userId);
+            return GetAll().Where(f => f.UserId == userId)
+                .Skip(pageFilter.PageNumber * pageFilter.PageSize)
+                 .Take(pageFilter.PageSize);
         }
 
         public Friendship GetFriendshipByFirstAndSecondUserId(int firstUserId, int secondUserId)

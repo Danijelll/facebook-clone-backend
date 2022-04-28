@@ -12,19 +12,28 @@ namespace FacebookClone.DAL.Repositories
 
         public FriendRequest? GetSentFriendRequest(int userId, int friendId)
         {
-            return GetAll().Find(f => f.FirstUserId == userId && f.SecondUserId == friendId);
+            return GetAll().SingleOrDefault(f => f.FirstUserId == userId && f.SecondUserId == friendId);
         }
 
         public IEnumerable<FriendRequest> GetPendingFriendRequests(int userId, PageFilter pageFilter)
         {
-            return GetAll(pageFilter).Where(f => f.SecondUserId == userId);
+            return GetAll().Where(f => f.SecondUserId == userId)
+                .Skip(pageFilter.PageNumber * pageFilter.PageSize)
+                 .Take(pageFilter.PageSize);
         }
 
         public IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber)
         {
             PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
 
-            return GetAll(pageFilter).Where(f => f.SecondUserId == userId);
+            return GetAll().Where(f => f.SecondUserId == userId)
+                .Skip(pageFilter.PageNumber * pageFilter.PageSize)
+                 .Take(pageFilter.PageSize);
+        }
+
+        public List<FriendRequest> GetAll(PageFilter pageFilter)
+        {
+            return GetAll();
         }
     }
 }
