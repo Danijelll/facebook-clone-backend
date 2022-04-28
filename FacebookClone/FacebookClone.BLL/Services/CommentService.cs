@@ -1,4 +1,6 @@
-﻿using FacebookClone.BLL.DTO.Comment.Friendship;
+﻿using FacebookClone.BLL.DTO.Comment;
+using FacebookClone.BLL.DTO.Comment.Friendship;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
@@ -11,11 +13,13 @@ namespace FacebookClone.BLL.Services
     public class CommentService : ICommentService
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CommentService(ICommentRepository commentRepository, IUnitOfWork unitOfWork)
+        public CommentService(ICommentRepository commentRepository, IUserService userService, IUnitOfWork unitOfWork)
         {
             _commentRepository = commentRepository;
+            _userService = userService;
             _unitOfWork = unitOfWork;
         }
 
@@ -47,12 +51,30 @@ namespace FacebookClone.BLL.Services
                 .ToDTOList();
         }
 
-        public IEnumerable<CommentDTO> GetAllByAlbumId(int albumId, int pageSize, int pageNumber)
+        public IEnumerable<CommentWithUserDataDTO> GetAllByAlbumId(int albumId, int pageSize, int pageNumber)
         {
+            if(albumId < 0)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
+
             PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
 
-            return _commentRepository.GetAllByAlbumId(albumId, pageFilter)
+            IEnumerable<CommentDTO> commentList = _commentRepository.GetAllByAlbumId(albumId, pageFilter)
                 .ToDTOList();
+
+            List<CommentWithUserDataDTO> commentWithUserDataDTOList = new List<CommentWithUserDataDTO>();
+
+            foreach (CommentDTO commentDTO in commentList)
+            {
+                UserDataDTO found = _userService.GetById(commentDTO.UserId);
+
+                CommentWithUserDataDTO commentWithUserDataDTO = commentDTO.ToCommentWithUserDataDTO(found);
+
+                commentWithUserDataDTOList.Add(commentWithUserDataDTO);
+            }
+
+            return commentWithUserDataDTOList;
         }
 
         public IEnumerable<CommentDTO> GetAllByUserId(int userId, int pageSize, int pageNumber)

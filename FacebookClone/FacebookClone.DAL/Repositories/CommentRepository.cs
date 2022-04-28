@@ -1,6 +1,7 @@
 ﻿using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
 using FacebookClone.DAL.Shared;
+using Microsoft.EntityFrameworkCore;
 
 namespace FacebookClone.DAL.Repositories
 {
