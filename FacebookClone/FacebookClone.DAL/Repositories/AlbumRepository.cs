@@ -26,10 +26,5 @@ namespace FacebookClone.DAL.Repositories
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                 .Take(pageFilter.PageSize);
         }
-
-        public List<Album> GetAll(PageFilter pageFilter)
-        {
-            return GetAll();
-        }
     }
 }

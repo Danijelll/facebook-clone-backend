@@ -8,7 +8,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapGet("/comments", (ICommentService commentService, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => commentService.GetAll(pageSize, pageNumber));
+            app.MapGet("/comments", (ICommentService commentService) => commentService.GetAll());
 
             app.MapPost("/comments", (CommentDTO comment, ICommentService commentService) => commentService.Add(comment));
 

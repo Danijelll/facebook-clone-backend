@@ -11,11 +11,6 @@ namespace FacebookClone.DAL.Repositories
         {
         }
 
-        public List<Comment> GetAll(PageFilter pageFilter)
-        {
-            return GetAll();
-        }
-
         public IEnumerable<Comment> GetAllByAlbumId(int albumId, PageFilter pageFilter)
         {
             return GetAll().Where(c => c.AlbumId == albumId)

@@ -74,11 +74,9 @@ namespace FacebookClone.BLL.Services
             }
         }
 
-        public IEnumerable<UserDTO> GetAll(int pageSize, int pageNumber)
+        public IEnumerable<UserDTO> GetAll()
         {
-            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
-
-            return _userRepository.GetAll(pageFilter)
+            return _userRepository.GetAll()
                 .ToDTOList();
         }
 
