@@ -13,7 +13,9 @@ namespace FacebookClone.DAL.Repositories
 
         public IEnumerable<Album> GetAllByUserId(int userId, PageFilter pageFilter)
         {
-            return GetAll(pageFilter).Where(a => a.UserId == userId);
+            return GetAll().Where(a => a.UserId == userId)
+                .Skip(pageFilter.PageNumber * pageFilter.PageSize)
+                 .Take(pageFilter.PageSize);
         }
 
         public IEnumerable<Album> GetAllAlbumWithImagesByUserId(int userId, PageFilter pageFilter)

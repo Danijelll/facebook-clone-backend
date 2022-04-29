@@ -8,6 +8,9 @@ namespace FacebookClone.BLL.Model
         public static BusinessException EntityNotFoundByIdException(int entityId, string entityName) =>
             new BusinessException($"{entityName} with id {entityId} not found!", HttpStatusCode.NotFound);
 
+        public static BusinessException BadRequestException() =>
+            new BusinessException("Bad Request", HttpStatusCode.BadRequest);
+
         public static BusinessException NotAuthorizedException =>
             new BusinessException("Not Authorized!", HttpStatusCode.Unauthorized);
 

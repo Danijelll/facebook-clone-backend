@@ -6,7 +6,7 @@ namespace FacebookClone.BLL.Services.Abstract
     {
         void Delete(int id);
 
-        IEnumerable<AlbumDTO> GetAll(int pageSize, int pageNumber);
+        IEnumerable<AlbumDTO> GetAll();
 
         IEnumerable<AlbumDTO> GetAllByUserId(int userId, int pageSize, int pageNumber);
 

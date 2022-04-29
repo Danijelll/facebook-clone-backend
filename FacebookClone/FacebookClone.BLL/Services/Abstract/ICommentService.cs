@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO.Comment.Friendship;
+﻿using FacebookClone.BLL.DTO.Comment;
+using FacebookClone.BLL.DTO.Comment.Friendship;
 
 namespace FacebookClone.BLL.Services.Abstract
 {
@@ -6,11 +7,11 @@ namespace FacebookClone.BLL.Services.Abstract
     {
         void Delete(int id);
 
-        IEnumerable<CommentDTO> GetAll(int pageSize, int pageNumber);
+        IEnumerable<CommentDTO> GetAll();
 
         IEnumerable<CommentDTO> GetAllByUserId(int userId, int pageSize, int pageNumber);
 
-        IEnumerable<CommentDTO> GetAllByImageId(int imageId, int pageSize, int pageNumber);
+        IEnumerable<CommentWithUserDataDTO> GetAllByAlbumId(int albumId, int pageSize, int pageNumber);
 
         CommentDTO GetById(int id);
 

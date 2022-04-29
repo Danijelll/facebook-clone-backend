@@ -5,7 +5,7 @@ namespace FacebookClone.DAL.Repositories.Abstract
 {
     public interface IRepositoryExtension<T> where T : class, IEntity
     {
-        List<T> GetAll(PageFilter pageFilter);
+        List<T> GetAll();
 
         T Update(T entity);
     }

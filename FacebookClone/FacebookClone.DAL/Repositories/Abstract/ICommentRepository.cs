@@ -5,7 +5,7 @@ namespace FacebookClone.DAL.Repositories.Abstract
 {
     public interface ICommentRepository : IRepository<Comment>, IRepositoryExtension<Comment>
     {
-        IEnumerable<Comment> GetAllByImageId(int imageId, PageFilter pageFilter);
+        IEnumerable<Comment> GetAllByAlbumId(int imageId, PageFilter pageFilter);
 
         IEnumerable<Comment> GetAllByUserId(int userId, PageFilter pageFilter);
     }

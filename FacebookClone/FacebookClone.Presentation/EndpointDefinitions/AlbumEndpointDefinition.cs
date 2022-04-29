@@ -13,7 +13,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapGet("/albums", (IAlbumService albumService, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => albumService.GetAll(pageSize, pageNumber));
+            app.MapGet("/albums", (IAlbumService albumService) => albumService.GetAll());
 
             app.MapPost("/albums", (HttpRequest request, IAlbumService albumService, IWebHostEnvironment environment) =>
             {

@@ -10,7 +10,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
         {
             app.MapPost("/addFriend/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.AddFriendRequest(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
 
-            app.MapPut("/confirmFriend", (IFriendshipService friendshipService, FriendRequestDTO friendRequest) => friendshipService.Update(friendRequest));
+            app.MapPut("/confirmFriend/{friendRequestId}", (IFriendshipService friendshipService, int friendRequestId) => friendshipService.Update(friendRequestId));
+
+            app.MapGet("/friendRequestStatus/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.CheckFriendRequestStatus(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
 
         }
     }
