@@ -1,10 +1,11 @@
-﻿using FacebookClone.BLL.DTO;
+﻿using FacebookClone.BLL.Constants;
 using FacebookClone.BLL.DTO.Auth;
 using FacebookClone.BLL.DTO.User;
+using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FacebookClone.Presentation.Helpers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
 {
@@ -29,9 +30,34 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapDelete("/users/{id}", (IUserService userService, int id) => userService.Delete(id));
 
-            app.MapPut("/update", (UserDTO user, IUserService userService) => userService.Update(user));
+            app.MapPut("/update", (HttpRequest request, IUserService userService, IWebHostEnvironment environment) =>
+            {
+                if (request.Form.Files.Count == 0)
+                {
+                    throw BusinessExceptions.ImageNotUploadedException;
+                }
 
-            app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) => 
+                string imageData = request.Form["data"];
+
+                if (string.IsNullOrEmpty(imageData))
+                {
+                    throw BusinessExceptions.ImageSizeNotValidException;
+                }
+
+                UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(imageData);
+
+                IFormFile image = request.Form.Files[0];
+
+                string folderName = Path.Combine(ImageConstants.UserProfileImageFolder, userDTO.Id.ToString());
+
+                string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
+
+                userDTO.ProfileImage = imageUrl;
+
+                return userService.Update(userDTO);
+            });
+
+            app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) =>
             {
                 emailConfirmService.ConfirmUserEmail(emailHash);
                 response.Redirect("http://localhost:3000/");

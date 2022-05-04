@@ -1,6 +1,7 @@
 ﻿using FacebookClone.BLL.Constants;
 using FacebookClone.BLL.DTO.Auth;
 using FacebookClone.BLL.DTO.User;
+using FacebookClone.BLL.Enums;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
@@ -133,7 +134,11 @@ namespace FacebookClone.BLL.Services
             }
 
             userDTO.Password = found.Password;
-            userDTO.ProfileImage = found.ProfileImage;
+            userDTO.IsEmailConfirmed = found.IsEmailConfirmed;
+            userDTO.CreatedOn = found.CreatedOn;
+            userDTO.UpdatedOn = found.UpdatedOn;
+            userDTO.Role = (Roles)found.Role;
+            userDTO.Email = found.Email;
             userDTO.CoverImage = found.CoverImage;
 
             User updated = _userRepository.Update(userDTO.ToEntity());

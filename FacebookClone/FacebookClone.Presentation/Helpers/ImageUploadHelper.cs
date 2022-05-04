@@ -44,5 +44,10 @@ namespace FacebookClone.Presentation.Helpers
 
             return fileName;
         }
+
+        internal static string UploadImage(string folderName, IFormFile image, object webRootPath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
