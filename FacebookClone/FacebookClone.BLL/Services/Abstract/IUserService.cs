@@ -13,7 +13,7 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDTO Add(RegisterDTO userRegister);
 
-        UserDTO Update(UserDTO userDTO);
+        UserDTO Update(int id, string imageUrl);
 
         UserDTO GetByUsername(string username);
 

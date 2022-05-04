@@ -30,7 +30,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapDelete("/users/{id}", (IUserService userService, int id) => userService.Delete(id));
 
-            app.MapPut("/update", (HttpRequest request, IUserService userService, IWebHostEnvironment environment) =>
+            app.MapPut("/update", [Authorize(Policy = "RequireId")] (HttpRequest request, HttpContext context, IUserService userService, IWebHostEnvironment environment) =>
             {
                 if (request.Form.Files.Count == 0)
                 {
@@ -52,9 +52,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
                 string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
 
-                userDTO.ProfileImage = imageUrl;
-
-                return userService.Update(userDTO);
+                return userService.UpdateProfileImage(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), imageUrl);
             });
 
             app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) =>

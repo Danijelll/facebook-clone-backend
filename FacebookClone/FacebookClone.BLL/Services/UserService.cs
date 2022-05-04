@@ -124,23 +124,17 @@ namespace FacebookClone.BLL.Services
             return _userRepository.SearchByUsername(username).ToDTOList();
         }
 
-        public UserDTO Update(UserDTO userDTO)
+        public UserDTO Update(int id, string imageUrl)
         {
-            User? found = _userRepository.GetById(userDTO.Id);
+            User? found = _userRepository.GetById(id);
 
-            if (found.Username.ToLower() == userDTO.Username.ToLower() && found.Id != userDTO.Id)
+            if (found == null)
             {
                 throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
-            userDTO.Password = found.Password;
-            userDTO.Email = found.Email;
-            userDTO.IsEmailConfirmed = found.IsEmailConfirmed;
-            userDTO.CreatedOn = found.CreatedOn;
-            userDTO.UpdatedOn = found.UpdatedOn;
-            userDTO.Role = (Roles)found.Role;
-            userDTO.Email = found.Email;
-            userDTO.CoverImage = found.CoverImage;
+            UserDTO userDTO = found.ToDTO();
+            userDTO.ProfileImage = imageUrl;
 
             User updated = _userRepository.Update(userDTO.ToEntity());
             _unitOfWork.SaveChanges();
