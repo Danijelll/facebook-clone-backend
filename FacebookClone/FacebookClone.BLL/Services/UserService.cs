@@ -134,6 +134,7 @@ namespace FacebookClone.BLL.Services
             }
 
             userDTO.Password = found.Password;
+            userDTO.Email = found.Email;
             userDTO.IsEmailConfirmed = found.IsEmailConfirmed;
             userDTO.CreatedOn = found.CreatedOn;
             userDTO.UpdatedOn = found.UpdatedOn;
