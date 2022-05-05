@@ -88,9 +88,14 @@ namespace FacebookClone.BLL.Services
 
         public AlbumDTO Update(AlbumDTO album)
         {
-            if (ExistsWithID(album.Id))
+            AlbumDTO found = _albumRepository.GetById(album.Id).ToDTO();
+
+            if (found != null)
             {
-                Album updated = _albumRepository.Update(album.ToEntity());
+                AlbumDTO albumDto = found;
+                albumDto.Caption = album.Caption;
+
+                Album updated = _albumRepository.Update(albumDto.ToEntity());
 
                 _unitOfWork.SaveChanges();
 

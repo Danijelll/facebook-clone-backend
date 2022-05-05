@@ -30,29 +30,40 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapDelete("/users/{id}", (IUserService userService, int id) => userService.Delete(id));
 
-            app.MapPut("/update", [Authorize(Policy = "RequireId")] (HttpRequest request, HttpContext context, IUserService userService, IWebHostEnvironment environment) =>
+            app.MapPut("/updateProfileImage", [Authorize(Policy = "RequireId")] (HttpRequest request, HttpContext context, IUserService userService, IWebHostEnvironment environment) =>
             {
+                int userId = Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value);
+
                 if (request.Form.Files.Count == 0)
                 {
                     throw BusinessExceptions.ImageNotUploadedException;
                 }
 
-                string imageData = request.Form["data"];
-
-                if (string.IsNullOrEmpty(imageData))
-                {
-                    throw BusinessExceptions.ImageSizeNotValidException;
-                }
-
-                UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(imageData);
-
                 IFormFile image = request.Form.Files[0];
 
-                string folderName = Path.Combine(ImageConstants.UserProfileImageFolder, userDTO.Id.ToString());
+                string folderName = Path.Combine(ImageConstants.UserProfileImageFolder, userId.ToString());
 
                 string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
 
-                return userService.UpdateProfileImage(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), imageUrl);
+                return userService.UpdateProfileImage(userId, imageUrl);
+            });
+
+            app.MapPut("/updateCoverImage", [Authorize(Policy = "RequireId")] (HttpRequest request, HttpContext context, IUserService userService, IWebHostEnvironment environment) =>
+            {
+                int userId = Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value);
+
+                if (request.Form.Files.Count == 0)
+                {
+                    throw BusinessExceptions.ImageNotUploadedException;
+                }
+
+                IFormFile image = request.Form.Files[0];
+
+                string folderName = Path.Combine(ImageConstants.UserCoverImageFolder, userId.ToString());
+
+                string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
+
+                return userService.UpdateCoverImage(userId, imageUrl);
             });
 
             app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) =>
