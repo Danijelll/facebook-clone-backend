@@ -66,6 +66,19 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.EntityAlreadyExistsInDBException;
         }
 
+        public void DeleteFriendRequest(int currentUserId, int FriendId)
+        {
+            FriendRequestDTO found = _friendRequestRepository.GetSentFriendRequest(currentUserId, FriendId).ToDTO();
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            _friendRequestRepository.Delete(found.Id);
+            _unitOfWork.SaveChanges();
+        }
+
         public Enum CheckFriendRequestStatus(int currentUserId, int friendId)
         {
             FriendRequest mySentRequest = _friendRequestRepository.GetSentFriendRequest(currentUserId, friendId);
