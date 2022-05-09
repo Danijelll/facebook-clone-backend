@@ -10,9 +10,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
         {
             app.MapPost("/addFriend/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.AddFriendRequest(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
 
-            app.MapDelete("/cancelRequest/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.DeleteFriendRequest(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
+            app.MapDelete("/deleteRequest/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.DeleteFriendRequest(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
 
-            app.MapPut("/confirmFriend/{friendRequestId}", (IFriendshipService friendshipService, int friendRequestId) => friendshipService.Update(friendRequestId));
+            app.MapPut("/confirmFriend/{friendId}", (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.Update(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
 
             app.MapGet("/friendRequestStatus/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.CheckFriendRequestStatus(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
 

@@ -8,7 +8,7 @@ namespace FacebookClone.BLL.Services.Abstract
 
         void DeleteFriendRequest(int currentUserId, int FriendId);
 
-        FriendRequestDTO Update(int friendRequestId);
+        FriendRequestDTO Update(int currentUserId, int friendId);
 
         IEnumerable<FriendRequestDTO> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber);
 
