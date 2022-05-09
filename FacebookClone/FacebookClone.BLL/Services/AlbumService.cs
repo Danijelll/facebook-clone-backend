@@ -88,21 +88,17 @@ namespace FacebookClone.BLL.Services
 
         public AlbumDTO Update(AlbumDTO album)
         {
-            AlbumDTO found = _albumRepository.GetById(album.Id).ToDTO();
+            AlbumDTO found = GetById(album.Id);
 
-            if (found != null)
-            {
-                AlbumDTO albumDto = found;
-                albumDto.Caption = album.Caption;
+            AlbumDTO albumDto = found;
 
-                Album updated = _albumRepository.Update(albumDto.ToEntity());
+            albumDto.Caption = album.Caption;
 
-                _unitOfWork.SaveChanges();
+            Album updated = _albumRepository.Update(albumDto.ToEntity());
 
-                return updated.ToDTO();
-            }
+            _unitOfWork.SaveChanges();
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            return updated.ToDTO();
         }
 
         internal AlbumDTO Add(AlbumDTO album)

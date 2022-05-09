@@ -45,7 +45,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
                 string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
 
-                return userService.UpdateProfileImage(userId, imageUrl);
+                return userService.UpdateProfileImage(userId, imageUrl,environment.WebRootPath);
             });
 
             app.MapPut("/updateCoverImage", [Authorize(Policy = "RequireId")] (HttpRequest request, HttpContext context, IUserService userService, IWebHostEnvironment environment) =>
@@ -63,7 +63,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
                 string imageUrl = ImageUploadHelper.UploadImage(folderName, image, environment.WebRootPath);
 
-                return userService.UpdateCoverImage(userId, imageUrl);
+                return userService.UpdateCoverImage(userId, imageUrl, environment.WebRootPath);
             });
 
             app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) =>

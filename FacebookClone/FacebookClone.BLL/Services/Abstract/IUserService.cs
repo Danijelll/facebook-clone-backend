@@ -13,9 +13,9 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDTO Add(RegisterDTO userRegister);
 
-        UserDTO UpdateProfileImage(int id, string imageUrl);
+        UserDTO UpdateProfileImage(int id, string imageUrl, string webRootPath);
 
-        UserDTO UpdateCoverImage(int id, string imageUrl);
+        UserDTO UpdateCoverImage(int id, string imageUrl, string webRootPath);
 
         UserDTO GetByUsername(string username);
 
