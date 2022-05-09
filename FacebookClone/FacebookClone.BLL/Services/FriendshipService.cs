@@ -42,25 +42,23 @@ namespace FacebookClone.BLL.Services
         {
             FriendRequest found = _friendRequestRepository.GetSentFriendRequest(currentUserId, FriendId);
 
-            if (found == null)
+            if (found != null)
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+                _friendRequestRepository.Delete(found.Id);
+                _unitOfWork.SaveChanges();
+                return;
             }
-
-            _friendRequestRepository.Delete(found.Id);
-            _unitOfWork.SaveChanges();
-            return;
 
             FriendRequest foundSecond = _friendRequestRepository.GetSentFriendRequest(FriendId, currentUserId);
 
-            if (foundSecond == null)
+            if (foundSecond != null)
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+                _friendRequestRepository.Delete(foundSecond.Id);
+                _unitOfWork.SaveChanges();
+                return;
             }
 
-            _friendRequestRepository.Delete(foundSecond.Id);
-            _unitOfWork.SaveChanges();
-            return;
+            throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
         public Enum CheckFriendRequestStatus(int currentUserId, int friendId)
