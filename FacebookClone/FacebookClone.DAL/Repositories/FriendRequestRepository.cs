@@ -22,11 +22,9 @@ namespace FacebookClone.DAL.Repositories
                  .Take(pageFilter.PageSize);
         }
 
-        public IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber)
+        public IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, PageFilter pageFilter)
         {
-            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
-
-            return GetAll().Where(f => f.SecondUserId == userId)
+            return GetAll().Where(f => f.SecondUserId == userId && f.IsAccepted == false)
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                  .Take(pageFilter.PageSize);
         }

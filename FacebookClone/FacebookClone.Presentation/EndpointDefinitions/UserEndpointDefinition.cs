@@ -13,7 +13,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapGet("/users", (IUserService userService) => userService.GetAll());
+            app.MapGet("/users", [Authorize(Policy = "RequireId")] (IUserService userService) => userService.GetAll());
 
             app.MapPost("/register", (RegisterDTO userRegister, IUserService userService) => userService.Add(userRegister));
 
@@ -24,11 +24,11 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 return Results.Ok(userService.GetById(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
             });
 
-            app.MapGet("/users/{id}", (IUserService userService, int id) => userService.GetById(id));
+            app.MapGet("/users/{id}", [Authorize(Policy = "RequireId")] (IUserService userService, int id) => userService.GetById(id));
 
-            app.MapGet("/users/search/{username}", (IUserService userService, string username) => userService.SearchByUsername(username));
+            app.MapGet("/users/search/{username}", [Authorize(Policy = "RequireId")] (IUserService userService, string username) => userService.SearchByUsername(username));
 
-            app.MapDelete("/users/{id}", (IUserService userService, int id) => userService.Delete(id));
+            app.MapDelete("/users/{id}", [Authorize(Policy = "RequireId")] (IUserService userService, int id) => userService.Delete(id));
 
             app.MapPut("/updateProfileImage", [Authorize(Policy = "RequireId")] (HttpRequest request, HttpContext context, IUserService userService, IWebHostEnvironment environment) =>
             {

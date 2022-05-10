@@ -9,6 +9,6 @@ namespace FacebookClone.DAL.Repositories.Abstract
 
         public IEnumerable<FriendRequest> GetPendingFriendRequests(int userId, PageFilter pageFilter);
 
-        IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber);
+        IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, PageFilter pageFilter);
     }
 }

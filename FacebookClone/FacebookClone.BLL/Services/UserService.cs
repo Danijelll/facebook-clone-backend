@@ -124,7 +124,7 @@ namespace FacebookClone.BLL.Services
 
         public UserDTO UpdateProfileImage(int id, string imageUrl, string webRootPath)
         {
-            UserDTO? found = _userRepository.GetById(id).ToDTO();
+            User? found = _userRepository.GetById(id);
 
             if (found == null)
             {
@@ -135,7 +135,7 @@ namespace FacebookClone.BLL.Services
 
             found.ProfileImage = imageUrl;
 
-            User updated = _userRepository.Update(found.ToEntity());
+            User updated = _userRepository.Update(found);
 
             _unitOfWork.SaveChanges();
 
@@ -144,7 +144,7 @@ namespace FacebookClone.BLL.Services
 
         public UserDTO UpdateCoverImage(int id, string imageUrl, string webRootPath)
         {
-            UserDTO? found = _userRepository.GetById(id).ToDTO();
+            User? found = _userRepository.GetById(id);
 
             if (found == null)
             {
@@ -155,7 +155,7 @@ namespace FacebookClone.BLL.Services
 
             found.CoverImage = imageUrl;
 
-            User updated = _userRepository.Update(found.ToEntity());
+            User updated = _userRepository.Update(found);
 
             _unitOfWork.SaveChanges();
 

@@ -4,6 +4,7 @@ using FacebookClone.BLL.DTO.Image;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.Presentation.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -13,9 +14,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapGet("/albums", (IAlbumService albumService) => albumService.GetAll());
+            app.MapGet("/albums", [Authorize(Policy = "RequireId")] (IAlbumService albumService) => albumService.GetAll());
 
-            app.MapPost("/albums", (HttpRequest request, IAlbumService albumService, IWebHostEnvironment environment) =>
+            app.MapPost("/albums", [Authorize(Policy = "RequireId")] (HttpRequest request, IAlbumService albumService, IWebHostEnvironment environment) =>
             {
                 if (request.Form.Files.Count == 0)
                 {
@@ -52,13 +53,13 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 return result;
             });
 
-            app.MapGet("/albums/{id}", (IAlbumService albumService, int id) => albumService.GetById(id));
+            app.MapGet("/albums/{id}", [Authorize(Policy = "RequireId")] (IAlbumService albumService, int id) => albumService.GetById(id));
 
-            app.MapGet("/albums/search/{userId}", (IAlbumService albumService, int userId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => albumService.GetAllAlbumWithImagesByUserId(userId, pageSize, pageNumber));
+            app.MapGet("/albums/search/{userId}", [Authorize(Policy = "RequireId")] (IAlbumService albumService, int userId, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => albumService.GetAllAlbumWithImagesByUserId(userId, pageSize, pageNumber));
 
-            app.MapDelete("/albums/{id}", (IAlbumService albumService, int id) => albumService.Delete(id));
+            app.MapDelete("/albums/{id}", [Authorize(Policy = "RequireId")] (IAlbumService albumService, int id) => albumService.Delete(id));
 
-            app.MapPut("/albums", (AlbumDTO album, IAlbumService albumService) => albumService.Update(album));
+            app.MapPut("/albums", [Authorize(Policy = "RequireId")] (AlbumDTO album, IAlbumService albumService) => albumService.Update(album));
         }
     }
 }

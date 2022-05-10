@@ -5,6 +5,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {
@@ -21,6 +22,11 @@ namespace FacebookClone.BLL.Services
 
         public FriendRequestDTO AddFriendRequest(int currentUserId, int friendId)
         {
+            if (friendId == currentUserId)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
+
             if (_friendRequestRepository.GetSentFriendRequest(currentUserId, friendId) == null)
             {
                 FriendRequestDTO friendRequest = new FriendRequestDTO();
@@ -36,6 +42,13 @@ namespace FacebookClone.BLL.Services
             }
 
             throw BusinessExceptions.EntityAlreadyExistsInDBException;
+        }
+
+        public IEnumerable<FriendRequestDTO> GetAllIncomingFriendRequests(int userId, int pageSize, int pageNumber)
+        {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _friendRequestRepository.GetAllIncomingFriendRequestsById(userId, pageFilter).ToDTOList();
         }
 
         public void DeleteFriendRequest(int currentUserId, int FriendId)
@@ -75,11 +88,6 @@ namespace FacebookClone.BLL.Services
                 return FriendRequestStatus.NoRequest;
             }
             return myReceivedRequest.IsAccepted ? FriendRequestStatus.Friends : FriendRequestStatus.PendingIncoming;
-        }
-
-        public IEnumerable<FriendRequestDTO> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber)
-        {
-            return _friendRequestRepository.GetAllIncomingFriendRequestsById(userId, pageSize, pageNumber).ToDTOList();
         }
 
         public FriendRequestDTO Update(int currentUserId, int friendId)

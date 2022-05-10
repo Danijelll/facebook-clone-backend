@@ -1,6 +1,7 @@
 ﻿using FacebookClone.BLL.DTO.Friendship;
 using FacebookClone.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
 {
@@ -9,6 +10,8 @@ namespace FacebookClone.Presentation.EndpointDefinitions
         public static void DefineEndpoints(WebApplication app)
         {
             app.MapPost("/addFriend/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.AddFriendRequest(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
+
+            app.MapGet("/friendRequests", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => friendshipService.GetAllIncomingFriendRequests(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), pageSize, pageNumber));
 
             app.MapDelete("/deleteRequest/{friendId}", [Authorize(Policy = "RequireId")] (IFriendshipService friendshipService, HttpContext context, int friendId) => friendshipService.DeleteFriendRequest(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), friendId));
 
