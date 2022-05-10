@@ -7,5 +7,7 @@ namespace FacebookClone.DAL.Repositories.Abstract
         public User FindByUsername(string username);
 
         IEnumerable<User> SearchByUsername(string username);
+
+        IQueryable<User> GetAllQueryable();
     }
 }

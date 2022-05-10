@@ -1,4 +1,6 @@
 ﻿using FacebookClone.BLL.DTO.Friendship;
+using FacebookClone.BLL.DTO.User;
+using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Services.Abstract
 {
@@ -11,6 +13,8 @@ namespace FacebookClone.BLL.Services.Abstract
         void DeleteFriendRequest(int currentUserId, int FriendId);
 
         FriendRequestDTO Update(int currentUserId, int friendId);
+
+        IEnumerable<UserWithAlbumsDTO> GetAllFriendsWithAlbumsAndImages(int userId);
 
         Enum CheckFriendRequestStatus(int currentUserId, int friendId);
     }

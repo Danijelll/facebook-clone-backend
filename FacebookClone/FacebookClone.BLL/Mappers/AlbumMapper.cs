@@ -55,6 +55,19 @@ namespace FacebookClone.BLL.Mappers
             };
         }
 
+        public static AlbumWithImagesDTO ToAlbumWithImagesDTO(this Album album, IList<ImageDTO> images)
+        {
+            return new AlbumWithImagesDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Caption = album.Caption,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+                Images = images
+            };
+        }
+
         public static AlbumDTO ToBaseDTO(this AlbumWithImagesDTO album)
         {
             return new AlbumDTO()

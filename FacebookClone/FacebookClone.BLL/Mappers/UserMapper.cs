@@ -1,4 +1,5 @@
 ﻿using FacebookClone.BLL.Constants;
+using FacebookClone.BLL.DTO.Albums;
 using FacebookClone.BLL.DTO.Auth;
 using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Enums;
@@ -91,9 +92,31 @@ namespace FacebookClone.BLL.Mappers
             };
         }
 
+        public static UserWithAlbumsDTO ToUserWithAlbumsDTO(this User userDTO, IEnumerable<AlbumWithImagesDTO> albums)
+        {
+            return new UserWithAlbumsDTO()
+            {
+                Id = userDTO.Id,
+                Username = userDTO.Username,
+                Email = userDTO.Email,
+                Role = (Roles)userDTO.Role,
+                IsEmailConfirmed = userDTO.IsEmailConfirmed,
+                ProfileImage = userDTO.ProfileImage,
+                CoverImage = userDTO.CoverImage,
+                CreatedOn = userDTO.CreatedOn,
+                UpdatedOn = userDTO.UpdatedOn,
+                Albums = albums
+            };
+        }
+
         public static IEnumerable<UserDTO> ToDTOList(this IEnumerable<User> user)
         {
             return user.Select(x => x.ToDTO()).ToList();
+        }
+
+        public static IEnumerable<UserWithAlbumsDTO> ToUserWithAlbumsDTOList(this IEnumerable<User> user)
+        {
+            return user.Select(x => x.ToUserWithAlbumsDTO(x.Albums.ToAlbumWithImagesDTOList())).ToList();
         }
 
         private static string SetImagePath(int id, string imageName)

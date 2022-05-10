@@ -7,8 +7,11 @@ namespace FacebookClone.DAL.Repositories
 {
     public class AlbumRepository : EfCoreRepository<Album>, IAlbumRepository
     {
-        public AlbumRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        private readonly IFriendRequestRepository _friendRequestRepository;
+
+        public AlbumRepository(IUnitOfWork unitOfWork, IFriendRequestRepository friendRequestRepository) : base(unitOfWork)
         {
+            _friendRequestRepository = friendRequestRepository;
         }
 
         public IEnumerable<Album> GetAllByUserId(int userId, PageFilter pageFilter)
@@ -26,5 +29,11 @@ namespace FacebookClone.DAL.Repositories
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                 .Take(pageFilter.PageSize);
         }
+
+        //public IEnumerable<Album> GetAllFriendsAlbumsWithImagesByUserId(int userId, PageFilter pageFilter)
+        //{
+
+        //    return _friendRequestRepository.GetAllFriends(userId)
+        //}
     }
 }
