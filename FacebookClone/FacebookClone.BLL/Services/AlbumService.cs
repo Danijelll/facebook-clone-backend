@@ -39,6 +39,11 @@ namespace FacebookClone.BLL.Services
             return createdAlbum.ToAlbumWithImagesDTO(imageList);
         }
 
+        public IEnumerable<AlbumWithImagesDTO> GetAllFriendsWithAlbumsWithImages(int userId)
+        {
+            return _albumRepository.GetAllFriendsWithAlbumsWithImages(userId).ToAlbumWithImagesDTOList();
+        }
+
         public void Delete(int id)
         {
             if (!ExistsWithID(id))

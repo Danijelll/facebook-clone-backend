@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO.Friendship;
+﻿using FacebookClone.BLL.DTO.Albums;
+using FacebookClone.BLL.DTO.Friendship;
 using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Enums;
 using FacebookClone.BLL.Mappers;
@@ -89,11 +90,6 @@ namespace FacebookClone.BLL.Services
                 return FriendRequestStatus.NoRequest;
             }
             return myReceivedRequest.IsAccepted ? FriendRequestStatus.Friends : FriendRequestStatus.PendingIncoming;
-        }
-
-        public IEnumerable<UserWithAlbumsDTO> GetAllFriendsWithAlbumsAndImages(int userId)
-        {
-            return _friendRequestRepository.GetAllFriendsWithAlbumsAndImages(userId).ToUserWithAlbumsDTOList();
         }
 
         public FriendRequestDTO Update(int currentUserId, int friendId)

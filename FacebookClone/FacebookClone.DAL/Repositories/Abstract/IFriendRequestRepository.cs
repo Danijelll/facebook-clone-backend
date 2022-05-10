@@ -7,8 +7,6 @@ namespace FacebookClone.DAL.Repositories.Abstract
     {
         FriendRequest GetSentFriendRequest(int userId, int friendId);
 
-        IEnumerable<User> GetAllFriendsWithAlbumsAndImages(int userId);
-
         IEnumerable<FriendRequest> GetPendingFriendRequests(int userId, PageFilter pageFilter);
 
         IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, PageFilter pageFilter);

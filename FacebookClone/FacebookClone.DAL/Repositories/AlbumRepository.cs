@@ -7,11 +7,8 @@ namespace FacebookClone.DAL.Repositories
 {
     public class AlbumRepository : EfCoreRepository<Album>, IAlbumRepository
     {
-        private readonly IFriendRequestRepository _friendRequestRepository;
-
-        public AlbumRepository(IUnitOfWork unitOfWork, IFriendRequestRepository friendRequestRepository) : base(unitOfWork)
+        public AlbumRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _friendRequestRepository = friendRequestRepository;
         }
 
         public IEnumerable<Album> GetAllByUserId(int userId, PageFilter pageFilter)
@@ -29,11 +26,20 @@ namespace FacebookClone.DAL.Repositories
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                 .Take(pageFilter.PageSize);
         }
-
-        //public IEnumerable<Album> GetAllFriendsAlbumsWithImagesByUserId(int userId, PageFilter pageFilter)
-        //{
-
-        //    return _friendRequestRepository.GetAllFriends(userId)
-        //}
+        public IEnumerable<Album> GetAllFriendsWithAlbumsWithImages(int userId)
+        {
+            return _context.Albums.AsNoTracking()
+                .Include(a => a.Images)
+                .Include(a => a.User)
+                .OrderByDescending(a => a.CreatedOn)
+                .ToList()
+                .Where(a => _context.FriendRequests
+                                .Where(f => (f.FirstUserId == userId || f.SecondUserId == userId) && f.IsAccepted)
+                                .Select(e => e.FirstUserId == userId ? e.SecondUserId : e.FirstUserId)
+                            .Contains(a.UserId)
+                )
+                .Skip(0)
+                .Take(10);
+        }
     }
 }

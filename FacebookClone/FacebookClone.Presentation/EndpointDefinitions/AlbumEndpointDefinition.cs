@@ -60,6 +60,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
             app.MapDelete("/albums/{id}", [Authorize(Policy = "RequireId")] (IAlbumService albumService, int id) => albumService.Delete(id));
 
             app.MapPut("/albums", [Authorize(Policy = "RequireId")] (AlbumDTO album, IAlbumService albumService) => albumService.Update(album));
+
+            app.MapGet("/feed", [Authorize(Policy = "RequireId")] (HttpContext context, IAlbumService albumService) => albumService.GetAllFriendsWithAlbumsWithImages(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
+
         }
     }
 }

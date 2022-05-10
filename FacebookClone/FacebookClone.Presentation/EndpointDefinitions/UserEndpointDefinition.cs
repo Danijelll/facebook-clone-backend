@@ -71,9 +71,6 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 emailConfirmService.ConfirmUserEmail(emailHash);
                 response.Redirect("http://localhost:3000/");
             });
-
-            app.MapGet("/feed", [Authorize(Policy = "RequireId")] (HttpContext context, IFriendshipService friendshipService) => friendshipService.GetAllFriendsWithAlbumsAndImages(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
-
         }
     }
 }

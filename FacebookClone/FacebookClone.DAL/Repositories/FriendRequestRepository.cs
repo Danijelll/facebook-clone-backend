@@ -32,23 +32,5 @@ namespace FacebookClone.DAL.Repositories
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                  .Take(pageFilter.PageSize);
         }
-
-        public IEnumerable<User> GetAllFriendsWithAlbumsAndImages(int userId)
-        {
-            return _userRepository.GetAllQueryable()
-                                  .Include(u => u.Albums)
-                                  .ThenInclude(a => a.Images)
-                             
-                                  .ToList()
-                                  .Where(u =>
-                                              GetAll()
-                                                .Where(f => (f.FirstUserId == userId || f.SecondUserId == userId) && f.IsAccepted)
-                                                .Select(e => e.FirstUserId == userId ? e.SecondUserId : e.FirstUserId)
-                                            .Contains(u.Id)
-                                  );
-                                  
-        }
-
-
     }
 }
