@@ -1,5 +1,7 @@
-﻿using FacebookClone.BLL.DTO.Albums;
+﻿using FacebookClone.BLL.DTO.Album;
+using FacebookClone.BLL.DTO.Albums;
 using FacebookClone.BLL.DTO.Image;
+using FacebookClone.BLL.DTO.User;
 using FacebookClone.DAL.Entities;
 
 namespace FacebookClone.BLL.Mappers
@@ -91,6 +93,25 @@ namespace FacebookClone.BLL.Mappers
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
             };
+        }
+
+        public static AlbumWithImagesWithUserDTO ToAlbumWithImagesWithUserDTO(this Album album, IEnumerable<ImageDTO> images, IEnumerable<UserDataDTO> users)
+        {
+            return new AlbumWithImagesWithUserDTO()
+            {
+                Id = album.Id,
+                UserId = album.UserId,
+                Caption = album.Caption,
+                CreatedOn = album.CreatedOn,
+                UpdatedOn = album.UpdatedOn,
+                Images = images,
+                Users = users
+            };
+        }
+
+        public static IEnumerable<AlbumWithImagesWithUserDTO> ToAlbumWithImagesWithUserDTOList(this IEnumerable<Album> album)
+        {
+            return null;
         }
 
         public static IEnumerable<AlbumDTO> ToDTOList(this IEnumerable<Album> album)
