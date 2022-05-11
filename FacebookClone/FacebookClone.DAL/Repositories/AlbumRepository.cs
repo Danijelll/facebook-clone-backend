@@ -31,6 +31,7 @@ namespace FacebookClone.DAL.Repositories
             return _context.Albums.AsNoTracking()
                 .Include(a => a.Images)
                 .Include(a => a.User)
+                .Where(a => !a.User.IsBanned)
                 .OrderByDescending(a => a.CreatedOn)
                 .ToList()
                 .Where(a => _context.FriendRequests

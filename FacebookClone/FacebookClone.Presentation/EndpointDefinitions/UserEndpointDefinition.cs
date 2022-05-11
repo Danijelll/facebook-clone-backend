@@ -66,6 +66,8 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 return userService.UpdateCoverImage(userId, imageUrl, environment.WebRootPath);
             });
 
+            app.MapPut("/banUser/{id}", [Authorize(Policy = "RequireId")] (IUserService userService, int id) => userService.BanUserById(id));
+
             app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) =>
             {
                 emailConfirmService.ConfirmUserEmail(emailHash);
