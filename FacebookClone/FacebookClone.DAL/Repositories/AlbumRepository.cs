@@ -26,7 +26,7 @@ namespace FacebookClone.DAL.Repositories
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                 .Take(pageFilter.PageSize);
         }
-        public IEnumerable<Album> GetAllFriendsWithAlbumsWithImages(int userId)
+        public IEnumerable<Album> GetAllFriendsWithAlbumsWithImages(int userId, PageFilter pageFilter)
         {
             return _context.Albums.AsNoTracking()
                 .Include(a => a.Images)
@@ -38,8 +38,8 @@ namespace FacebookClone.DAL.Repositories
                                 .Select(e => e.FirstUserId == userId ? e.SecondUserId : e.FirstUserId)
                             .Contains(a.UserId)
                 )
-                .Skip(0)
-                .Take(10);
+                .Skip(pageFilter.PageNumber * pageFilter.PageSize)
+                .Take(pageFilter.PageSize);
         }
     }
 }

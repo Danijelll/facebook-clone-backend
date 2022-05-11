@@ -13,7 +13,7 @@ namespace FacebookClone.BLL.Services.Abstract
 
         IEnumerable<AlbumWithImagesDTO> GetAllAlbumWithImagesByUserId(int userId, int pageSize, int pageNumber);
 
-        IEnumerable<AlbumWithImagesWithUserDTO> GetAllFriendsWithAlbumsWithImages(int userId);
+        IEnumerable<AlbumWithImagesWithUserDTO> GetAllFriendsWithAlbumsWithImages(int userId, int pageSize, int pageNumber);
 
         AlbumDTO GetById(int id);
 

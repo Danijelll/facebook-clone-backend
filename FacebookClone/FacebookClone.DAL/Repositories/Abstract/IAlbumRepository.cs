@@ -9,6 +9,6 @@ namespace FacebookClone.DAL.Repositories.Abstract
 
         IEnumerable<Album> GetAllAlbumWithImagesByUserId(int userId, PageFilter pageFilter);
 
-        IEnumerable<Album> GetAllFriendsWithAlbumsWithImages(int userId);
+        IEnumerable<Album> GetAllFriendsWithAlbumsWithImages(int userId, PageFilter pageFilter);
     }
 }

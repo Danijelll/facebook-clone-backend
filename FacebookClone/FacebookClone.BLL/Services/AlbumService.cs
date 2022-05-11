@@ -40,9 +40,11 @@ namespace FacebookClone.BLL.Services
             return createdAlbum.ToAlbumWithImagesDTO(imageList);
         }
 
-        public IEnumerable<AlbumWithImagesWithUserDTO> GetAllFriendsWithAlbumsWithImages(int userId)
+        public IEnumerable<AlbumWithImagesWithUserDTO> GetAllFriendsWithAlbumsWithImages(int userId, int pageSize, int pageNumber)
         {
-            return _albumRepository.GetAllFriendsWithAlbumsWithImages(userId).ToAlbumWithImagesWithUserDTOList();
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _albumRepository.GetAllFriendsWithAlbumsWithImages(userId, pageFilter).ToAlbumWithImagesWithUserDTOList();
         }
 
         public void Delete(int id)
