@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO.Albums;
+﻿using FacebookClone.BLL.DTO.Album;
+using FacebookClone.BLL.DTO.Albums;
 
 namespace FacebookClone.BLL.Services.Abstract
 {
@@ -12,7 +13,7 @@ namespace FacebookClone.BLL.Services.Abstract
 
         IEnumerable<AlbumWithImagesDTO> GetAllAlbumWithImagesByUserId(int userId, int pageSize, int pageNumber);
 
-        IEnumerable<AlbumWithImagesDTO> GetAllFriendsWithAlbumsWithImages(int userId);
+        IEnumerable<AlbumWithImagesWithUserDTO> GetAllFriendsWithAlbumsWithImages(int userId);
 
         AlbumDTO GetById(int id);
 

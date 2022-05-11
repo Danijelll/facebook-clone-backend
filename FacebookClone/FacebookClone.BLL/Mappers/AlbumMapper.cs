@@ -95,7 +95,7 @@ namespace FacebookClone.BLL.Mappers
             };
         }
 
-        public static AlbumWithImagesWithUserDTO ToAlbumWithImagesWithUserDTO(this Album album, IEnumerable<ImageDTO> images, IEnumerable<UserDataDTO> users)
+        public static AlbumWithImagesWithUserDTO ToAlbumWithImagesWithUserDTO(this Album album, IEnumerable<ImageDTO> images, UserDataDTO user)
         {
             return new AlbumWithImagesWithUserDTO()
             {
@@ -105,13 +105,14 @@ namespace FacebookClone.BLL.Mappers
                 CreatedOn = album.CreatedOn,
                 UpdatedOn = album.UpdatedOn,
                 Images = images,
-                Users = users
+                Username = user.Username,
+                UserProfileImageUrl = user.ProfileImage,
             };
         }
 
-        public static IEnumerable<AlbumWithImagesWithUserDTO> ToAlbumWithImagesWithUserDTOList(this IEnumerable<Album> album)
+        public static IEnumerable<AlbumWithImagesWithUserDTO> ToAlbumWithImagesWithUserDTOList(this IEnumerable<Album> albums)
         {
-            return null;
+            return albums.Select(x => x.ToAlbumWithImagesWithUserDTO(x.Images.ToDTOList(x.UserId),x.User.ToDTO().ToUserDataDTO()));
         }
 
         public static IEnumerable<AlbumDTO> ToDTOList(this IEnumerable<Album> album)

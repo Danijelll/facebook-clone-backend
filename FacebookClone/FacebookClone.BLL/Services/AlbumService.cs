@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO.Albums;
+﻿using FacebookClone.BLL.DTO.Album;
+using FacebookClone.BLL.DTO.Albums;
 using FacebookClone.BLL.DTO.Image;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
@@ -39,9 +40,9 @@ namespace FacebookClone.BLL.Services
             return createdAlbum.ToAlbumWithImagesDTO(imageList);
         }
 
-        public IEnumerable<AlbumWithImagesDTO> GetAllFriendsWithAlbumsWithImages(int userId)
+        public IEnumerable<AlbumWithImagesWithUserDTO> GetAllFriendsWithAlbumsWithImages(int userId)
         {
-            return _albumRepository.GetAllFriendsWithAlbumsWithImages(userId).ToAlbumWithImagesDTOList();
+            return _albumRepository.GetAllFriendsWithAlbumsWithImages(userId).ToAlbumWithImagesWithUserDTOList();
         }
 
         public void Delete(int id)
