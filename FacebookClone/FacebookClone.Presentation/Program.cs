@@ -52,7 +52,6 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireId", policy => policy.RequireClaim("id"));
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("id"));
 });
 
 builder.Services.AddCors(options =>
