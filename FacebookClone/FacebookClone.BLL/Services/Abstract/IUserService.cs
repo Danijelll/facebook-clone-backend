@@ -25,6 +25,8 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDTO UnbanUserById(int id);
 
+        void Generate2FACode(LoginDTO userLogin);
+
         IEnumerable<UserDTO> SearchByUsername(string username);
 
         IEnumerable<UserDTO> SearchByUsernameWithBanned(string username);

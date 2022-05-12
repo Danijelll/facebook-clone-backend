@@ -14,13 +14,15 @@ namespace FacebookClone.BLL.Services
         private readonly IUserRepository _userRepository;
         private readonly IEmailConfirmService _emailConfirmService;
         private readonly ISendEmailService _sendEmailService;
+        private readonly ITwoFactorAuthenticatorRepository _twoFactorAuthenticatorRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUserRepository userRepository, IEmailConfirmService emailConfirmService, ISendEmailService sendEmailService, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository, IEmailConfirmService emailConfirmService, ISendEmailService sendEmailService, ITwoFactorAuthenticatorRepository twoFactorAuthenticatorRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _emailConfirmService = emailConfirmService;
             _sendEmailService = sendEmailService;
+            _twoFactorAuthenticatorRepository = twoFactorAuthenticatorRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -132,6 +134,17 @@ namespace FacebookClone.BLL.Services
         public IEnumerable<UserDTO> SearchByUsername(string username)
         {
             return _userRepository.SearchByUsername(username).ToDTOList();
+        }
+
+        public void Generate2FACode (LoginDTO userLogin)
+        {
+            TwoFactorAuthenticationDTO twoFactorAuthentication = new TwoFactorAuthenticationDTO();
+
+            twoFactorAuthentication.TwoFactorCode = DateTime.UtcNow.Ticks.ToString() + Guid.NewGuid().GetHashCode();
+
+            _twoFactorAuthenticatorRepository.Add(twoFactorAuthentication.ToEntity());
+
+            _unitOfWork.SaveChanges();
         }
 
         public IEnumerable<UserDTO> SearchByUsernameWithBanned(string username)
