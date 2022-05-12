@@ -9,7 +9,6 @@ namespace FacebookClone.BLL.DTO.Albums
         public string Caption { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
-
         public IList<ImageDTO> Images { get; set; }
     }
 }

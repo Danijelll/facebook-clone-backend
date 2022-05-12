@@ -1,7 +1,6 @@
 ﻿using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
 using FacebookClone.DAL.Shared;
-using Microsoft.EntityFrameworkCore;
 
 namespace FacebookClone.DAL.Repositories
 {
@@ -14,6 +13,7 @@ namespace FacebookClone.DAL.Repositories
         public IEnumerable<Comment> GetAllByAlbumId(int albumId, PageFilter pageFilter)
         {
             return GetAll().Where(c => c.AlbumId == albumId)
+                .OrderByDescending(c => c.CreatedOn)
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                  .Take(pageFilter.PageSize);
         }

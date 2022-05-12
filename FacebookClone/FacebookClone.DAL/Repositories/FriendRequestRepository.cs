@@ -1,13 +1,17 @@
 ﻿using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
 using FacebookClone.DAL.Shared;
+using Microsoft.EntityFrameworkCore;
 
 namespace FacebookClone.DAL.Repositories
 {
     public class FriendRequestRepository : EfCoreRepository<FriendRequest>, IFriendRequestRepository
     {
-        public FriendRequestRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        private readonly IUserRepository _userRepository;
+
+        public FriendRequestRepository(IUnitOfWork unitOfWork, IUserRepository userRepository) : base(unitOfWork)
         {
+            _userRepository = userRepository;
         }
 
         public FriendRequest? GetSentFriendRequest(int userId, int friendId)
@@ -22,18 +26,11 @@ namespace FacebookClone.DAL.Repositories
                  .Take(pageFilter.PageSize);
         }
 
-        public IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, int pageSize, int pageNumber)
+        public IEnumerable<FriendRequest> GetAllIncomingFriendRequestsById(int userId, PageFilter pageFilter)
         {
-            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
-
-            return GetAll().Where(f => f.SecondUserId == userId)
+            return GetAll().Where(f => f.SecondUserId == userId && f.IsAccepted == false)
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                  .Take(pageFilter.PageSize);
-        }
-
-        public List<FriendRequest> GetAll(PageFilter pageFilter)
-        {
-            return GetAll();
         }
     }
 }

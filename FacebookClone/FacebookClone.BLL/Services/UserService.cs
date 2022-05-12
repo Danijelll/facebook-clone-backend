@@ -6,7 +6,6 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
-using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {
@@ -123,20 +122,77 @@ namespace FacebookClone.BLL.Services
             return _userRepository.SearchByUsername(username).ToDTOList();
         }
 
-        public UserDTO Update(UserDTO userDTO)
+        public UserDTO UpdateProfileImage(int id, string imageUrl, string webRootPath)
         {
-            User? found = _userRepository.GetById(userDTO.Id);
+            User? found = _userRepository.GetById(id);
 
-            if (found.Username.ToLower() == userDTO.Username.ToLower() && found.Id != userDTO.Id)
+            if (found == null)
             {
                 throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
-            userDTO.Password = found.Password;
-            userDTO.ProfileImage = found.ProfileImage;
-            userDTO.CoverImage = found.CoverImage;
+            DeleteImageByPath(id, found.ProfileImage, ImageConstants.UserProfileImageFolder, webRootPath);
 
-            User updated = _userRepository.Update(userDTO.ToEntity());
+            found.ProfileImage = imageUrl;
+
+            User updated = _userRepository.Update(found);
+
+            _unitOfWork.SaveChanges();
+
+            return updated.ToDTO();
+        }
+
+        public UserDTO UpdateCoverImage(int id, string imageUrl, string webRootPath)
+        {
+            User? found = _userRepository.GetById(id);
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            DeleteImageByPath(id, found.CoverImage, ImageConstants.UserCoverImageFolder, webRootPath);
+
+            found.CoverImage = imageUrl;
+
+            User updated = _userRepository.Update(found);
+
+            _unitOfWork.SaveChanges();
+
+            return updated.ToDTO();
+        }
+
+        public UserDTO BanUserById(int id)
+        {
+            User? found = _userRepository.GetById(id);
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            found.IsBanned = true;
+
+            User updated = _userRepository.Update(found);
+
+            _unitOfWork.SaveChanges();
+
+            return updated.ToDTO();
+        }
+
+        public UserDTO UnbanUserById(int id)
+        {
+            User? found = _userRepository.GetById(id);
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            found.IsBanned = false;
+
+            User updated = _userRepository.Update(found);
+
             _unitOfWork.SaveChanges();
 
             return updated.ToDTO();
@@ -149,6 +205,18 @@ namespace FacebookClone.BLL.Services
                 return true;
             }
             return false;
+        }
+
+        private void DeleteImageByPath(int userId, string imageUrl, string imageFolder, string webRootPath)
+        {
+            string imageWithFolder = Path.Combine(imageFolder, userId.ToString(), imageUrl);
+
+            string path = Path.Combine(webRootPath, imageWithFolder);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
     }
 }

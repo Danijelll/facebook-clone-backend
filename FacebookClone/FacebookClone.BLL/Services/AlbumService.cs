@@ -1,4 +1,5 @@
-﻿using FacebookClone.BLL.DTO.Albums;
+﻿using FacebookClone.BLL.DTO.Album;
+using FacebookClone.BLL.DTO.Albums;
 using FacebookClone.BLL.DTO.Image;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
@@ -37,6 +38,13 @@ namespace FacebookClone.BLL.Services
             }
 
             return createdAlbum.ToAlbumWithImagesDTO(imageList);
+        }
+
+        public IEnumerable<AlbumWithImagesWithUserDTO> GetAllFriendsWithAlbumsWithImages(int userId, int pageSize, int pageNumber)
+        {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _albumRepository.GetAllFriendsWithAlbumsWithImages(userId, pageFilter).ToAlbumWithImagesWithUserDTOList();
         }
 
         public void Delete(int id)
@@ -88,16 +96,17 @@ namespace FacebookClone.BLL.Services
 
         public AlbumDTO Update(AlbumDTO album)
         {
-            if (ExistsWithID(album.Id))
-            {
-                Album updated = _albumRepository.Update(album.ToEntity());
+            AlbumDTO found = GetById(album.Id);
 
-                _unitOfWork.SaveChanges();
+            AlbumDTO albumDto = found;
 
-                return updated.ToDTO();
-            }
+            albumDto.Caption = album.Caption;
 
-            throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            Album updated = _albumRepository.Update(albumDto.ToEntity());
+
+            _unitOfWork.SaveChanges();
+
+            return updated.ToDTO();
         }
 
         internal AlbumDTO Add(AlbumDTO album)
