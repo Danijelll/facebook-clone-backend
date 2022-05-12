@@ -68,6 +68,8 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPut("/banUser/{id}", [Authorize(Roles = "Admin", Policy = "RequireId")] (IUserService userService, int id) => userService.BanUserById(id));
 
+            app.MapPut("/unbanUser/{id}", [Authorize(Roles = "Admin", Policy = "RequireId")] (IUserService userService, int id) => userService.UnbanUserById(id));
+
             app.MapGet("/confirmMail/{emailHash}", (HttpResponse response, IEmailConfirmService emailConfirmService, string emailHash) =>
             {
                 emailConfirmService.ConfirmUserEmail(emailHash);

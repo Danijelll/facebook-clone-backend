@@ -180,6 +180,24 @@ namespace FacebookClone.BLL.Services
             return updated.ToDTO();
         }
 
+        public UserDTO UnbanUserById(int id)
+        {
+            User? found = _userRepository.GetById(id);
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            found.IsBanned = false;
+
+            User updated = _userRepository.Update(found);
+
+            _unitOfWork.SaveChanges();
+
+            return updated.ToDTO();
+        }
+
         private bool ExistsWithName(string username)
         {
             if (_userRepository.FindByUsername(username) != null)
