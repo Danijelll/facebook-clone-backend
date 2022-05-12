@@ -7,7 +7,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
     {
         public static void DefineEndpoints(WebApplication app)
         {
-            app.MapDelete("/images/{id}", [Authorize(Policy = "RequireId")] (IImageService imageService, int id, IWebHostEnvironment environment) =>
+            app.MapDelete("/images/{id}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IImageService imageService, int id, IWebHostEnvironment environment) =>
             {
                 imageService.Delete(id, environment.WebRootPath);
             });
