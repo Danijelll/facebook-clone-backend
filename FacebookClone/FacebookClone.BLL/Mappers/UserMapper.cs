@@ -69,6 +69,7 @@ namespace FacebookClone.BLL.Mappers
                 Email = userDTO.Email,
                 Role = (Roles)userDTO.Role,
                 IsEmailConfirmed = userDTO.IsEmailConfirmed,
+                IsBanned = userDTO.IsBanned,
                 ProfileImage = userDTO.ProfileImage,
                 CoverImage = userDTO.CoverImage,
                 CreatedOn = userDTO.CreatedOn,

@@ -24,9 +24,11 @@ namespace FacebookClone.Presentation.EndpointDefinitions
                 return Results.Ok(userService.GetById(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
             });
 
-            app.MapGet("/users/{id}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, int id) => userService.GetById(id));
+            app.MapGet("/users/{id}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, int id) => userService.GetByIdWithBanned(id));
 
             app.MapGet("/users/search/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username) => userService.SearchByUsername(username));
+
+            app.MapGet("/users/searchWithBanned/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username) => userService.SearchByUsernameWithBanned(username));
 
             app.MapDelete("/users/{id}", [Authorize(Roles = "Admin", Policy = "RequireId")] (IUserService userService, int id) => userService.Delete(id));
 

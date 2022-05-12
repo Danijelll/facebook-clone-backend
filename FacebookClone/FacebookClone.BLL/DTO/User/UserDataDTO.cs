@@ -9,6 +9,7 @@ namespace FacebookClone.BLL.DTO.User
         public string Email { get; set; } = null!;
         public Roles Role { get; set; }
         public bool IsEmailConfirmed { get; set; }
+        public bool IsBanned { get; set; }
         public string ProfileImage { get; set; } = null!;
         public string CoverImage { get; set; } = null!;
         public DateTime CreatedOn { get; set; }

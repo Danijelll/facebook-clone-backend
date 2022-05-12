@@ -96,6 +96,18 @@ namespace FacebookClone.BLL.Services
             return found.ToUserDataDTO();
         }
 
+        public UserDataDTO GetByIdWithBanned(int userId)
+        {
+            UserDTO found = _userRepository.GetById(userId).ToDTO();
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            return found.ToUserDataDTO();
+        }
+
         public UserDTO GetByUsername(string username)
         {
             if (ExistsWithName(username))
@@ -120,6 +132,11 @@ namespace FacebookClone.BLL.Services
         public IEnumerable<UserDTO> SearchByUsername(string username)
         {
             return _userRepository.SearchByUsername(username).ToDTOList();
+        }
+
+        public IEnumerable<UserDTO> SearchByUsernameWithBanned(string username)
+        {
+            return _userRepository.SearchByUsernameWithBanned(username).ToDTOList();
         }
 
         public UserDTO UpdateProfileImage(int id, string imageUrl, string webRootPath)

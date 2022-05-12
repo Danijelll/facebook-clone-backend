@@ -8,6 +8,8 @@ namespace FacebookClone.DAL.Repositories.Abstract
 
         IEnumerable<User> SearchByUsername(string username);
 
+        IEnumerable<User> SearchByUsernameWithBanned(string username);
+
         IQueryable<User> GetAllQueryable();
     }
 }

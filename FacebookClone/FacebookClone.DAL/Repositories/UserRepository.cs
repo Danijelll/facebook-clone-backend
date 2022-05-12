@@ -20,6 +20,10 @@ namespace FacebookClone.DAL.Repositories
         {
             return GetAll().Where(u => u.Username.ToLower().Contains(username.ToLower()) && u.IsBanned == false && u.IsEmailConfirmed == true);
         }
+        public IEnumerable<User> SearchByUsernameWithBanned(string username)
+        {
+            return GetAll().Where(u => u.Username.ToLower().Contains(username.ToLower()) && u.IsEmailConfirmed == true);
+        }
         public IQueryable<User> GetAllQueryable()
         {
             return _collection.AsNoTracking().Where(u => !u.IsBanned && u.IsEmailConfirmed);
