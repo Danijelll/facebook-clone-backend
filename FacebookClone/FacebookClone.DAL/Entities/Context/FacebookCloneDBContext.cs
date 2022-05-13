@@ -199,7 +199,6 @@ namespace FacebookClone.DAL.Entities.Context
                 entity.ToTable("user");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.CoverImage)

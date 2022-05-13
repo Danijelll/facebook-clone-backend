@@ -3,6 +3,7 @@ using FacebookClone.BLL.DTO.User;
 using FacebookClone.BLL.Mappers;
 using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
+using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -17,23 +18,25 @@ namespace FacebookClone.BLL.Services
         private readonly IUserService _userService;
         private readonly JwtSecurityTokenHandler _tokenHandler;
         private readonly ITwoFactorAuthenticatorRepository _twoFactorAuthenticatorRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
 
-        public JwtTokenService(IUserService userService,ITwoFactorAuthenticatorRepository twoFactorAuthenticatorRepository, IConfiguration config)
+        public JwtTokenService(IUserService userService, ITwoFactorAuthenticatorRepository twoFactorAuthenticatorRepository, IUnitOfWork unitOfWork, IConfiguration config)
         {
             _userService = userService;
             _tokenHandler = new JwtSecurityTokenHandler();
             _twoFactorAuthenticatorRepository = twoFactorAuthenticatorRepository;
+            _unitOfWork = unitOfWork;
             _configuration = config;
         }
 
         public string GenerateJwt(string email, string twoFactorCode)
         {
-            UserDTO found = _userService.GetByEmail(email);
+            UserDTO found = _userService.GetByUsername(email);
 
-            TwoFactorAuthenticationDTO foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(email).ToDTO();
+            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(email);
 
-            if(foundTwoFactor.TwoFactorCode != twoFactorCode)
+            if(foundTwoFactor?.TwoFactorCode != twoFactorCode)
             {
                 throw BusinessExceptions.NotAuthorizedException;
             }
@@ -54,6 +57,9 @@ namespace FacebookClone.BLL.Services
                 Issuer = _configuration["LocalHost"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
+
+            _twoFactorAuthenticatorRepository.Delete(foundTwoFactor.Id);
+            _unitOfWork.SaveChanges();
 
             SecurityToken token = _tokenHandler.CreateToken(tokenDescriptor);
 
