@@ -25,6 +25,11 @@ namespace FacebookClone.BLL.Services
 
         public CommentDTO Add(CommentDTO commentDTO)
         {
+            if (commentDTO == null)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
+
             Comment commentResult = _commentRepository.Add(commentDTO.ToEntity());
 
             _unitOfWork.SaveChanges();

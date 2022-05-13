@@ -25,9 +25,19 @@ namespace FacebookClone.BLL.Services
 
         public AlbumWithImagesDTO Add(AlbumWithImagesDTO dto)
         {
+            if(dto == null)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
+
             AlbumDTO createdAlbum = this.Add(dto.ToBaseDTO());
 
             List<ImageDTO> imageList = new List<ImageDTO>();
+
+            if (dto.Images == null)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
 
             foreach (ImageDTO image in dto.Images)
             {
@@ -78,6 +88,11 @@ namespace FacebookClone.BLL.Services
             PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
 
             IEnumerable<Album> found = _albumRepository.GetAllAlbumWithImagesByUserId(userId, pageFilter);
+
+            if (found == null)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
 
             return found.ToAlbumWithImagesDTOList();
         }
