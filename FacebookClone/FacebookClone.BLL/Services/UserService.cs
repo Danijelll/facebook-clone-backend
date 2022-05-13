@@ -121,6 +121,18 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.EntityDoesNotExistsInDBException;
         }
 
+        public UserDTO GetByEmail(string email)
+        {
+            UserDTO found = _userRepository.GetByEmail(email).ToDTO();
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            return found;
+        }
+
         public bool PasswordMatches(string userPass1, string userPass2)
         {
             if (BCrypt.Net.BCrypt.Verify(userPass2, userPass1))
@@ -136,15 +148,28 @@ namespace FacebookClone.BLL.Services
             return _userRepository.SearchByUsername(username).ToDTOList();
         }
 
-        public void Generate2FACode (LoginDTO userLogin)
+        public void Generate2FACode(LoginDTO userLogin)
         {
+            UserDTO found = _userRepository.FindByUsername(userLogin.Username).ToDTO();
+
+            if (found == null)
+            {
+                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+            }
+
+            PasswordMatches(found.Password, userLogin.Password);
+
             TwoFactorAuthenticationDTO twoFactorAuthentication = new TwoFactorAuthenticationDTO();
 
-            twoFactorAuthentication.TwoFactorCode = DateTime.UtcNow.Ticks.ToString() + Guid.NewGuid().GetHashCode();
+            twoFactorAuthentication.UserEmail = found.Email;
+
+            twoFactorAuthentication.TwoFactorCode = Guid.NewGuid().ToString().Substring(0, 4);
 
             _twoFactorAuthenticatorRepository.Add(twoFactorAuthentication.ToEntity());
 
             _unitOfWork.SaveChanges();
+
+            _sendEmailService.Send2FACodeEmail(found.Email, found.Username, twoFactorAuthentication.TwoFactorCode);
         }
 
         public IEnumerable<UserDTO> SearchByUsernameWithBanned(string username)

@@ -17,7 +17,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPost("/register", (RegisterDTO userRegister, IUserService userService) => userService.Add(userRegister));
 
-            app.MapPost("/login", (LoginDTO userLogin, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(userLogin));
+            app.MapPost("/login", (LoginDTO userLogin, IUserService userService) => userService.Generate2FACode(userLogin));
+
+            app.MapPost("/login/{email}/{twoFactorCode}", (string email, string twoFactorCode, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(email, twoFactorCode));
 
             app.MapGet("/home", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, HttpContext context) =>
             {

@@ -20,6 +20,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IFriendRequestRepository, FriendRequestRepository>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
+builder.Services.AddScoped<ITwoFactorAuthenticatorRepository, TwoFactorAuthenticatorRepository>();
 
 builder.Services.AddScoped<IEmailConfirmRepository, EmailConfirmRepository>();
 builder.Services.AddScoped<IEmailConfirmService, EmailConfirmService>();

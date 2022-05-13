@@ -16,6 +16,11 @@ namespace FacebookClone.DAL.Repositories
             return GetAll().Find(u => u.Username == username);
         }
 
+        public User GetByEmail(string email)
+        {
+            return GetAll().Find(u => u.Email == email);
+        }
+
         public IEnumerable<User> SearchByUsername(string username)
         {
             return GetAll().Where(u => u.Username.ToLower().Contains(username.ToLower()) && u.IsBanned == false && u.IsEmailConfirmed == true);

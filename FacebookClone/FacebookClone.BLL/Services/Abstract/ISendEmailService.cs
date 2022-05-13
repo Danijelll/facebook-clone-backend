@@ -4,6 +4,8 @@ namespace FacebookClone.BLL.Services.Abstract
 {
     public interface ISendEmailService
     {
-        public void SendConfimCodeEmail(string emailReciver, string username, string emailHash);
+        void SendConfimCodeEmail(string emailReciver, string username, string emailHash);
+
+        void Send2FACodeEmail(string emailReciver, string username, string twoFactorCode);
     }
 }

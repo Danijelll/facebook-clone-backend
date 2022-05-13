@@ -1,6 +1,9 @@
 ﻿using FacebookClone.BLL.DTO.Auth;
 using FacebookClone.BLL.DTO.User;
+using FacebookClone.BLL.Mappers;
+using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
+using FacebookClone.DAL.Repositories.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,20 +16,27 @@ namespace FacebookClone.BLL.Services
     {
         private readonly IUserService _userService;
         private readonly JwtSecurityTokenHandler _tokenHandler;
+        private readonly ITwoFactorAuthenticatorRepository _twoFactorAuthenticatorRepository;
         private readonly IConfiguration _configuration;
 
-        public JwtTokenService(IUserService userService, IConfiguration config)
+        public JwtTokenService(IUserService userService,ITwoFactorAuthenticatorRepository twoFactorAuthenticatorRepository, IConfiguration config)
         {
             _userService = userService;
             _tokenHandler = new JwtSecurityTokenHandler();
+            _twoFactorAuthenticatorRepository = twoFactorAuthenticatorRepository;
             _configuration = config;
         }
 
-        public string GenerateJwt(LoginDTO userLogin)
+        public string GenerateJwt(string email, string twoFactorCode)
         {
-            UserDTO found = _userService.GetByUsername(userLogin.Username);
+            UserDTO found = _userService.GetByEmail(email);
 
-            _userService.PasswordMatches(found.Password, userLogin.Password);
+            TwoFactorAuthenticationDTO foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(email).ToDTO();
+
+            if(foundTwoFactor.TwoFactorCode != twoFactorCode)
+            {
+                throw BusinessExceptions.NotAuthorizedException;
+            }
 
             byte[] key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 

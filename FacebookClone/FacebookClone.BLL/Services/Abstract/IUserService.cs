@@ -11,6 +11,8 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDataDTO GetById(int userId);
 
+        UserDTO GetByEmail(string email);
+
         UserDataDTO GetByIdWithBanned(int userId);
 
         UserDTO Add(RegisterDTO userRegister);
