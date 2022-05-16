@@ -1,10 +1,13 @@
+using FacebookClone.BLL.Exceptions;
 using FacebookClone.BLL.Services;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities.Context;
 using FacebookClone.DAL.Repositories;
 using FacebookClone.DAL.Repositories.Abstract;
 using FacebookClone.Presentation.EndpointDefinitions;
+using FacebookClone.Presentation.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -76,6 +79,10 @@ CommentEndpointDefinition.DefineEndpoints(app);
 FriendshipEndpointDefinition.DefineEndpoints(app);
 
 app.UseCors("AllowAllCors");
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
+app.UseExceptionHandler("/errors");
 
 app.UseAuthentication();
 
