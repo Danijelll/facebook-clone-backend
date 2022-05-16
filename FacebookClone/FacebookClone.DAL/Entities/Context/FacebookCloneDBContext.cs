@@ -38,7 +38,7 @@ namespace FacebookClone.DAL.Entities.Context
         {
             modelBuilder.Entity<Album>(entity =>
             {
-                entity.ToTable("album");
+                entity.ToTable("album", "dbo");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -65,7 +65,7 @@ namespace FacebookClone.DAL.Entities.Context
 
             modelBuilder.Entity<Comment>(entity =>
             {
-                entity.ToTable("comment");
+                entity.ToTable("comment", "dbo");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -95,7 +95,7 @@ namespace FacebookClone.DAL.Entities.Context
 
             modelBuilder.Entity<EmailConfirm>(entity =>
             {
-                entity.ToTable("email_confirm");
+                entity.ToTable("email_confirm", "dbo");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -123,7 +123,7 @@ namespace FacebookClone.DAL.Entities.Context
 
             modelBuilder.Entity<FriendRequest>(entity =>
             {
-                entity.ToTable("friend_request");
+                entity.ToTable("friend_request", "dbo");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -144,7 +144,7 @@ namespace FacebookClone.DAL.Entities.Context
 
             modelBuilder.Entity<Image>(entity =>
             {
-                entity.ToTable("image");
+                entity.ToTable("image", "dbo");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -171,7 +171,7 @@ namespace FacebookClone.DAL.Entities.Context
 
             modelBuilder.Entity<TwoFactorAuthentication>(entity =>
             {
-                entity.ToTable("two_factor_authentication");
+                entity.ToTable("two_factor_authentication", "dbo");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -188,15 +188,15 @@ namespace FacebookClone.DAL.Entities.Context
                     .HasColumnType("datetime")
                     .HasColumnName("updated_on");
 
-                entity.Property(e => e.UserEmail)
+                entity.Property(e => e.Username)
                     .HasMaxLength(120)
                     .IsUnicode(false)
-                    .HasColumnName("user_email");
+                    .HasColumnName("user_name");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("user");
+                entity.ToTable("user", "dbo");
 
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
@@ -215,6 +215,13 @@ namespace FacebookClone.DAL.Entities.Context
                     .HasMaxLength(70)
                     .IsUnicode(false)
                     .HasColumnName("email");
+
+                entity.Property(e => e.NotNullProperty)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("not_null_property")
+                    .IsRequired()
+                    .HasDefaultValue("Album");
 
                 entity.Property(e => e.IsBanned).HasColumnName("is_banned");
 

@@ -13,6 +13,8 @@ namespace FacebookClone.DAL.Entities
         public int Id { get; set; }
         public string Username { get; set; } = null!;
         public string Email { get; set; } = null!;
+        public string Nickname { get; set; }
+        public string NotNullProperty { get; set; } = null!;
         public string Password { get; set; } = null!;
         public int Role { get; set; }
         public bool IsBanned { get; set; }

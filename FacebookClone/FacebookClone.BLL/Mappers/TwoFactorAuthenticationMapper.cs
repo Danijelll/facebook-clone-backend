@@ -10,7 +10,7 @@ namespace FacebookClone.BLL.Mappers
             return new TwoFactorAuthenticationDTO
             {
                 Id = twoFactorAuthentication.Id,
-                UserEmail = twoFactorAuthentication.UserEmail,
+                UserEmail = twoFactorAuthentication.Username,
                 TwoFactorCode = twoFactorAuthentication.TwoFactorCode,
                 CreatedOn = twoFactorAuthentication.CreatedOn,
                 UpdatedOn = twoFactorAuthentication.UpdatedOn,
@@ -22,7 +22,7 @@ namespace FacebookClone.BLL.Mappers
             return new TwoFactorAuthentication
             {
                 Id = twoFactorAuthentication.Id,
-                UserEmail = twoFactorAuthentication.UserEmail,
+                Username = twoFactorAuthentication.UserEmail,
                 TwoFactorCode = twoFactorAuthentication.TwoFactorCode,
                 CreatedOn = twoFactorAuthentication.CreatedOn,
                 UpdatedOn = twoFactorAuthentication.UpdatedOn,
