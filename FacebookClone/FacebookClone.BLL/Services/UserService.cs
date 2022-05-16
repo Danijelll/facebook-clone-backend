@@ -6,6 +6,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.DAL.Entities;
 using FacebookClone.DAL.Repositories.Abstract;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.BLL.Services
 {
@@ -143,9 +144,11 @@ namespace FacebookClone.BLL.Services
             throw BusinessExceptions.NotAuthorizedException;
         }
 
-        public IEnumerable<UserDTO> SearchByUsername(string username)
+        public IEnumerable<UserDTO> SearchByUsername(string username, int pageSize, int pageNumber)
         {
-            return _userRepository.SearchByUsername(username).ToDTOList();
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _userRepository.SearchByUsername(username, pageFilter).ToDTOList();
         }
 
         public void Generate2FACode(LoginDTO userLogin)
@@ -172,9 +175,10 @@ namespace FacebookClone.BLL.Services
             _sendEmailService.Send2FACodeEmail(found.Email, found.Username, twoFactorAuthentication.TwoFactorCode);
         }
 
-        public IEnumerable<UserDTO> SearchByUsernameWithBanned(string username)
+        public IEnumerable<UserDTO> SearchByUsernameWithBanned(string username, int pageSize, int pageNumber)
         {
-            return _userRepository.SearchByUsernameWithBanned(username).ToDTOList();
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+            return _userRepository.SearchByUsernameWithBanned(username, pageFilter).ToDTOList();
         }
 
         public UserDTO UpdateProfileImage(int id, string imageUrl, string webRootPath)

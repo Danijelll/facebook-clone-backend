@@ -1,4 +1,5 @@
 ﻿using FacebookClone.DAL.Entities;
+using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
@@ -8,9 +9,9 @@ namespace FacebookClone.DAL.Repositories.Abstract
 
         User GetByEmail(string username);
 
-        IEnumerable<User> SearchByUsername(string username);
+        IEnumerable<User> SearchByUsername(string username, PageFilter pageFilter);
 
-        IEnumerable<User> SearchByUsernameWithBanned(string username);
+        IEnumerable<User> SearchByUsernameWithBanned(string username, PageFilter pageFilter);
 
         IQueryable<User> GetAllQueryable();
     }

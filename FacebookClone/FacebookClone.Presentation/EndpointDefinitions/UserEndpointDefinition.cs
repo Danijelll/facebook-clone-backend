@@ -5,6 +5,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.Presentation.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
@@ -28,9 +29,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapGet("/users/{id}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, int id) => userService.GetByIdWithBanned(id));
 
-            app.MapGet("/users/search/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username) => userService.SearchByUsername(username));
+            app.MapGet("/users/search/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.SearchByUsername(username, pageSize, pageNumber));
 
-            app.MapGet("/users/searchWithBanned/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username) => userService.SearchByUsernameWithBanned(username));
+            app.MapGet("/users/searchWithBanned/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.SearchByUsernameWithBanned(username, pageSize, pageNumber));
 
             app.MapDelete("/users/{id}", [Authorize(Roles = "Admin", Policy = "RequireId")] (IUserService userService, int id) => userService.Delete(id));
 

@@ -29,9 +29,9 @@ namespace FacebookClone.BLL.Services.Abstract
 
         void Generate2FACode(LoginDTO userLogin);
 
-        IEnumerable<UserDTO> SearchByUsername(string username);
+        IEnumerable<UserDTO> SearchByUsername(string username, int pageSize, int pageNumber);
 
-        IEnumerable<UserDTO> SearchByUsernameWithBanned(string username);
+        IEnumerable<UserDTO> SearchByUsernameWithBanned(string username, int pageSize, int pageNumber);
 
         public bool PasswordMatches(string userPass1, string userPass2);
     }
