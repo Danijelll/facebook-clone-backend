@@ -12,7 +12,7 @@ namespace FacebookClone.BLL.Mappers
             {
                 Id = image.Id,
                 AlbumId = image.AlbumId,
-                ImageUrl = $"http://localhost:5000/{ImageConstants.ImageFolder}/{userId}/{image.ImageUrl}",
+                ImageUrl = $"https://localhost:5001/{ImageConstants.ImageFolder}/{userId}/{image.ImageUrl}",
                 CreatedOn = image.CreatedOn,
                 UpdatedOn = image.UpdatedOn,
             };

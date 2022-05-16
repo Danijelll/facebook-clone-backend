@@ -113,6 +113,11 @@ namespace FacebookClone.BLL.Services
         {
             AlbumDTO found = GetById(album.Id);
 
+            if (found == null)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
+
             AlbumDTO albumDto = found;
 
             albumDto.Caption = album.Caption;

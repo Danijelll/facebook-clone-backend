@@ -90,11 +90,11 @@ namespace FacebookClone.BLL.Services
 
         public CommentDTO GetById(int id)
         {
-            CommentDTO found = _commentRepository.GetById(id).ToDTO();
+            Comment found = _commentRepository.GetById(id);
 
             if (found != null)
             {
-                return found;
+                return found.ToDTO();
             }
 
             throw BusinessExceptions.EntityDoesNotExistsInDBException;
@@ -102,11 +102,11 @@ namespace FacebookClone.BLL.Services
 
         public CommentDTO Update(CommentDTO comment)
         {
-            CommentDTO found = _commentRepository.GetById(comment.Id).ToDTO();
+            Comment found = _commentRepository.GetById(comment.Id);
 
             if (found != null)
             {
-                CommentDTO commentDto = found;
+                CommentDTO commentDto = found.ToDTO();
                 commentDto.Text = comment.Text;
 
                 Comment updated = _commentRepository.Update(commentDto.ToEntity());

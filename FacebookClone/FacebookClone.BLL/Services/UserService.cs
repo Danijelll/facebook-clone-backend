@@ -83,7 +83,7 @@ namespace FacebookClone.BLL.Services
 
         public UserDataDTO GetById(int userId)
         {
-            UserDTO found = _userRepository.GetById(userId).ToDTO();
+            User found = _userRepository.GetById(userId);
 
             if (found == null)
             {
@@ -95,19 +95,19 @@ namespace FacebookClone.BLL.Services
                 throw BusinessExceptions.UserBannedException;
             }
 
-            return found.ToUserDataDTO();
+            return found.ToDTO().ToUserDataDTO();
         }
 
         public UserDataDTO GetByIdWithBanned(int userId)
         {
-            UserDTO found = _userRepository.GetById(userId).ToDTO();
+            User found = _userRepository.GetById(userId);
 
             if (found == null)
             {
                 throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
-            return found.ToUserDataDTO();
+            return found.ToDTO().ToUserDataDTO();
         }
 
         public UserDTO GetByUsername(string username)
@@ -123,14 +123,14 @@ namespace FacebookClone.BLL.Services
 
         public UserDTO GetByEmail(string email)
         {
-            UserDTO found = _userRepository.GetByEmail(email).ToDTO();
+            User found = _userRepository.GetByEmail(email);
 
             if (found == null)
             {
                 throw BusinessExceptions.EntityDoesNotExistsInDBException;
             }
 
-            return found;
+            return found.ToDTO();
         }
 
         public bool PasswordMatches(string userPass1, string userPass2)
@@ -150,7 +150,7 @@ namespace FacebookClone.BLL.Services
 
         public void Generate2FACode(LoginDTO userLogin)
         {
-            UserDTO found = _userRepository.FindByUsername(userLogin.Username).ToDTO();
+            User found = _userRepository.FindByUsername(userLogin.Username);
 
             if (found == null)
             {
