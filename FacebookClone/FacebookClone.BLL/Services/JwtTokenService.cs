@@ -36,7 +36,7 @@ namespace FacebookClone.BLL.Services
 
             TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(email);
 
-            if(foundTwoFactor?.TwoFactorCode != twoFactorCode)
+            if (twoFactorCode == null ||twoFactorCode != foundTwoFactor?.TwoFactorCode)
             {
                 throw BusinessExceptions.NotAuthorizedException;
             }
