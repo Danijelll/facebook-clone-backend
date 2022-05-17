@@ -1,6 +1,7 @@
 ﻿namespace FacebookClone.Presentation.Helpers
 {
     using FacebookClone.BLL.Exceptions;
+    using FacebookClone.BLL.Model;
     using System.Net;
     using System.Text.Json;
 

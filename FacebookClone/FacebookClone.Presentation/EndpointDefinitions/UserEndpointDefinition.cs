@@ -22,7 +22,7 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPost("/login/{email}/{twoFactorCode}", (string email, string twoFactorCode, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(email, twoFactorCode));
 
-            app.MapGet("/home", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, HttpContext context) =>
+            app.MapGet("/home", [Authorize(Policy = "RequireId")] (IUserService userService, HttpContext context) =>
             {
                 return Results.Ok(userService.GetById(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
             });
