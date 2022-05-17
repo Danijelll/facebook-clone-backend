@@ -1,7 +1,6 @@
 ﻿namespace FacebookClone.Presentation.Helpers
 {
     using FacebookClone.BLL.Exceptions;
-    using FacebookClone.BLL.Model;
     using System.Net;
     using System.Text.Json;
 
@@ -13,27 +12,28 @@
         {
             _next = next;
         }
-
         public async Task Invoke(HttpContext context)
         {
             try
             {
                 await _next(context);
             }
+            catch (BusinessException error)
+            {
+                var response = context.Response;
+                response.ContentType = "application/json";
+
+                response.StatusCode = (int)error.StatusCode;
+
+                var result = JsonSerializer.Serialize(new { message = error?.Message });
+                await response.WriteAsync(result);
+            }
             catch (Exception error)
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
 
-                switch (error)
-                {
-                    case BusinessException e:
-                        response.StatusCode = (int)e.StatusCode;
-                        break;
-                    default:
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                 var result = JsonSerializer.Serialize(new { message = error?.Message });
                 await response.WriteAsync(result);

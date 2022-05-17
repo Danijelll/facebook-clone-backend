@@ -80,9 +80,9 @@ FriendshipEndpointDefinition.DefineEndpoints(app);
 
 app.UseCors("AllowAllCors");
 
-app.UseMiddleware<ErrorHandlerMiddleware>();
-
 app.UseExceptionHandler("/errors");
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseAuthentication();
 

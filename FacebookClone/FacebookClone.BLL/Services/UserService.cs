@@ -157,7 +157,7 @@ namespace FacebookClone.BLL.Services
 
             if (found == null)
             {
-                throw BusinessExceptions.EntityDoesNotExistsInDBException;
+                throw BusinessExceptions.NotAuthorizedException;
             }
 
             PasswordMatches(found.Password, userLogin.Password);
