@@ -168,11 +168,14 @@ namespace FacebookClone.BLL.Services
                 TwoFactorCode = Guid.NewGuid().ToString().Substring(0, 4)
             };
 
-            _twoFactorAuthenticatorRepository.Add(twoFactorAuthentication.ToEntity());
+            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(found.Username);
 
-            _unitOfWork.SaveChanges();
-
-            _sendEmailService.Send2FACodeEmail(found.Email, found.Username, twoFactorAuthentication.TwoFactorCode);
+            if (foundTwoFactor == null)
+            {
+                _twoFactorAuthenticatorRepository.Add(twoFactorAuthentication.ToEntity());
+                _unitOfWork.SaveChanges();
+                _sendEmailService.Send2FACodeEmail(found.Email, found.Username, twoFactorAuthentication.TwoFactorCode);
+            }
         }
 
         public IEnumerable<UserDTO> SearchByUsernameWithBanned(string username, int pageSize, int pageNumber)
