@@ -21,6 +21,11 @@ namespace FacebookClone.BLL.Services
 
         public ImageDTO Add(ImageDTO imageDTO, int userId)
         {
+            if(imageDTO == null)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
+
             Image imageResult = _imageRepository.Add(imageDTO.ToEntity());
 
             _unitOfWork.SaveChanges();

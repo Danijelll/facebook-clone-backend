@@ -11,6 +11,10 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDataDTO GetById(int userId);
 
+        UserDTO GetByEmail(string email);
+
+        UserDataDTO GetByIdWithBanned(int userId);
+
         UserDTO Add(RegisterDTO userRegister);
 
         UserDTO UpdateProfileImage(int id, string imageUrl, string webRootPath);
@@ -23,7 +27,11 @@ namespace FacebookClone.BLL.Services.Abstract
 
         UserDTO UnbanUserById(int id);
 
-        IEnumerable<UserDTO> SearchByUsername(string username);
+        void Generate2FACode(LoginDTO userLogin);
+
+        IEnumerable<UserDTO> SearchByUsername(string username, int pageSize, int pageNumber);
+
+        IEnumerable<UserDTO> SearchByUsernameWithBanned(string username, int pageSize, int pageNumber);
 
         public bool PasswordMatches(string userPass1, string userPass2);
     }

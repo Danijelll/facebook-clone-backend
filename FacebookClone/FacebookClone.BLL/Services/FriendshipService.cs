@@ -94,13 +94,13 @@ namespace FacebookClone.BLL.Services
 
         public FriendRequestDTO Update(int currentUserId, int friendId)
         {
-            FriendRequestDTO found = _friendRequestRepository.GetSentFriendRequest(friendId, currentUserId).ToDTO();
+            FriendRequest found = _friendRequestRepository.GetSentFriendRequest(friendId, currentUserId);
 
             if (found != null)
             {
                 found.IsAccepted = true;
 
-                FriendRequest updated = _friendRequestRepository.Update(found.ToEntity());
+                FriendRequest updated = _friendRequestRepository.Update(found);
 
                 _unitOfWork.SaveChanges();
 

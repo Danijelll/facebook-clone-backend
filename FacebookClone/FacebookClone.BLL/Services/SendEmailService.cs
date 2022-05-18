@@ -36,5 +36,16 @@ namespace FacebookClone.BLL.Services
 
             SendEmail(email);
         }
+
+        public void Send2FACodeEmail(string emailReciver, string username, string twoFactorCode)
+        {
+            MimeMessage email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(_configuration["GmailAccountUsername"]));
+            email.To.Add(MailboxAddress.Parse(emailReciver));
+            email.Subject = "Your 2FA Code";
+            email.Body = new TextPart(TextFormat.Text) { Text = $"Hello { username }, \n This is your 2FA code: { twoFactorCode } \n Please go to the following url and enter the code to login \n { URL }login/" };
+
+            SendEmail(email);
+        }
     }
 }

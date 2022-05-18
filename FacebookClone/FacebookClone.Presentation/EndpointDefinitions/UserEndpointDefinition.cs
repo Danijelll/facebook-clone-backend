@@ -5,6 +5,7 @@ using FacebookClone.BLL.Model;
 using FacebookClone.BLL.Services.Abstract;
 using FacebookClone.Presentation.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace FacebookClone.Presentation.EndpointDefinitions
@@ -17,16 +18,20 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapPost("/register", (RegisterDTO userRegister, IUserService userService) => userService.Add(userRegister));
 
-            app.MapPost("/login", (LoginDTO userLogin, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(userLogin));
+            app.MapPost("/login", (LoginDTO userLogin, IUserService userService) => userService.Generate2FACode(userLogin));
 
-            app.MapGet("/home", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, HttpContext context) =>
+            app.MapPost("/login/{email}/{twoFactorCode}", (string email, string twoFactorCode, IJwtTokenService jwtTokenService) => jwtTokenService.GenerateJwt(email, twoFactorCode));
+
+            app.MapGet("/home", [Authorize(Policy = "RequireId")] (IUserService userService, HttpContext context) =>
             {
                 return Results.Ok(userService.GetById(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value)));
             });
 
-            app.MapGet("/users/{id}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, int id) => userService.GetById(id));
+            app.MapGet("/users/{id}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, int id) => userService.GetByIdWithBanned(id));
 
-            app.MapGet("/users/search/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username) => userService.SearchByUsername(username));
+            app.MapGet("/users/search/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.SearchByUsername(username, pageSize, pageNumber));
+
+            app.MapGet("/users/searchWithBanned/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.SearchByUsernameWithBanned(username, pageSize, pageNumber));
 
             app.MapDelete("/users/{id}", [Authorize(Roles = "Admin", Policy = "RequireId")] (IUserService userService, int id) => userService.Delete(id));
 

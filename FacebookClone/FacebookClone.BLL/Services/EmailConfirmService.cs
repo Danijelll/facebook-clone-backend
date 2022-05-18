@@ -23,6 +23,11 @@ namespace FacebookClone.BLL.Services
 
         public EmailConfirmDTO Add(UserDTO userDTO)
         {
+            if (userDTO == null)
+            {
+                throw BusinessExceptions.BadRequestException();
+            }
+
             EmailConfirm emailConfirmResult = userDTO.ToEmailConfirmDTO().ToEntity();
 
             _emailConfirmRepository.Add(emailConfirmResult);

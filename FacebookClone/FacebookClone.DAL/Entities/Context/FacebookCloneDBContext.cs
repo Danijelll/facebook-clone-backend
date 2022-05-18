@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using FacebookClone.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace FacebookClone.DAL.Entities.Context
@@ -192,19 +188,18 @@ namespace FacebookClone.DAL.Entities.Context
                     .HasColumnType("datetime")
                     .HasColumnName("updated_on");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.TwoFactorAuthentications)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_two_factor_authentication_user");
+                entity.Property(e => e.UserEmail)
+                    .HasMaxLength(120)
+                    .IsUnicode(false)
+                    .HasColumnName("user_email");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("user");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id");
 
                 entity.Property(e => e.CoverImage)
                     .HasMaxLength(120)
@@ -249,6 +244,8 @@ namespace FacebookClone.DAL.Entities.Context
             OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        private void OnModelCreatingPartial(ModelBuilder modelBuilder)
+        {
+        }
     }
 }

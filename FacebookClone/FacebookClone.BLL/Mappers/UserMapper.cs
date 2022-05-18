@@ -20,8 +20,8 @@ namespace FacebookClone.BLL.Mappers
                 Role = (Roles)user.Role,
                 IsBanned = user.IsBanned,
                 IsEmailConfirmed = user.IsEmailConfirmed,
-                ProfileImage = $"http://localhost:5000/{ImageConstants.UserProfileImageFolder}/{SetImagePath(user.Id, user.ProfileImage)}",
-                CoverImage = $"http://localhost:5000/{ImageConstants.UserCoverImageFolder}/{SetImagePath(user.Id, user.CoverImage)}",
+                ProfileImage = $"https://localhost:5001/{ImageConstants.UserProfileImageFolder}/{SetImagePath(user.Id, user.ProfileImage)}",
+                CoverImage = $"https://localhost:5001/{ImageConstants.UserCoverImageFolder}/{SetImagePath(user.Id, user.CoverImage)}",
                 CreatedOn = user.CreatedOn,
                 UpdatedOn = user.UpdatedOn,
             };
@@ -69,6 +69,7 @@ namespace FacebookClone.BLL.Mappers
                 Email = userDTO.Email,
                 Role = (Roles)userDTO.Role,
                 IsEmailConfirmed = userDTO.IsEmailConfirmed,
+                IsBanned = userDTO.IsBanned,
                 ProfileImage = userDTO.ProfileImage,
                 CoverImage = userDTO.CoverImage,
                 CreatedOn = userDTO.CreatedOn,
