@@ -111,6 +111,13 @@ namespace FacebookClone.BLL.Services
             return found.ToDTO().ToUserDataDTO();
         }
 
+        public IEnumerable<UserDataDTO> GetAllFriends(int id, int pageSize, int pageNumber)
+        {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _userRepository.GetAllFriends(id, pageFilter).ToUserDataDTOList();
+        }
+
         public UserDTO GetByUsername(string username)
         {
             if (ExistsWithName(username))

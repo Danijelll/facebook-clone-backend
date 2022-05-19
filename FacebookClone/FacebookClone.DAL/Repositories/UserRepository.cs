@@ -27,6 +27,7 @@ namespace FacebookClone.DAL.Repositories
                 .Skip(pageFilter.PageNumber * pageFilter.PageSize)
                  .Take(pageFilter.PageSize);
         }
+
         public IEnumerable<User> SearchByUsernameWithBanned(string username, PageFilter pageFilter)
         {
             return GetAll().Where(u => u.Username.ToLower().Contains(username.ToLower()) && u.IsEmailConfirmed == true)
@@ -36,6 +37,20 @@ namespace FacebookClone.DAL.Repositories
         public IQueryable<User> GetAllQueryable()
         {
             return _collection.AsNoTracking().Where(u => !u.IsBanned && u.IsEmailConfirmed);
+        }
+
+        public IEnumerable<User> GetAllFriends(int userId, PageFilter pageFilter)
+        {
+            return _context.Users.AsNoTracking()
+                .Where(a => !a.IsBanned)
+                .ToList()
+                .Where(a => _context.FriendRequests
+                                .Where(f => (f.FirstUserId == userId || f.SecondUserId == userId) && f.IsAccepted)
+                                .Select(e => e.FirstUserId == userId ? e.SecondUserId : e.FirstUserId)
+                            .Contains(a.Id)
+                )
+                .Skip(pageFilter.PageNumber * pageFilter.PageSize)
+                .Take(pageFilter.PageSize);
         }
     }
 }

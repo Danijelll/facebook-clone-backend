@@ -14,5 +14,7 @@ namespace FacebookClone.DAL.Repositories.Abstract
         IEnumerable<User> SearchByUsernameWithBanned(string username, PageFilter pageFilter);
 
         IQueryable<User> GetAllQueryable();
+
+        IEnumerable<User> GetAllFriends(int userId, PageFilter pageFilter);
     }
 }

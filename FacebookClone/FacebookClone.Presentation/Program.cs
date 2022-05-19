@@ -7,6 +7,7 @@ using FacebookClone.Presentation.EndpointDefinitions;
 using FacebookClone.Presentation.Helpers;
 using FacebookClone.Presentation.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -95,6 +96,10 @@ app.UseStaticFiles();
 
 app.UseWebSockets();
 
-app.MapHub<ChatHub>("/chatHub");
-
+app.MapHub<ChatHub>("/chatHub", options =>
+{
+    options.Transports =
+        HttpTransportType.WebSockets |
+        HttpTransportType.LongPolling;
+});
 app.Run();

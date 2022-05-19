@@ -34,5 +34,7 @@ namespace FacebookClone.BLL.Services.Abstract
         IEnumerable<UserDTO> SearchByUsernameWithBanned(string username, int pageSize, int pageNumber);
 
         public bool PasswordMatches(string userPass1, string userPass2);
+
+        IEnumerable<UserDataDTO> GetAllFriends(int id, int pageSize, int pageNumber);
     }
 }
