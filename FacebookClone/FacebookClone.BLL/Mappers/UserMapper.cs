@@ -77,23 +77,6 @@ namespace FacebookClone.BLL.Mappers
             };
         }
 
-        public static UserDataDTO ToUserDataDTO(this User user)
-        {
-            return new UserDataDTO()
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                Role = (Roles)user.Role,
-                IsEmailConfirmed = user.IsEmailConfirmed,
-                IsBanned = user.IsBanned,
-                ProfileImage = user.ProfileImage,
-                CoverImage = user.CoverImage,
-                CreatedOn = user.CreatedOn,
-                UpdatedOn = user.UpdatedOn,
-            };
-        }
-
         public static UserDTO ToUserDTO(this UserDataDTO userDataDTO)
         {
             return new UserDTO()
@@ -137,7 +120,7 @@ namespace FacebookClone.BLL.Mappers
             return user.Select(x => x.ToUserWithAlbumsDTO(x.Albums.ToAlbumWithImagesDTOList())).ToList();
         }
 
-        public static IEnumerable<UserDataDTO> ToUserDataDTOList(this IEnumerable<User> user)
+        public static IEnumerable<UserDataDTO> ToUserDataDTOList(this IEnumerable<UserDTO> user)
         {
             return user.Select(x => x.ToUserDataDTO()).ToList();
         }
