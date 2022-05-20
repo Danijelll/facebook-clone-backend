@@ -1,4 +1,5 @@
-﻿using FacebookClone.Presentation.ConnectionMapping;
+﻿using FacebookClone.BLL.DTO.Message;
+using FacebookClone.Presentation.ConnectionMapping;
 using Microsoft.AspNetCore.SignalR;
 
 namespace FacebookClone.Presentation.Hubs
@@ -7,17 +8,28 @@ namespace FacebookClone.Presentation.Hubs
     {
         private readonly static ConnectionMapping<string> _connections =
        new ConnectionMapping<string>();
-        public async Task SendMessage(string sender, string receiver, string message)
+        public async Task SendMessage(string senderId, string receiverId, string message)
         {
-
-            foreach (var connectionId in _connections.GetConnections(receiver))
+            MessageDTO messageDTO = new MessageDTO
             {
-                Clients.Client(connectionId).SendAsync("ReceiveMessage", sender, message);
+                SenderId = senderId,
+                ReceiverId = receiverId,
+                Message = message,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            foreach (var connectionId in _connections.GetConnections(receiverId))
+            {
+                Clients.Client(connectionId).SendAsync("ReceiveMessage", messageDTO);
+            }
+            foreach (var connectionId in _connections.GetConnections(senderId))
+            {
+                Clients.Client(connectionId).SendAsync("ReceiveMessage", messageDTO);
             }
         }
-        public void OnConnected(string name)
+        public void OnConnected(string id)
         {
-            _connections.Add(name, Context.ConnectionId);
+            _connections.Add(id, Context.ConnectionId);
         }
         public Task OnDisconnected(bool stopCalled)
         {
