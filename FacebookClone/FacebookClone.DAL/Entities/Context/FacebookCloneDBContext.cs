@@ -23,6 +23,7 @@ namespace FacebookClone.DAL.Entities.Context
         public virtual DbSet<EmailConfirm> EmailConfirms { get; set; } = null!;
         public virtual DbSet<FriendRequest> FriendRequests { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<TwoFactorAuthentication> TwoFactorAuthentications { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
@@ -169,6 +170,32 @@ namespace FacebookClone.DAL.Entities.Context
                     .HasConstraintName("FK_image_album");
             });
 
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("message");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_on");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Message1)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("message");
+
+                entity.Property(e => e.ReceiverId).HasColumnName("receiver_id");
+
+                entity.Property(e => e.SenderId).HasColumnName("sender_id");
+
+                entity.Property(e => e.UpdatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updated_on");
+            });
+
             modelBuilder.Entity<TwoFactorAuthentication>(entity =>
             {
                 entity.ToTable("two_factor_authentication");
@@ -198,8 +225,7 @@ namespace FacebookClone.DAL.Entities.Context
             {
                 entity.ToTable("user");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CoverImage)
                     .HasMaxLength(120)

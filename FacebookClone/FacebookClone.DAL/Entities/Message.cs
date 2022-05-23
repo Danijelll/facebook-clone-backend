@@ -2,11 +2,12 @@
 
 namespace FacebookClone.DAL.Entities
 {
-    public partial class TwoFactorAuthentication : IEntity
+    public partial class Message : IEntity
     {
         public int Id { get; set; }
-        public string UserEmail { get; set; } = null!;
-        public string TwoFactorCode { get; set; } = null!;
+        public int SenderId { get; set; }
+        public int ReceiverId { get; set; }
+        public string Message1 { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
     }
