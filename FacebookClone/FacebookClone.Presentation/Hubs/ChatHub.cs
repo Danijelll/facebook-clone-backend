@@ -11,13 +11,13 @@ namespace FacebookClone.Presentation.Hubs
     {
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
-        public async Task SendMessage(string senderId, string receiverId, string message)
+        public async Task SendMessage(string senderId, string receiverId, string text)
         {
             MessageDTO messageDTO = new MessageDTO
             {
                 SenderId = senderId,
                 ReceiverId = receiverId,
-                Message1 = message,
+                Text = text,
                 CreatedOn = DateTime.UtcNow,
                 UpdatedOn = DateTime.UtcNow,
             };

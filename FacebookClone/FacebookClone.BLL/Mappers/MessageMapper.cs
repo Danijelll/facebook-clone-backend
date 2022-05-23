@@ -12,7 +12,7 @@ namespace FacebookClone.BLL.Mappers
                 Id = message.Id,
                 SenderId = message.SenderId.ToString(),
                 ReceiverId = message.ReceiverId.ToString(),
-                Message1 = message.Message1,
+                Text = message.Text,
                 CreatedOn = message.CreatedOn,
                 UpdatedOn = message.UpdatedOn,
             };
@@ -25,7 +25,7 @@ namespace FacebookClone.BLL.Mappers
                 Id = message.Id,
                 SenderId = Int32.Parse(message.SenderId),
                 ReceiverId = Int32.Parse(message.ReceiverId),
-                Message1 = message.Message1,
+                Text = message.Text,
                 CreatedOn = message.CreatedOn,
                 UpdatedOn = message.UpdatedOn,
             };
