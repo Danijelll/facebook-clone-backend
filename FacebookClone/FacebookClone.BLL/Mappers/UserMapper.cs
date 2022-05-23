@@ -120,6 +120,11 @@ namespace FacebookClone.BLL.Mappers
             return user.Select(x => x.ToUserWithAlbumsDTO(x.Albums.ToAlbumWithImagesDTOList())).ToList();
         }
 
+        public static IEnumerable<UserDataDTO> ToUserDataDTOList(this IEnumerable<UserDTO> user)
+        {
+            return user.Select(x => x.ToUserDataDTO()).ToList();
+        }
+
         private static string SetImagePath(int id, string imageName)
         {
             if (imageName != ImageConstants.DefaultImageName)

@@ -31,7 +31,9 @@ namespace FacebookClone.Presentation.EndpointDefinitions
 
             app.MapGet("/users/search/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.SearchByUsername(username, pageSize, pageNumber));
 
-            app.MapGet("/users/searchWithBanned/{username}", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, string username, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.SearchByUsernameWithBanned(username, pageSize, pageNumber));
+            app.MapGet("/users/searchWithBanned/{username}", [Authorize(Roles = "Admin", Policy = "RequireId")] (IUserService userService, string username, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.SearchByUsernameWithBanned(username, pageSize, pageNumber));
+
+            app.MapGet("/friends", [Authorize(Roles = "Admin,User", Policy = "RequireId")] (IUserService userService, HttpContext context, [FromQuery(Name = "pageSize")] int pageSize, [FromQuery(Name = "pageNumber")] int pageNumber) => userService.GetAllFriends(Convert.ToInt32(context.User.Claims.SingleOrDefault(e => e.Type == "id").Value), pageSize, pageNumber));
 
             app.MapDelete("/users/{id}", [Authorize(Roles = "Admin", Policy = "RequireId")] (IUserService userService, int id) => userService.Delete(id));
 

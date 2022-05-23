@@ -111,6 +111,13 @@ namespace FacebookClone.BLL.Services
             return found.ToDTO().ToUserDataDTO();
         }
 
+        public IEnumerable<UserDataDTO> GetAllFriends(int id, int pageSize, int pageNumber)
+        {
+            PageFilter pageFilter = new PageFilter(pageSize, pageNumber);
+
+            return _userRepository.GetAllFriends(id, pageFilter).ToDTOList().ToUserDataDTOList();
+        }
+
         public UserDTO GetByUsername(string username)
         {
             if (ExistsWithName(username))
@@ -164,11 +171,11 @@ namespace FacebookClone.BLL.Services
 
             TwoFactorAuthenticationDTO twoFactorAuthentication = new TwoFactorAuthenticationDTO
             {
-                UserEmail = found.Username,
+                Username = found.Username,
                 TwoFactorCode = Guid.NewGuid().ToString().Substring(0, 4)
             };
 
-            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(found.Username);
+            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserUsername(found.Username);
 
             if (foundTwoFactor == null)
             {
