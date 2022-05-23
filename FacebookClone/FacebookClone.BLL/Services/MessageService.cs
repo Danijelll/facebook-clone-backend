@@ -22,7 +22,7 @@ namespace FacebookClone.BLL.Services
            return _messageRepository.GetAllByBothUserId(senderId, receiverId).ToDTOList();
         }
 
-        public MessageDTO SendMessage(MessageDTO messageDTO)
+        public MessageDTO AddMessage(MessageDTO messageDTO)
         {
             if(messageDTO == null)
             {

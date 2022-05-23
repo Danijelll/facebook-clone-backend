@@ -1,4 +1,7 @@
 ﻿using FacebookClone.BLL.DTO.Message;
+using FacebookClone.BLL.Services;
+using FacebookClone.BLL.Services.Abstract;
+using FacebookClone.DAL.Repositories.Abstract;
 using FacebookClone.Presentation.ConnectionMapping;
 using Microsoft.AspNetCore.SignalR;
 
@@ -6,8 +9,8 @@ namespace FacebookClone.Presentation.Hubs
 {
     public class ChatHub : Hub
     {
-        private readonly static ConnectionMapping<string> _connections =
-       new ConnectionMapping<string>();
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+
         public async Task SendMessage(string senderId, string receiverId, string message)
         {
             MessageDTO messageDTO = new MessageDTO
@@ -16,6 +19,7 @@ namespace FacebookClone.Presentation.Hubs
                 ReceiverId = receiverId,
                 Message1 = message,
                 CreatedOn = DateTime.UtcNow,
+                UpdatedOn = DateTime.UtcNow,
             };
 
             foreach (var connectionId in _connections.GetConnections(receiverId))

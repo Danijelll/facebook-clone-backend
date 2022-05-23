@@ -171,11 +171,11 @@ namespace FacebookClone.BLL.Services
 
             TwoFactorAuthenticationDTO twoFactorAuthentication = new TwoFactorAuthenticationDTO
             {
-                UserEmail = found.Username,
+                Username = found.Username,
                 TwoFactorCode = Guid.NewGuid().ToString().Substring(0, 4)
             };
 
-            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(found.Username);
+            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserUsername(found.Username);
 
             if (foundTwoFactor == null)
             {

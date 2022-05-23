@@ -30,11 +30,11 @@ namespace FacebookClone.BLL.Services
             _configuration = config;
         }
 
-        public string GenerateJwt(string email, string twoFactorCode)
+        public string GenerateJwt(string username, string twoFactorCode)
         {
-            UserDTO found = _userService.GetByUsername(email);
+            UserDTO found = _userService.GetByUsername(username);
 
-            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserEmail(email);
+            TwoFactorAuthentication foundTwoFactor = _twoFactorAuthenticatorRepository.GetByUserUsername(username);
 
             if (twoFactorCode == null ||twoFactorCode != foundTwoFactor?.TwoFactorCode)
             {

@@ -10,9 +10,9 @@ namespace FacebookClone.DAL.Repositories
         {
         }
 
-        public TwoFactorAuthentication? GetByUserEmail(string email)
+        public TwoFactorAuthentication? GetByUserUsername(string username)
         {
-            return GetAll().Find(t => t.UserEmail == email);
+            return GetAll().Find(t => t.Username == username);
         }
     }
 }

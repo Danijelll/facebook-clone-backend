@@ -23,6 +23,9 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IFriendRequestRepository, FriendRequestRepository>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+
 builder.Services.AddScoped<ITwoFactorAuthenticatorRepository, TwoFactorAuthenticatorRepository>();
 
 builder.Services.AddScoped<IEmailConfirmRepository, EmailConfirmRepository>();
@@ -81,6 +84,8 @@ AlbumEndpointDefinition.DefineEndpoints(app);
 ImageEndpointDefinition.DefineEndpoints(app);
 CommentEndpointDefinition.DefineEndpoints(app);
 FriendshipEndpointDefinition.DefineEndpoints(app);
+MessageEndpointDefiniton.DefineEndpoints(app);
+
 
 app.UseCors("AllowAllCors");
 

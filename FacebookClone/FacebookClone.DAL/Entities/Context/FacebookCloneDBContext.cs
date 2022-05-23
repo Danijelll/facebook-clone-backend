@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using FacebookClone.DAL.Entities;
 using Microsoft.Extensions.Configuration;
 
 namespace FacebookClone.DAL.Entities.Context
@@ -172,15 +176,13 @@ namespace FacebookClone.DAL.Entities.Context
 
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("message");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasColumnName("created_on");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Message1)
                     .HasMaxLength(150)
@@ -215,10 +217,10 @@ namespace FacebookClone.DAL.Entities.Context
                     .HasColumnType("datetime")
                     .HasColumnName("updated_on");
 
-                entity.Property(e => e.UserEmail)
+                entity.Property(e => e.Username)
                     .HasMaxLength(120)
                     .IsUnicode(false)
-                    .HasColumnName("user_email");
+                    .HasColumnName("username");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -270,8 +272,6 @@ namespace FacebookClone.DAL.Entities.Context
             OnModelCreatingPartial(modelBuilder);
         }
 
-        private void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {
-        }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
