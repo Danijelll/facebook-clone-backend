@@ -14,7 +14,7 @@ namespace FacebookClone.Presentation.Hubs
             {
                 SenderId = senderId,
                 ReceiverId = receiverId,
-                Message = message,
+                Message1 = message,
                 CreatedOn = DateTime.UtcNow,
             };
 

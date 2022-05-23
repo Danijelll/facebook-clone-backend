@@ -1,5 +1,4 @@
 ﻿using FacebookClone.DAL.Entities.Abstract;
-using FacebookClone.DAL.Shared;
 
 namespace FacebookClone.DAL.Repositories.Abstract
 {
